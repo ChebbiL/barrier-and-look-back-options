@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+#Linux OS
+*.DS_Store
+
+#LateX related
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.snm
+*.gz
+*.toc
