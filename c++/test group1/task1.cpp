@@ -11,19 +11,28 @@ normal_distribution<double> distribution(0.0, 1.0);
 double stn(){ return distribution(generator); }
 int baic_task(){
 	Black_Scholes a(100,100,0.05,0.4,1,0);
+	a.changeM(10000);
 	cout << "C by closed form = " << a.black_scholes_closed_form() << endl;
 	cout << "C(0,T) = "<<a.optional_price() << endl;
+	Errortest(a, &Black_Scholes::optional_price, a.black_scholes_closed_form());
 	cout << "Delta(by CF) = " << a.deltaCF() << endl;
 	cout << "Delta(by LR) = " << a.deltaLR() << endl;
+	Errortest(a, &Black_Scholes::deltaLR, a.deltaCF());
 	cout << "Delta(by PW) = " << a.deltaPW() << endl;
+	Errortest(a, &Black_Scholes::deltaPW, a.deltaCF());
 	cout << "Gamma(by CF) = " << a.gammaCF() << endl;
 	cout << "Gamma(by LR-PW) = " << a.gammaLRPW() << endl;
+	Errortest(a, &Black_Scholes::gammaLRPW, a.gammaCF());
 	cout << "Gamma(by PW-LR) = " << a.gammaPWLR() << endl;
+	Errortest(a, &Black_Scholes::gammaPWLR, a.gammaCF());
 	cout << "Gamma(by LR-LR) = " << a.gammaLRLR() << endl;
+	Errortest(a, &Black_Scholes::gammaLRLR, a.gammaCF());
 	cout << "vega(by CF) = " << a.vegaCF() << endl;
 	cout << "vega(by LR) = " << a.vegaLR() << endl;
+	Errortest(a, &Black_Scholes::vegaLR, a.vegaCF());
 	cout << "vega(by PW) = " << a.vegaPW() << endl;           
-
+	Errortest(a, &Black_Scholes::vegaPW, a.vegaCF());
+	
 	cout << "Barrier option price = " << a.EBO(90) << endl;
 	cout << "Double Barrier option price = " << a.EBO(90, 120) << endl;
 	cout << "Lookback option price = " << a.ELB(100) << endl;

@@ -2,16 +2,14 @@
  
 class Black_Scholes{
 private:
-	double St,K,r,sigma,T,t,N;
+	double St,K,r,sigma,T,t;
     double(*fun)(void);
-	int M;
-	double BCF,deltaCF1,gammaCF1,vegaCF1;
+	int M, N;
+	double BCF, deltaCF1, gammaCF1, vegaCF1;
 	static unsigned long int ran();//get a large random number 2^31-1
 	static long double rann();//get a uniform random number
-	
 	double normalCDF(double x);
 	double normalpdf(double x);
-	
 	void getCF(){
 		double d = (log(St / K) + (r + sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
 		BCF = normalCDF(d)*St - normalCDF(d - sigma*sqrt(T - t))*K*exp(-r*(T - t));
@@ -24,6 +22,7 @@ public:
 	static double snd_1();
 	static double sndb();  //BoxMuller method
 	static double sndb_1();
+	void changeM(int L){ M = L; }
 	double STT(double St, double T, double t);
 	Black_Scholes(double a = 100.0, double b = 100.0, double c=0.05,double d=0.4,double e=1,double f=0){
 		St = a;
@@ -58,4 +57,7 @@ public:
 	double EBO(double B1, double B2);
 	double lookback_option(double L);
 	double ELB(double L);
+	
+	
 };
+void Errortest(Black_Scholes x, double(Black_Scholes::*foo)(), double y);

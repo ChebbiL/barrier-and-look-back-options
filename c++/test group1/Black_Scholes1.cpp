@@ -258,3 +258,15 @@ double Black_Scholes::ELB(double L){
 	}
 	return res / M;
 }
+void Errortest(Black_Scholes x,double(Black_Scholes::*foo)(), double y){
+	double ermean = 0, erms = 0;
+	double tem;
+	for (int i = 0; i < 100; i++){
+		tem = (x.*foo)() - y;
+		ermean += tem;
+		erms += tem*tem;
+	}
+	cout << "   Error mean = " << (ermean /= 100 )<< endl;
+	cout << "   Error variance = " << (erms / 100 - ermean*ermean) << endl;
+	
+}
