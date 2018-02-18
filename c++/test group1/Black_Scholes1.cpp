@@ -1,43 +1,44 @@
 #include<iostream>
-#include"Black_Scholes.h"
+#include"Black_Scholes1.h"
 #define Pi 3.141592653
 #define RAN_MAX 2147483647
 #define luck_number 16807
 using namespace std;
 
-unsigned long int ran(){
+unsigned long int Black_Scholes::ran(){
 	static unsigned long long int n = rand();
 	unsigned long int m = RAN_MAX;
 	n = (n*luck_number) % m;
 	return n;
 }
-long double rann(){
+long double Black_Scholes::rann(){
 	unsigned long int z = ran(), m = RAN_MAX ;
 	long double x = (long double)(z ) / (long double)(m-1);
 	return x;
 }
-double STT(double St, double K, double r, double sigma, double T, double t, double(*fun)()){
+double Black_Scholes::STT(double St, double T, double t){
 	return St*exp((r - 0.5*pow(sigma, 2))*(T - t) + sigma*sqrt(T - t)*fun());
 }
-double BSCall(double St, double K, double r, double sigma, double T, double t, double(*fun)()){
+double Black_Scholes::BSCall(){
 	double ST = St*exp((r - 0.5*pow(sigma, 2))*(T - t) + sigma*sqrt(T - t)*fun());
 	if (ST > K){
 		return exp(-r*(T - t))*(ST - K);
 	}
 	return 0;
 }
-double optional_price(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+double Black_Scholes::optional_price(){
 	double res = 0.0;
 	/*for (long int i = 0; i < M; i++){
 	res = (i / (i + 1))*res + BSCall(100, 100, 0.05, 0.4, 1, 0) / (i + 1);
 	}*/
 	for (long int i = 0; i < M; i++){
-		res = res + BSCall(100, 100, 0.05, 0.4, 1, 0,fun);
+		res = res + BSCall();
 	}
 	res /= M;
 	return res;
 }
-double deltaPW(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+
+double Black_Scholes::deltaPW(){
 	double res = 0.0, ST;
 	for (long int i = 0; i < M; i++){
 		ST = exp((r - 0.5*pow(sigma, 2))*(T - t) + sigma*sqrt(T - t)*fun());
@@ -48,7 +49,7 @@ double deltaPW(double St, double K, double r, double sigma, double T, double t, 
 	res /= M;
 	return res;
 }
-double deltaLR(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+double Black_Scholes::deltaLR(){
 	double res = 0.0, Z, ST;
 	for (long int i = 0; i < M; i++){
 		Z = fun();
@@ -61,7 +62,7 @@ double deltaLR(double St, double K, double r, double sigma, double T, double t, 
 	res /= M;
 	return res;
 }
-double gammaLRPW(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+double Black_Scholes::gammaLRPW(){
 	double res = 0.0, Z, ST;
 	for (long int i = 0; i < M; i++){
 		Z = fun();
@@ -73,7 +74,7 @@ double gammaLRPW(double St, double K, double r, double sigma, double T, double t
 	res /= M;
 	return res;
 }
-double gammaPWLR(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+double Black_Scholes::gammaPWLR(){
 	double res = 0.0, Z, ST;
 	for (long int i = 0; i < M; i++){
 		Z = fun();
@@ -85,7 +86,7 @@ double gammaPWLR(double St, double K, double r, double sigma, double T, double t
 	res /= M;
 	return res;
 }
-double gammaLRLR(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+double Black_Scholes::gammaLRLR(){
 	double res = 0.0, Z, ST;
 	for (long int i = 0; i < M; i++){
 		Z = fun();
@@ -97,7 +98,7 @@ double gammaLRLR(double St, double K, double r, double sigma, double T, double t
 	res /= M;
 	return res;
 }
-double vegaLR(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+double Black_Scholes::vegaLR(){
 	double res = 0.0, Z, ST;
 	for (long int i = 0; i < M; i++){
 		Z = fun();
@@ -110,7 +111,7 @@ double vegaLR(double St, double K, double r, double sigma, double T, double t, l
 	res /= M; 
 	return res;
 }
-double vegaPW(double St, double K, double r, double sigma, double T, double t, long int M, double(*fun)()){
+double Black_Scholes::vegaPW(){
 	double res = 0.0, Z, ST;
 	for (long int i = 0; i < M; i++){
 		Z = fun();
@@ -123,7 +124,7 @@ double vegaPW(double St, double K, double r, double sigma, double T, double t, l
 	return res;
 }
 
-double snd(){
+double Black_Scholes::snd(){
 	static double v1, v2, W;
 	static bool x=false;
 	if (!x){
@@ -142,7 +143,7 @@ double snd(){
 		return v2;
 	}
 }
-double sndb(){
+double Black_Scholes::sndb(){
 	static double v1, v2,z1,z2;
 	static bool x=false;
 	if (!x){
@@ -158,7 +159,7 @@ double sndb(){
 		return z2;
 	}
 }
-double snd_1(){
+double Black_Scholes::snd_1(){
 	static double v1, v2, W;
 	static bool x = true;
 	if (x){
@@ -177,7 +178,7 @@ double snd_1(){
 		return v2;
 	}
 }
-double sndb_1(){
+double Black_Scholes::sndb_1(){
 	static double v1, v2, z1, z2;
 	static bool x = true;
 	if (x){
@@ -192,4 +193,68 @@ double sndb_1(){
 		x = true;
 		return z2;
 	}
+}
+double Black_Scholes::normalCDF(double x)
+{
+	return erfc(-x / std::sqrt(2)) / 2;
+}
+double Black_Scholes::normalpdf(double x){
+	return exp(-x*x / 2) / sqrt(2 * Pi);
+}
+
+double Black_Scholes::Barrier_option(double B){
+	double ST = St,mt=St;
+	double b = (T - t) / N;
+	for (int i = 0; i < N ; i++){
+		ST = STT(St, t + (i + 1)*b, t + i*b);
+		if (mt > ST)mt = ST;
+		if (mt < B)return 0;
+	}
+	if (ST > K)return exp(-r*(T - t))*(ST - K);
+	else return 0;
+}
+
+double Black_Scholes::Barrier_option(double B1, double B2){
+	double ST = St, mt = St,Mt=St;
+	double b = (T - t) / N;
+	for (int i = 0; i < N; i++){
+		ST = STT(St, t + (i + 1)*b, t + i*b);
+		if (mt > ST)mt = ST;
+		if (Mt < ST)Mt = ST;
+		if (mt < B1)return 0;
+		if (Mt > B2)return 0;
+	}
+	if (ST > K)return exp(-r*(T - t))*ST / St;
+	else return 0;
+}
+double Black_Scholes::EBO(double B){
+	double res = 0.0;
+	for (int i = 0; i < M; i++){
+		res += Barrier_option( B);
+	}
+	return res / M;
+}
+double Black_Scholes::EBO(double B1, double B2){
+	double res = 0.0;
+	for (int i = 0; i < M; i++){
+		res += Barrier_option(B1,B2);
+	}
+	return res / M;
+}
+double Black_Scholes::lookback_option(double L){
+	double ST = St, Mt = St;
+	double b = (T - t) / N;
+	for (int i = 0; i < N; i++){
+		ST = STT(St, t + (i + 1)*b, t + i*b);
+		if (Mt < ST)Mt = ST;
+	}
+	if (Mt > L)return exp(-r*(T - t))*(Mt - L);
+	else return 0;
+}
+double Black_Scholes::ELB(double L){
+	double res = 0.0;
+	for (int i = 0; i < M; i++){
+		res += lookback_option(L);
+	}
+	return res / M;
 }
