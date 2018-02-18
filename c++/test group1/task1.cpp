@@ -2,6 +2,7 @@
 #include<fstream>
 #include"Black_Scholes1.h"
 #include <random>
+#include <iomanip>
 using namespace std;
 default_random_engine generator;
 normal_distribution<double> distribution(0.0, 1.0);
@@ -11,7 +12,7 @@ normal_distribution<double> distribution(0.0, 1.0);
 double stn(){ return distribution(generator); }
 int baic_task(){
 	Black_Scholes a(100,100,0.05,0.4,1,0);
-	a.changeM(10000);
+	//a.changeM(100000);
 	cout << "C by closed form = " << a.black_scholes_closed_form() << endl;
 	cout << "C(0,T) = "<<a.optional_price() << endl;
 	Errortest(a, &Black_Scholes::optional_price, a.black_scholes_closed_form());
@@ -38,8 +39,42 @@ int baic_task(){
 	cout << "Lookback option price = " << a.ELB(100) << endl;
 	return 0;
 }
-
-
+int s0_delta(){
+	ofstream fout;
+	Black_Scholes a(100, 100, 0.05, 0.4, 1, 0);
+	fout.open("s0_vs_delta.csv"/*, ios::app*/);
+	fout << "S0,deltaCF,deltaPW,deltaLR" << endl;
+	for (int i = 0; i < 101; i++){
+		a.changeSt(50+2*i);
+		fout << 50 + 2 * i << "," << a.deltaCF() << "," << a.deltaPW() << "," << a.deltaLR() << endl;
+	}
+	fout.close();
+	return 0;
+}
+int s0_gamma(){
+	ofstream fout;
+	Black_Scholes a(100, 100, 0.05, 0.4, 1, 0);
+	fout.open("s0_vs_gamma.csv"/*, ios::app*/);
+	fout << "S0,gammaCF,gammaLRPW,gammaPWLR,gammaLRLR" << endl;
+	for (int i = 0; i < 101; i++){
+		a.changeSt(50 + 2 * i);
+		fout << 50 + 2 * i << "," << a.gammaCF() << "," << a.gammaLRPW() << "," << a.gammaPWLR() << "," << a.gammaLRLR() << endl;
+	}
+	fout.close();
+	return 0;
+}
+int sigma_vega(){
+	ofstream fout;
+	Black_Scholes a(100, 100, 0.05, 0.4, 1, 0);
+	fout.open("sigma_vs_vega.csv"/*, ios::app*/);
+	fout << "S0,vegaCF,vegaPW,vegaLR" << endl;
+	for (int i = 0; i < 101; i++){
+		a.changesigma(0.3+0.002*i);
+		fout << 0.3 + 0.002*i << "," << a.vegaCF() << "," << a.vegaPW() << "," << a.vegaLR() << endl;
+	}
+	fout.close();
+	return 0;
+}
 int test(double(*fun)(), ofstream& os){
 	const int z = 30;
 	int num[z] = {0},t=100000;
@@ -118,7 +153,9 @@ int generator_test(){
 
 int main(){
 	//generator_test();
+	//s0_delta();
+	//s0_gamma();
+	//sigma_vega();
 	baic_task();
-	
 	return 0;
 }

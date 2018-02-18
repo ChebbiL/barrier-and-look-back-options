@@ -23,6 +23,8 @@ public:
 	static double sndb();  //BoxMuller method
 	static double sndb_1();
 	void changeM(int L){ M = L; }
+	void changeSt(double L){ St = L; getCF(); }
+	void changesigma(double L){ sigma = L; getCF(); }
 	double STT(double St, double T, double t);
 	Black_Scholes(double a = 100.0, double b = 100.0, double c=0.05,double d=0.4,double e=1,double f=0){
 		St = a;
