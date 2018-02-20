@@ -15,26 +15,28 @@ int baic_task(){
 	//a.changeM(100000);
 	cout << "C by closed form = " << a.black_scholes_closed_form() << endl;
 	cout << "C(0,T) = "<<a.optional_price() << endl;
-	Errortest(a, &Black_Scholes::optional_price, a.black_scholes_closed_form());
-	cout << "Delta(by CF) = " << a.deltaCF() << endl;
+	Errortest(a, &Black_Scholes::optional_price, a.black_scholes_closed_form(), cout);
+	cout << endl << "Delta(by CF) = " << a.deltaCF() << endl;
 	cout << "Delta(by LR) = " << a.deltaLR() << endl;
-	Errortest(a, &Black_Scholes::deltaLR, a.deltaCF());
-	cout << "Delta(by PW) = " << a.deltaPW() << endl;
-	Errortest(a, &Black_Scholes::deltaPW, a.deltaCF());
-	cout << "Gamma(by CF) = " << a.gammaCF() << endl;
+	Errortest(a, &Black_Scholes::deltaLR, a.deltaCF(), cout);
+	cout << endl << "Delta(by PW) = " << a.deltaPW() << endl;
+	Errortest(a, &Black_Scholes::deltaPW, a.deltaCF(), cout);
+	cout << endl << "Gamma(by CF) = " << a.gammaCF() << endl;
 	cout << "Gamma(by LR-PW) = " << a.gammaLRPW() << endl;
-	Errortest(a, &Black_Scholes::gammaLRPW, a.gammaCF());
-	cout << "Gamma(by PW-LR) = " << a.gammaPWLR() << endl;
-	Errortest(a, &Black_Scholes::gammaPWLR, a.gammaCF());
-	cout << "Gamma(by LR-LR) = " << a.gammaLRLR() << endl;
-	Errortest(a, &Black_Scholes::gammaLRLR, a.gammaCF());
-	cout << "vega(by CF) = " << a.vegaCF() << endl;
+	Errortest(a, &Black_Scholes::gammaLRPW, a.gammaCF(), cout) ;
+	cout << endl << "Gamma(by PW-LR) = " << a.gammaPWLR() << endl;
+	Errortest(a, &Black_Scholes::gammaPWLR, a.gammaCF(), cout) ;
+	cout << endl << "Gamma(by LR-LR) = " << a.gammaLRLR() << endl;
+	Errortest(a, &Black_Scholes::gammaLRLR, a.gammaCF(), cout) ;
+	cout << endl << "vega(by CF) = " << a.vegaCF() << endl;
 	cout << "vega(by LR) = " << a.vegaLR() << endl;
-	Errortest(a, &Black_Scholes::vegaLR, a.vegaCF());
-	cout << "vega(by PW) = " << a.vegaPW() << endl;           
-	Errortest(a, &Black_Scholes::vegaPW, a.vegaCF());
-	
-	cout << "Barrier option price = " << a.EBO(90) << endl;
+	Errortest(a, &Black_Scholes::vegaLR, a.vegaCF(), cout) ;
+	cout << endl << "vega(by PW) = " << a.vegaPW() << endl;
+	Errortest(a, &Black_Scholes::vegaPW, a.vegaCF(), cout) ;
+	cout << endl;
+	cout << "Barrier option price(simulation) = " << a.EBO(90) << endl;
+	cout << "Barrier option price(closed form) = " << a.EBO(90) << endl;
+	cout << "Barrier option delta = " << a.BOdeltaLR(90) << endl;
 	cout << "Double Barrier option price = " << a.EBO(90, 120) << endl;
 	cout << "Lookback option price = " << a.ELB(100) << endl;
 	return 0;
@@ -71,6 +73,20 @@ int sigma_vega(){
 	for (int i = 0; i < 101; i++){
 		a.changesigma(0.3+0.002*i);
 		fout << 0.3 + 0.002*i << "," << a.vegaCF() << "," << a.vegaPW() << "," << a.vegaLR() << endl;
+	}
+	fout.close();
+	return 0;
+}
+int Cerror_M(){
+	ofstream fout;
+	Black_Scholes a(100, 100, 0.05, 0.4, 1, 0);
+	fout.open("Cerror_M.csv"/*, ios::app*/);
+	fout << "M,errormean,errorvariance" << endl;
+	for (int i = 0; i < 101; i++){
+		a.changeM(60000+1000*i);
+		fout << 60000 + 1000 * i << ",";
+		Errortest(a, &Black_Scholes::optional_price, a.black_scholes_closed_form(), fout);
+		fout << endl;
 	}
 	fout.close();
 	return 0;
@@ -156,6 +172,7 @@ int main(){
 	//s0_delta();
 	//s0_gamma();
 	//sigma_vega();
+	//Cerror_M();
 	baic_task();
 	return 0;
 }

@@ -1,5 +1,5 @@
 
- 
+
 class Black_Scholes{
 private:
 	double St,K,r,sigma,T,t;
@@ -17,6 +17,7 @@ private:
 		gammaCF1 = normalpdf(d) / (St*sigma*sqrt(T - t));
 		vegaCF1 = St*normalpdf(d)*sqrt(T - t);
 	}
+
 public:
 	static double snd();   //Marsaglia polar method
 	static double snd_1();
@@ -53,13 +54,15 @@ public:
 	double vegaCF()const{ return vegaCF1; }
 	double vegaLR();
 	double vegaPW();
-	double Barrier_option(double B);
+	std::pair<double, double> Barrier_option(double B);
 	double Barrier_option(double B1, double B2);
 	double EBO(double B);
 	double EBO(double B1, double B2);
 	double lookback_option(double L);
 	double ELB(double L);
-	
-	
+	double BOdLR(std::pair<double, double>&x);
+	double BOdeltaLR(double B);
+	double BOdeltaCF(double B);
 };
-void Errortest(Black_Scholes x, double(Black_Scholes::*foo)(), double y);
+void Errortest(Black_Scholes x, double(Black_Scholes::*foo)(), double y,std::ostream &os);
+

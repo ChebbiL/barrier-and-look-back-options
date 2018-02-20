@@ -1,4 +1,5 @@
 #include<iostream>
+#include<fstream>
 #include"Black_Scholes1.h"
 #define Pi 3.141592653
 #define RAN_MAX 2147483647
@@ -202,18 +203,17 @@ double Black_Scholes::normalpdf(double x){
 	return exp(-x*x / 2) / sqrt(2 * Pi);
 }
 
-double Black_Scholes::Barrier_option(double B){
+pair<double, double> Black_Scholes::Barrier_option(double B){
 	double ST = St,mt=St;
 	double b = (T - t) / N;
 	for (int i = 0; i < N ; i++){
 		ST = STT(St, t + (i + 1)*b, t + i*b);
 		if (mt > ST)mt = ST;
-		if (mt < B)return 0;
+		if (mt < B)return make_pair(0, 0);
 	}
-	if (ST > K)return exp(-r*(T - t))*(ST - K);
-	else return 0;
+	if (ST > K)return make_pair(ST,mt);
+	else return make_pair(0, 0);
 }
-
 double Black_Scholes::Barrier_option(double B1, double B2){
 	double ST = St, mt = St,Mt=St;
 	double b = (T - t) / N;
@@ -224,16 +224,19 @@ double Black_Scholes::Barrier_option(double B1, double B2){
 		if (mt < B1)return 0;
 		if (Mt > B2)return 0;
 	}
-	if (ST > K)return exp(-r*(T - t))*ST / St;
+	if (ST > K)return exp(-r*(T - t))*(ST-K);
 	else return 0;
 }
 double Black_Scholes::EBO(double B){
 	double res = 0.0;
+	pair<double, double>tem;
 	for (int i = 0; i < M; i++){
-		res += Barrier_option( B);
+		tem = Barrier_option(B);
+		if (tem.first != 0)res += exp(-r*(T - t))*(tem.first - K);
 	}
 	return res / M;
 }
+
 double Black_Scholes::EBO(double B1, double B2){
 	double res = 0.0;
 	for (int i = 0; i < M; i++){
@@ -258,7 +261,37 @@ double Black_Scholes::ELB(double L){
 	}
 	return res / M;
 }
-void Errortest(Black_Scholes x,double(Black_Scholes::*foo)(), double y){
+double Black_Scholes::BOdLR(pair<double, double> &x){
+	if (x.first == 0)return 0.0;
+	double mu = (r - sigma*sigma / 2) / sigma;
+	double f = (1 / sqrt(T - t))*(1 / sqrt(2 * Pi))*exp(-0.5*pow(((log(x.first / St) / sigma - mu*(T-t)) / sqrt(T-t)), 2)) - exp(2 * mu*(log(x.second / St) / sigma))*(1 / sqrt(2 * Pi))*exp(-0.5*pow(((log(x.first / St) / sigma - 2 * log(x.second / St) / sigma - mu*(T-t)) / sqrt(T-t)), 2));
+	double df = exp(-0.5*pow((log(x.first / St) / sigma - mu*(T - t)), 2) / (T - t))*(log(x.first / St) / sigma - mu*(T - t)) / (sqrt(2 * Pi*pow((T - t), 3))*sigma*St);
+	df += sqrt(2 / Pi) *mu*x.second*pow(x.second / St, (2 * mu / sigma - 1))*exp(-pow((-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t)), 2) / (2 * (T - t))) / (sigma*St*St*sqrt(T - t));
+	df += pow(x.second / St, (2 * mu / sigma))*(-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t))*exp(-pow((-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t)), 2) / (2 * (T - t))) / (sqrt(2 * Pi*pow((T - t), 3))*sigma*St);
+	double res = exp(-r*(T - t))*(x.first - K)*df / (f*sigma*sigma*x.first*x.second);
+	if (res< 0){
+		ofstream gout;
+		gout.open("res.txt", ios::app);
+		gout << res << endl;
+		gout.close();
+	}
+	return res;
+}
+double Black_Scholes::BOdeltaLR(double B){
+	double res = 0.0;
+	for (int i = 0; i < M; i++){
+		res += BOdLR(Barrier_option(B));
+	}
+	return res / M;
+}
+double Black_Scholes::BOdeltaCF(double B){
+	double p = 0.5 - r / (sigma*sigma);
+	double d2 = (log(St / K) + (r - sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
+	double d3 = (log(St / B) - (r - sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
+	return exp(-r*(T - t))*(normalCDF(-d2) + pow(St / B, 2 * p)*normalCDF(-d3));
+}
+
+void Errortest(Black_Scholes x,double(Black_Scholes::*foo)(), double y,ostream &os){
 	double ermean = 0, erms = 0;
 	double tem;
 	for (int i = 0; i < 100; i++){
@@ -266,7 +299,6 @@ void Errortest(Black_Scholes x,double(Black_Scholes::*foo)(), double y){
 		ermean += tem;
 		erms += tem*tem;
 	}
-	cout << "   Error mean = " << (ermean /= 100 )<< endl;
-	cout << "   Error variance = " << (erms / 100 - ermean*ermean) << endl;
-	
+	os  << (ermean /= 100 )<< " , " << (erms / 100 - ermean*ermean);
 }
+
