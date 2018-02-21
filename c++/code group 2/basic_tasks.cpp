@@ -58,7 +58,7 @@ vector<double> stock_values_closed_form(double r, double sigma, double S0, int T
     double h = double(T)/n;
     stock_evolution.push_back(S_previous);
     for (int t=1; t<=n; t++){
-        computed_value = S0*exp((r - 0.5*pow(sigma, 2)*t*h + sigma*sqrt(t*h)*brownian_motion[t]));
+        computed_value = S0*exp(-(r - 0.5*pow(sigma, 2)*t*h + sigma*sqrt(t*h)*brownian_motion[t]));
         S_previous = computed_value;
         stock_evolution.push_back(computed_value);
     }
