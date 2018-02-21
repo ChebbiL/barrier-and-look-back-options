@@ -99,12 +99,12 @@ class black_scholes_call_price{
     // Utility
 
     double normal_cdf(double value){
+        // erfc is a standard function used to generate normal cdf. It corresponds to the error fucntion.
         return 0.5 * erfc( - value / sqrt(2) );
     }
 
 
     // Valuation
-
 
     double scheme_direct(random_normal_variable Z){
         return initial_value * exp((interest_rate - 0.5 * volatility * volatility) * (time_T - time_t) + volatility * sqrt(time_T - time_t) * Z());
@@ -134,19 +134,23 @@ class black_scholes_call_price{
         return S_t;
     }
 
-    double monte_carlo(int samples, string scheme){
+    double approximate_stock_price(random_normal_variable Z){
+        if (method=="euler"){
+            return scheme_euler(Z);
+        } else if (method=="milstein"){
+            return scheme_milstein(Z);
+        } else {
+            return scheme_direct(Z);
+        }
+    }
+
+    double monte_carlo(int samples){
         samples > 1 ? true : samples = 1;
         random_normal_variable Z;
         double S_T;
         double C;
         for(int i=0; i<samples; i++){
-            if (scheme=="euler"){
-                S_T = scheme_euler(Z);
-            } else if (scheme=="milstein"){
-                S_T = scheme_milstein(Z);
-            } else {
-                S_T = scheme_direct(Z);
-            } 
+            S_T = approximate_stock_price(Z);
             S_T > strike ? C += exp(-interest_rate * (time_T - time_t)) * (S_T - strike) : C += 0;
         }
         return C/samples;
@@ -188,11 +192,11 @@ public:
 
     double operator() (int samples){
         if (method=="euler"){
-            return monte_carlo(samples, method);
+            return monte_carlo(samples);
         } else if (method=="milstein"){
-            return monte_carlo(samples, method);
+            return monte_carlo(samples);
         } else if (method=="direct-monte-carlo"){
-            return monte_carlo(samples, method);
+            return monte_carlo(samples);
         }else {
             return direct_valuation();
         }
@@ -200,14 +204,59 @@ public:
     double operator() () {return operator() (1000);}
 
 
-    double delta(){
-        // TODO
-        return 0.0;
+    // Greeks
+
+    /*
+    In order to generate the delta, we use in the following options:
+    - pw stands for pathwise derivatives estimates
+    - lr stands for likelihood ratios
+    LR is built as default
+    */
+    double delta(string estimation_method){
+        random_normal_variable Z;
+        int n = 10000;
+
+        double paths_sum = 0;
+        double tau = time_T - time_t;
+        double discount = exp(-interest_rate * tau);
+        double current_value;
+
+        if (estimation_method == "pw"){      
+            for (int i=0; i<n; i++){
+                current_value = approximate_stock_price(Z);
+                current_value > strike ? paths_sum += discount * current_value : paths_sum += 0;
+            }
+            return paths_sum/(n*initial_value);
+        } else {
+                double coefficient;
+            for (int i=0; i<n; i++){
+                current_value = approximate_stock_price(Z);
+                coefficient = log(current_value / initial_value) - (interest_rate * 0.5 * volatility * volatility) * tau;
+                current_value > strike ? paths_sum += discount * (current_value - strike) * coefficient : paths_sum += 0;
+            }
+            return paths_sum /(n * initial_value * volatility * volatility * sqrt(tau));
+        } 
     }
 
+    // Gamma is built using PW-LR estimator
     double gamma(){
-        // TODO
-        return 0.0;
+        int n = 1000;
+
+        random_normal_variable X;
+        random_normal_variable Z;
+
+        double paths_sum = 0;
+        double tau = time_T - time_t;
+        double discount = exp(-interest_rate * tau);
+        double current_value;
+        double coefficient;
+
+        for (int i=0; i<n; i++){
+            current_value = approximate_stock_price(X);
+            coefficient = -1 + Z() / (volatility * sqrt(tau));
+            current_value > strike ? paths_sum += discount * current_value * coefficient : paths_sum += 0;
+        }
+        return current_value / (n * initial_value * initial_value);
     }
 
     double vega(){
@@ -226,17 +275,16 @@ int main(){
     double K = 100.0;
 
     black_scholes_call_price call(S0, r, sigma, 0, T, K, "euler");
-    cout << call.get_method() << endl;
-    cout << call() << endl;
+    cout << call.get_method() << ": " << call() << endl;
     call.set_method("milstein");
-    cout << call.get_method() << endl;
-    cout << call() << endl;
+    cout << call.get_method() << ": " << call() << endl;
     call.set_method("direct-monte-carlo");
-    cout << call.get_method() << endl;
-    cout << call() << endl;
+    cout << call.get_method() << ": " << call() << endl;
     call.set_method("closed-form");
-    cout << call.get_method() << endl;
-    cout << call() << endl;
+    cout << call.get_method() << ": " << call() << endl;
+    cout << endl;
+    cout << "Delta: " << call.delta("pw") << " (PW), " << call.delta("lr") << " (LR)" << endl;
+    cout << "Gamma: " << call.gamma() << " (PW-LR)" << endl;
 
     return 0;
 }
