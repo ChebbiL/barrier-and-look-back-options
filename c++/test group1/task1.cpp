@@ -13,30 +13,32 @@ double stn(){ return distribution(generator); }
 int baic_task(){
 	Black_Scholes a(100,100,0.05,0.4,1,0);
 	//a.changeM(100000);
-	cout << "C by closed form = " << a.black_scholes_closed_form() << endl;
-	cout << "C(0,T) = "<<a.optional_price() << endl;
-	Errortest(a, &Black_Scholes::optional_price, a.black_scholes_closed_form(), cout);
-	cout << endl << "Delta(by CF) = " << a.deltaCF() << endl;
-	cout << "Delta(by LR) = " << a.deltaLR() << endl;
-	Errortest(a, &Black_Scholes::deltaLR, a.deltaCF(), cout);
-	cout << endl << "Delta(by PW) = " << a.deltaPW() << endl;
-	Errortest(a, &Black_Scholes::deltaPW, a.deltaCF(), cout);
-	cout << endl << "Gamma(by CF) = " << a.gammaCF() << endl;
-	cout << "Gamma(by LR-PW) = " << a.gammaLRPW() << endl;
-	Errortest(a, &Black_Scholes::gammaLRPW, a.gammaCF(), cout) ;
-	cout << endl << "Gamma(by PW-LR) = " << a.gammaPWLR() << endl;
-	Errortest(a, &Black_Scholes::gammaPWLR, a.gammaCF(), cout) ;
-	cout << endl << "Gamma(by LR-LR) = " << a.gammaLRLR() << endl;
-	Errortest(a, &Black_Scholes::gammaLRLR, a.gammaCF(), cout) ;
-	cout << endl << "vega(by CF) = " << a.vegaCF() << endl;
-	cout << "vega(by LR) = " << a.vegaLR() << endl;
-	Errortest(a, &Black_Scholes::vegaLR, a.vegaCF(), cout) ;
-	cout << endl << "vega(by PW) = " << a.vegaPW() << endl;
-	Errortest(a, &Black_Scholes::vegaPW, a.vegaCF(), cout) ;
-	cout << endl;
+	//cout << "C by closed form = " << a.black_scholes_closed_form() << endl;
+	//cout << "C(0,T) = "<<a.optional_price() << endl;
+	//Errortest(a, &Black_Scholes::optional_price, a.black_scholes_closed_form(), cout);
+	//cout << endl << "Delta(by CF) = " << a.deltaCF() << endl;
+	//cout << "Delta(by LR) = " << a.deltaLR() << endl;
+	//Errortest(a, &Black_Scholes::deltaLR, a.deltaCF(), cout);
+	//cout << endl << "Delta(by PW) = " << a.deltaPW() << endl;
+	//Errortest(a, &Black_Scholes::deltaPW, a.deltaCF(), cout);
+	//cout << endl << "Gamma(by CF) = " << a.gammaCF() << endl;
+	//cout << "Gamma(by LR-PW) = " << a.gammaLRPW() << endl;
+	//Errortest(a, &Black_Scholes::gammaLRPW, a.gammaCF(), cout) ;
+	//cout << endl << "Gamma(by PW-LR) = " << a.gammaPWLR() << endl;
+	//Errortest(a, &Black_Scholes::gammaPWLR, a.gammaCF(), cout) ;
+	//cout << endl << "Gamma(by LR-LR) = " << a.gammaLRLR() << endl;
+	//Errortest(a, &Black_Scholes::gammaLRLR, a.gammaCF(), cout) ;
+	//cout << endl << "vega(by CF) = " << a.vegaCF() << endl;
+	//cout << "vega(by LR) = " << a.vegaLR() << endl;
+	//Errortest(a, &Black_Scholes::vegaLR, a.vegaCF(), cout) ;
+	//cout << endl << "vega(by PW) = " << a.vegaPW() << endl;
+	//Errortest(a, &Black_Scholes::vegaPW, a.vegaCF(), cout) ;
+	//cout << endl;
+	a.changeN(1000);
 	cout << "Barrier option price(simulation) = " << a.EBO(90) << endl;
-	cout << "Barrier option price(closed form) = " << a.EBO(90) << endl;
-	cout << "Barrier option delta = " << a.BOdeltaLR(90) << endl;
+	cout << "Barrier option price(closed form) = " << a.BOCF(90) << endl;
+	cout << "Barrier option delta(LR) = " << a.BOdeltaLR(90) << endl;
+	cout << "Barrier option delta(CF) = " << a.BOdeltaCF(90) << endl;
 	cout << "Double Barrier option price = " << a.EBO(90, 120) << endl;
 	cout << "Lookback option price = " << a.ELB(100) << endl;
 	return 0;
@@ -165,14 +167,25 @@ int generator_test(){
 	fou.close();
 	return 0;
 }
-
-
+double tt1(pair<double, double>&x){
+	double B = 90, r = 0.05, sigma = 0.4, St = 100,T=1,t=0;
+	double mu = r - sigma*sigma / 2;
+	double f = exp(-pow(x.first - mu*(T - t), 2) / (2 * sigma*sigma*(T - t))) / (sigma*sqrt(2 * Pi*(T - t))) - pow((B / St), 2 * mu / (sigma*sigma))*exp(-pow(x.first - 2 * B - mu*(T - t), 2) / (2 * sigma*sigma*(T - t))) / (sigma*sqrt(2 * Pi*(T - t)));
+	return f;
+}
+int test(){
+	for (int i = 0; i < 1000; i++){
+		cout << tt1(make_pair(95 + 0.01*i, 100.0))<<endl;
+	}
+	return 0;
+}
 int main(){
 	//generator_test();
 	//s0_delta();
 	//s0_gamma();
 	//sigma_vega();
 	//Cerror_M();
-	baic_task();
+	//baic_task();
+	test();
 	return 0;
 }

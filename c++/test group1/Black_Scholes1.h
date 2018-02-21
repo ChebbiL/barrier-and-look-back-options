@@ -17,13 +17,17 @@ private:
 		gammaCF1 = normalpdf(d) / (St*sigma*sqrt(T - t));
 		vegaCF1 = St*normalpdf(d)*sqrt(T - t);
 	}
-
+	double BSC(double S0, double k){
+		double d = (log(S0 / k) + (r + sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
+		return normalCDF(d)*S0 - normalCDF(d - sigma*sqrt(T - t))*k*exp(-r*(T - t));
+	}
 public:
-	static double snd();   //Marsaglia polar method
-	static double snd_1();
-	static double sndb();  //BoxMuller method
-	static double sndb_1();
+	static double snd();   //Marsaglia polar method one output only
+	static double snd_1();//Marsaglia polar method
+	static double sndb();  //BoxMuller method one output only
+	static double sndb_1();//BoxMuller method
 	void changeM(int L){ M = L; }
+	void changeN(int L){ N = L; }
 	void changeSt(double L){ St = L; getCF(); }
 	void changesigma(double L){ sigma = L; getCF(); }
 	double STT(double St, double T, double t);
@@ -57,10 +61,12 @@ public:
 	std::pair<double, double> Barrier_option(double B);
 	double Barrier_option(double B1, double B2);
 	double EBO(double B);
+	double BOCF(double B);
 	double EBO(double B1, double B2);
 	double lookback_option(double L);
 	double ELB(double L);
 	double BOdLR(std::pair<double, double>&x);
+	double BOdLR(std::pair<double, double>&x,double B);
 	double BOdeltaLR(double B);
 	double BOdeltaCF(double B);
 };

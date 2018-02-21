@@ -17,8 +17,8 @@ long double Black_Scholes::rann(){
 	long double x = (long double)(z ) / (long double)(m-1);
 	return x;
 }
-double Black_Scholes::STT(double St, double T, double t){
-	return St*exp((r - 0.5*pow(sigma, 2))*(T - t) + sigma*sqrt(T - t)*fun());
+double Black_Scholes::STT(double S0, double T1, double t1){
+	return S0*exp((r - 0.5*pow(sigma, 2))*(T1 - t1) + sigma*sqrt(T1 - t1)*fun());
 }
 double Black_Scholes::BSCall(){
 	double ST = St*exp((r - 0.5*pow(sigma, 2))*(T - t) + sigma*sqrt(T - t)*fun());
@@ -207,7 +207,7 @@ pair<double, double> Black_Scholes::Barrier_option(double B){
 	double ST = St,mt=St;
 	double b = (T - t) / N;
 	for (int i = 0; i < N ; i++){
-		ST = STT(St, t + (i + 1)*b, t + i*b);
+		ST = STT(ST, t + (i + 1)*b, t + i*b);
 		if (mt > ST)mt = ST;
 		if (mt < B)return make_pair(0, 0);
 	}
@@ -218,7 +218,7 @@ double Black_Scholes::Barrier_option(double B1, double B2){
 	double ST = St, mt = St,Mt=St;
 	double b = (T - t) / N;
 	for (int i = 0; i < N; i++){
-		ST = STT(St, t + (i + 1)*b, t + i*b);
+		ST = STT(ST, t + (i + 1)*b, t + i*b);
 		if (mt > ST)mt = ST;
 		if (Mt < ST)Mt = ST;
 		if (mt < B1)return 0;
@@ -261,15 +261,49 @@ double Black_Scholes::ELB(double L){
 	}
 	return res / M;
 }
+//double Black_Scholes::BOdLR(pair<double, double> &x){
+//	if (x.first == 0||x.second==0||x.second==100)return 0.0;
+//	double mu = (r - sigma*sigma / 2) / sigma;
+//	//double f = (1 / sqrt(T - t))*(1 / sqrt(2 * Pi))*exp(-0.5*pow(((log(x.first / St) / sigma - mu*(T-t)) / sqrt(T-t)), 2)) - exp(2 * mu*(log(x.second / St) / sigma))*(1 / sqrt(2 * Pi))*exp(-0.5*pow(((log(x.first / St) / sigma - 2 * log(x.second / St) / sigma - mu*(T-t)) / sqrt(T-t)), 2));
+//	double f = (normalpdf((log(x.first / St) - sigma*mu*(T - t)) / (sigma*sqrt(T - t))) - exp(2 * mu*log(x.second / St) / sigma)*normalpdf((log(x.first / St) - 2 * log(x.second / St) - sigma*mu*(T - t)) / (sigma*sqrt(T - t)))) / sqrt(T - t);
+//	double df = exp(-0.5*pow((log(x.first / St) / sigma - mu*(T - t)), 2) / (T - t))*(log(x.first / St) / sigma - mu*(T - t)) / (sqrt(2 * Pi*pow((T - t), 3))*sigma*St);
+//	df += sqrt(2 / Pi) *mu*x.second*pow(x.second / St, (2 * mu / sigma - 1))*exp(-pow((-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t)), 2) / (2 * (T - t))) / (sigma*St*St*sqrt(T - t));
+//	df += pow(x.second / St, (2 * mu / sigma))*(-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t))*exp(-pow((-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t)), 2) / (2 * (T - t))) / (sqrt(2 * Pi*pow((T - t), 3))*sigma*St);
+//	double res = exp(-r*(T - t))*(x.first - K)*df / (f*sigma*sigma*x.first*x.second);
+//	if (f == 0){
+//		ofstream gout;
+//		gout.open("res.txt", ios::app);
+//		gout << x.first<<","<<x.second << endl;
+//		gout.close();
+//	}
+//	if (res<0){
+//		ofstream gout;
+//		gout.open("res.txt", ios::app);
+//		gout << res << endl;
+//		gout.close();
+//	}
+//	return res;
+//}
 double Black_Scholes::BOdLR(pair<double, double> &x){
-	if (x.first == 0)return 0.0;
-	double mu = (r - sigma*sigma / 2) / sigma;
-	double f = (1 / sqrt(T - t))*(1 / sqrt(2 * Pi))*exp(-0.5*pow(((log(x.first / St) / sigma - mu*(T-t)) / sqrt(T-t)), 2)) - exp(2 * mu*(log(x.second / St) / sigma))*(1 / sqrt(2 * Pi))*exp(-0.5*pow(((log(x.first / St) / sigma - 2 * log(x.second / St) / sigma - mu*(T-t)) / sqrt(T-t)), 2));
-	double df = exp(-0.5*pow((log(x.first / St) / sigma - mu*(T - t)), 2) / (T - t))*(log(x.first / St) / sigma - mu*(T - t)) / (sqrt(2 * Pi*pow((T - t), 3))*sigma*St);
-	df += sqrt(2 / Pi) *mu*x.second*pow(x.second / St, (2 * mu / sigma - 1))*exp(-pow((-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t)), 2) / (2 * (T - t))) / (sigma*St*St*sqrt(T - t));
-	df += pow(x.second / St, (2 * mu / sigma))*(-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t))*exp(-pow((-2 * log(x.second / St) / sigma + log(x.first / St) / sigma - mu*(T - t)), 2) / (2 * (T - t))) / (sqrt(2 * Pi*pow((T - t), 3))*sigma*St);
-	double res = exp(-r*(T - t))*(x.first - K)*df / (f*sigma*sigma*x.first*x.second);
-	if (res< 0){
+	if (x.first == 0 || x.second == 0)return 0.0;
+	return exp(-r*(T - t))*(x.first - K)*((log(x.first / St) - (r - 0.5*sigma*sigma)*(T - t)) / (St*sigma*sigma*(T-t)));
+	
+}
+double Black_Scholes::BOdLR(pair<double, double> &x,double B){
+	if (x.first == 0 || x.second == 0)return 0.0;
+	double mu = r - sigma*sigma / 2;
+	double f = exp(-pow(x.first - mu*(T - t), 2) / (2 * sigma*sigma*(T - t))) / (sigma*sqrt(2 * Pi*(T - t))) - pow((B / St), 2 * mu / (sigma*sigma))*exp(-pow(x.first - 2 * B - mu*(T - t), 2) / (2 * sigma*sigma*(T - t))) / (sigma*sqrt(2 * Pi*(T - t)));
+	double df = (log(x.first / St) - mu*(T - t))*exp(-pow(log(x.first / St) - mu*(T - t), 2) / (sqrt(2 * Pi*pow((T - t), 3))*pow(sigma, 3)*St));
+	df -= pow(B / St, 2 * mu / (sigma*sigma))*(-2 * B + log(x.first / St) - mu*(T - t))*exp(pow(-2 * B + log(x.first / St) - mu*(T - t), 2) / (2 * sigma*sigma*(T - t))) / (sqrt(2 * Pi*pow(T - t, 3))*pow(sigma, 3)*St);
+	df += sqrt(2 / Pi)*mu*B*pow(B / St, 2 * mu / (sigma*sigma) - 1)*exp(-pow(-2 * B + log(x.first / St) - mu*(T - t), 2) / (2 * sigma*sigma*(T - t))) / (pow(sigma, 3)*St*St*sqrt(T - t));
+	double res= exp(-r*(T - t))*(x.first - K)*df / (f*x.first);
+	if (f < 20 && f>0){}else{
+		ofstream gout;
+		gout.open("res.txt", ios::app);
+		gout << x.first << "," << x.second <<","<<f<< endl;
+		gout.close();
+	}
+	if (res < 20 && res>0){}else{
 		ofstream gout;
 		gout.open("res.txt", ios::app);
 		gout << res << endl;
@@ -280,17 +314,20 @@ double Black_Scholes::BOdLR(pair<double, double> &x){
 double Black_Scholes::BOdeltaLR(double B){
 	double res = 0.0;
 	for (int i = 0; i < M; i++){
-		res += BOdLR(Barrier_option(B));
+		res += BOdLR(Barrier_option(B),B);
 	}
 	return res / M;
 }
-double Black_Scholes::BOdeltaCF(double B){
-	double p = 0.5 - r / (sigma*sigma);
-	double d2 = (log(St / K) + (r - sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
-	double d3 = (log(St / B) - (r - sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
-	return exp(-r*(T - t))*(normalCDF(-d2) + pow(St / B, 2 * p)*normalCDF(-d3));
+double Black_Scholes::BOCF(double B){
+	double mu = r - sigma*sigma / 2;
+	return BSC(St, K) - pow(St / B, -2 * mu / (sigma*sigma))*BSC(B*B / St, K);
 }
-
+double Black_Scholes::BOdeltaCF(double B){
+	double mu = r - sigma*sigma / 2;
+	double res = normalCDF((log(St / K) + (r + sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t)));
+	res -= pow((B / St), (r / (sigma*sigma)-1))*(-B*B* normalCDF((log(B*B / (St*K)) + mu*(T - t)) / (sigma*sqrt(T - t))) / (St*St) - 2 * mu*BSC(B*B / St, K) / (St*sigma*sigma));
+	return res;
+}
 void Errortest(Black_Scholes x,double(Black_Scholes::*foo)(), double y,ostream &os){
 	double ermean = 0, erms = 0;
 	double tem;
