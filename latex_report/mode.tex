@@ -1,0 +1,194 @@
+\documentclass[12pt,a4paper,fleqn]{article}
+%\usepackage[russian]{babel}
+\usepackage{multirow}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{amssymb,latexsym, amsmath}
+\usepackage{amscd}
+\usepackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathdots}
+\usepackage{amsmath,amsfonts,latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[text={15cm,24cm},top=3cm]{geometry}  % This line determines the page layout.
+% Consult the documentation of the geometry package if you want to change it.
+
+% include these lines if you want to typeset your report in a sans serif font
+%\renewcommand{\sfdefault}{cmbr}
+%\renewcommand{\ttdefault}{cmtl}
+%\renewcommand{\familydefault}{\sfdefault}
+
+\newtheorem{remark}{Remark}
+\newtheorem{Cor}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{property}{Property}
+\newtheorem{lemma}{Lemma}
+\newtheorem{question}{Question}
+\newtheorem{example}{Example}
+\newcommand\tr{\mathrm{tr}}
+\newcommand\Tr{\mathrm{Tr}}
+\newcommand\St{\mathrm{St}}
+\newcommand\ad{\mathrm{ad}}
+\newcommand\Ad{\mathrm{Ad}}
+\newcommand\goth{\mathfrak}
+\newcommand\R{\mathbb R}
+\newcommand\Z{\mathbb Z}
+\newcommand\ind{\mathrm{ind}\,}
+\newcommand\cork{\mathrm{corank }\,}
+\newcommand\Ker{\mathrm{Ker}\, }
+\newcommand\Ann{\mathrm{Ann}\, }
+\newcommand\ann{\mathrm{ann}\, }
+\newcommand\spann{\mathrm{span} }
+\newcommand\rank{\mathrm{rank}\, }
+\newcommand\corank{\mathrm{corank}\, }
+\newcommand\codim{\mathrm{codim}\, }
+\newcommand\Sing{{\mathsf{Sing}}}
+%\newcommand\Inv{\mathsf{Inv}_{\mathrm{formal}}(a)}
+\newcommand\Inv{Y_{\mathrm{formal}}(\goth g, a)}
+\newcommand\kfield{{\mathbb{K}}}
+%\newcommand\deg{\mathrm{deg}\, }
+\newcommand\trdeg{\mathrm{tr.deg.}\,}
+\newcommand\rk{\mathrm{rk}\, }
+\newcommand\grad{\mathrm{grad}\, }
+
+\newcommand{\svert}{{s_{\mathrm{vert}}}}
+
+\newcommand{\shor}{{s_{\mathrm{hor}}}}
+
+\newcommand{\sjord}{{s_{\mathrm{Jord}}}}
+
+\newcommand{\Lvert}{L_{\mathrm{vert}}}
+
+\newcommand{\Lhor}{L_{\mathrm{hor}}}
+
+\newcommand{\dimO}{\dim \mathcal O_{\mathrm{reg}}}
+
+\newcommand{\codimO}{\codim \mathcal O_{\mathrm{reg}}}
+
+\newcommand{\dimSt}{\dim \mathrm{St}_{\mathrm{reg}}}
+
+\pagestyle{headings}
+
+\author{Author  \\
+Supervisor: 
+\\
+Course Code:  }
+\title{Title}
+\date{01.01.2018}
+\begin{document}
+\maketitle
+
+
+
+
+
+
+
+\newpage
+
+
+
+\tableofcontents
+%\listoffigures
+%\listoftables
+\newpage
+
+\section{Part A:}
+
+\subsection{(i)}
+
+\subsection{(ii)}
+
+
+\subsection{(iii)}
+
+
+\subsection{(iv)}
+
+
+\newpage
+
+\section{Part B:}
+
+\subsection{(i)}
+
+\subsection{(ii)}
+
+\subsection{(iii)}
+
+\subsection{(iv)}
+
+
+\newpage
+
+\newpage
+%\appendix
+
+
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{Reference1} 
+A
+
+\bibitem{Reference2}
+B
+ 
+
+
+
+\end{thebibliography}
+\newpage
+
+
+\appendix
+\section{Appendix: R code of part A}
+% the \\ insures the section title is centered below the phrase: AppendixA
+
+
+\lstset{ %
+  language=R,                     % the language of the code
+  basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},      % keyword style
+  commentstyle=\color{dkgreen},   % comment style
+  stringstyle=\color{mauve},      % string literal style
+  escapeinside={\%*}{*)},         % if you want to add a comment within your code
+  morekeywords={*,...}            % if you want to add more keywords to the set
+} 
+% \lstinputlisting{partA.R}
+% \lstinputlisting{partB.R}
+
+\newpage
+
+
+\end{document}
+
+
