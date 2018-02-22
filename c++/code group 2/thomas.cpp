@@ -14,10 +14,34 @@ default_random_engine generator (time(0));
 
 /*
 This class allows you to generate easily vectors or doubles of STANDARD random normal variables.
+Available methods are:
+- box-muller
+- marsaglia
 Default method is Marsaglia (polar).
 */
 class random_normal_variable{
     string method;
+
+    // Utility
+    double mean(vector<double> samples){
+        double mean;
+        for(int i=0; i<samples.size();i++){
+            mean += samples[i];
+        }
+        return mean / samples.size();
+    }
+
+    double standard_deviation(vector<double> samples){
+        double sd;
+        double mu = mean(samples);
+        for(int i=0; i<samples.size();i++){
+            sd += (samples[i] - mu)*(samples[i] - mu);
+        }
+        return sqrt(sd / samples.size());
+    }
+
+    // Methods
+
     double boxmuller_sample(){
         uniform_real_distribution<double> u1(0.0, 1.0);
         uniform_real_distribution<double> u2(0.0, 1.0);
@@ -79,6 +103,16 @@ public:
     double sample(){return sample(1)[0];}
     double operator() () {return sample();}
 
+    void test(int number_samples){
+        cout << "Testing random normal" << endl;
+        cout << number_samples << " samples generated." << endl;
+        cout << "Generation method: " << get_method() << endl;
+        vector<double> these_samples = sample(number_samples);
+        cout << "mean: " << mean(these_samples) << endl;
+        cout << "standard deviation: " << standard_deviation(these_samples) << endl;
+    }
+    void test() {test(10000);}
+
 };
 
 
@@ -108,6 +142,9 @@ class black_scholes_call_price{
 
     double scheme_direct(random_normal_variable Z){
         return initial_value * exp((interest_rate - 0.5 * volatility * volatility) * (time_T - time_t) + volatility * sqrt(time_T - time_t) * Z());
+    }
+    double scheme_direct(double Z){
+        return initial_value * exp((interest_rate - 0.5 * volatility * volatility) * (time_T - time_t) + volatility * sqrt(time_T - time_t) * Z);
     }
 
     double scheme_euler(random_normal_variable Z){
@@ -243,25 +280,36 @@ public:
         int n = 1000;
 
         random_normal_variable X;
+
+        double paths_sum = 0;
+        double tau = time_T - time_t;
+        double discount = exp(- interest_rate * tau);
+        uniform_real_distribution<double> u1(0.0, 1.0);
+
+        for (int i=0; i<n; i++){
+            approximate_stock_price(X) > strike ? paths_sum += discount * strike * u1(generator) : paths_sum += 0;
+        }
+        return paths_sum / (n * initial_value * initial_value * volatility * sqrt(tau));
+    }
+
+    double vega(){
+        int n = 1000;
+
+        double X;
         random_normal_variable Z;
 
         double paths_sum = 0;
         double tau = time_T - time_t;
-        double discount = exp(-interest_rate * tau);
+        double discount = exp(- interest_rate * tau);
         double current_value;
-        double coefficient;
 
+        
         for (int i=0; i<n; i++){
-            current_value = approximate_stock_price(X);
-            coefficient = -1 + Z() / (volatility * sqrt(tau));
-            current_value > strike ? paths_sum += discount * current_value * coefficient : paths_sum += 0;
+            X = Z();
+            current_value = scheme_direct(X);
+            current_value > strike ? paths_sum += discount * current_value * X : paths_sum += 0;
         }
-        return current_value / (n * initial_value * initial_value);
-    }
-
-    double vega(){
-        // TODO
-        return 0.0;
+        return volatility * sqrt(tau) * tau * paths_sum / n;
     }
 
 };
@@ -274,17 +322,31 @@ int main(){
     double S0 = 100.0;
     double K = 100.0;
 
+    random_normal_variable Z;
+    Z.test();
+    cout << endl;
+
+    cout << "__________________________________" << endl;
+    cout << "Computing Black-Scholes Call Price" << endl;  
     black_scholes_call_price call(S0, r, sigma, 0, T, K, "euler");
-    cout << call.get_method() << ": " << call() << endl;
+    cout << call.get_method() << ": ";
+    cout << call() << " (1000) - " << call(10000) << " (10,000) - " << call(100000) << " (100,000)" << endl;
     call.set_method("milstein");
-    cout << call.get_method() << ": " << call() << endl;
+    cout << call.get_method() << ": ";
+    cout << call() << " (1000) - " << call(10000) << " (10,000) - " << call(100000) << " (100,000)" << endl;
     call.set_method("direct-monte-carlo");
-    cout << call.get_method() << ": " << call() << endl;
+    cout << call.get_method() << ": ";
+    cout << call() << " (1000) - " << call(10000) << " (10,000) - " << call(100000) << " (100,000)" << endl;
     call.set_method("closed-form");
     cout << call.get_method() << ": " << call() << endl;
     cout << endl;
+
     cout << "Delta: " << call.delta("pw") << " (PW), " << call.delta("lr") << " (LR)" << endl;
     cout << "Gamma: " << call.gamma() << " (PW-LR)" << endl;
+    cout << "Vega: " << call.vega() << " (PW)" << endl;
+    cout << endl;
+
+
 
     return 0;
 }

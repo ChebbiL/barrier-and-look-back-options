@@ -30,6 +30,7 @@ double standard_deviation(vector<double> samples){
     std = sqrt(std);
     return std;
 }
+
 vector<double> normal_random_sample(int number_of_samples){
     number_of_samples>=1 ? true : number_of_samples=1;
     int iterations = 12;
