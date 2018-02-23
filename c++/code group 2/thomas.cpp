@@ -215,7 +215,7 @@ public:
     }
 
     string get_method(){ return method; }
-    void set_method(string new_method){ 
+    void set_method(string new_method){
         if (new_method=="euler"){
             method = "euler";
         } else if (new_method=="milstein"){
@@ -258,7 +258,7 @@ public:
         double discount = exp(-interest_rate * tau);
         double current_value;
 
-        if (estimation_method == "pw"){      
+        if (estimation_method == "pw"){
             for (int i=0; i<n; i++){
                 current_value = approximate_stock_price(Z);
                 current_value > strike ? paths_sum += discount * current_value : paths_sum += 0;
@@ -272,7 +272,7 @@ public:
                 current_value > strike ? paths_sum += discount * (current_value - strike) * coefficient : paths_sum += 0;
             }
             return paths_sum /(n * initial_value * volatility * volatility * sqrt(tau));
-        } 
+        }
     }
 
     // Gamma is built using PW-LR estimator
@@ -303,7 +303,7 @@ public:
         double discount = exp(- interest_rate * tau);
         double current_value;
 
-        
+
         for (int i=0; i<n; i++){
             X = Z();
             current_value = scheme_direct(X);
@@ -327,7 +327,7 @@ int main(){
     cout << endl;
 
     cout << "__________________________________" << endl;
-    cout << "Computing Black-Scholes Call Price" << endl;  
+    cout << "Computing Black-Scholes Call Price" << endl;
     black_scholes_call_price call(S0, r, sigma, 0, T, K, "euler");
     cout << call.get_method() << ": ";
     cout << call() << " (1000) - " << call(10000) << " (10,000) - " << call(100000) << " (100,000)" << endl;
