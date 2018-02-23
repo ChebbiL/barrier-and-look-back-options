@@ -24,7 +24,7 @@ public:
 	double gamma_PWLR();
 	double gamma_LR();
 	double vega_LR();
-	double valueA();
+	virtual double valueA();
 	double delta_LRA();
 	double delta_PWA();
 	double gamma_PWLRA();
@@ -219,7 +219,7 @@ double call::vega_LRA() //antithetic above
 
 
 
-double average(path f, call *C) //averages values for monte carlo estimation for regular call options and greeks, not to be used for barriers
+double average(path f, call *C) //averages values for monte carlo estimation for regular call options and greeks, not to be used for barriers. Note: call must be passed as pointer
 {
 	double running = 0.0;
 	for (double i = 1.0; i <= double(M); i++)
@@ -230,7 +230,7 @@ double average(path f, call *C) //averages values for monte carlo estimation for
 	return running;
 }
 
-vector<double> sim_analysis(path f, call **C, double analytic) //runs an analysis on the estimation of an option, return vector of bias, mean error, variance(assumes there is low bias, really is MSE)
+vector<double> sim_analysis(path f, call **C, double analytic) //runs an analysis on the estimation of an option, return vector of bias, mean error, variance(assumes there is low bias, really is MSE). Note, call must be passed as double pointer
 {
 	double bias = 0.0, mean = 0.0, var = 0.0;
 	for (double i = 1.0; i <= 1000.0; i++)
@@ -280,7 +280,7 @@ double barrier::value() //estimates the value of a barrier option
 	return max(S_t - K, 0.0)*exp(-r * T);
 }
 
-double barrier::valueA()
+double barrier::valueA() //antithetic above
 {
 	double S_tp = S_0, S_tn = S_0, mean = (r - sigma * sigma / 2.0) * h, std = sigma * h_;
 	normal_distribution<double> N(0.0, std);
@@ -327,7 +327,7 @@ int main()
 	call *p = &b;
 	call *q = &c;
 	call **r = &q;
-	path val = &call::value;
+	path val = &call::valueA;
 	cout << "barrier: " << average(val, s) << "\ncall: " << average(val, t) << endl;
 	cout << "sim test: " << sim_analysis(val, r, 41.9344)[0];
 	return 0;
