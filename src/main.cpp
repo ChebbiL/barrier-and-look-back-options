@@ -72,6 +72,5 @@ double normal_pdf(double x){
 
 
 int main(){
-  
   return 0;
 }
