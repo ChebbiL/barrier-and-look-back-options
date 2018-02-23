@@ -2,7 +2,8 @@
 This si the main project file.
 */
 
-#include<iostream>
+#include<iostream> // For console output
+#include <cmath> // For math calculations
 using namespace std;
 
 
@@ -46,7 +47,7 @@ public:
   // Constructor
   Black_Scholes(double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05, double volatility = 0.4,double time_final_T = 1, double time_initial_t = 0){
 		St = initial_stock_price;
-		strike = b;
+		K = strike;
 		r = interest_rate;
 		sigma = volatility;
 		T = time_final_T;
@@ -64,8 +65,13 @@ public:
 double normal_cdf(double x){
   return erfc( - x / sqrt(2)) / 2;
 }
-
 // Computes the pdf of the normal distribution
 double normal_pdf(double x){
   return exp( - x * x / 2) / sqrt(2 * M_PI);
+}
+
+
+int main(){
+  cout << normal_pdf(1.0) << endl;
+  return 0;
 }
