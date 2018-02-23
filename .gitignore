@@ -45,6 +45,9 @@
 *.gz
 *.toc
 
-#Visual Studio
+# Visual Studio
 *.vscode
 bin
+
+# Latex pdf
+/report/**/*.pdf

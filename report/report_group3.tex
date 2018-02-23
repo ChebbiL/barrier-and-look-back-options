@@ -100,25 +100,25 @@
 
 \section{Generate Random Number}
 
-There are two methods we used to generate random numbers. 
-The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Randon}}, which can directly generate a variable follows Standard Normal Distribution. 
+There are two methods we used to generate random numbers.
+The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Randon}}, which can directly generate a variable follows Standard Normal Distribution.
 \\
 To generate a uniform distribution we tried two ways: one can use the system build-in methods \textbf{\textit{rand}}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size. In other words, when we use rand to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
 
 $$n_i = (an_{i-1})  mod  m$$
-for $i=1,2,...,10,000$, and we let$ a = 7^5$, and $m = 2^{31}-1$, which give about 2 billion points. We run 100,000 times use $0.005\%$ of all point. Theoretically, no pattern should appear. 
+for $i=1,2,...,10,000$, and we let$ a = 7^5$, and $m = 2^{31}-1$, which give about 2 billion points. We run 100,000 times use $0.005\%$ of all point. Theoretically, no pattern should appear.
 
-To transform the uniform distribution we got into Standard Normal Distribution, we have tried three methods. By Central Limit theory, 
+To transform the uniform distribution we got into Standard Normal Distribution, we have tried three methods. By Central Limit theory,
 
 $$ Z_n = \frac{\sum_{i=1}^{n}X_i-n\mu}{\sqrt{n}\sigma}$$
 
-where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significant large simulations and speed is slow consequently. 
-We also tried Box-Muller methods 
+where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significant large simulations and speed is slow consequently.
+We also tried Box-Muller methods
 
 $$Z_1 = \sqrt{-2lnX_1}sin(2\pi X_2),\  \Z_2=\sqrt{-2lnX_1}cos(2\pi X_2)$$
 
-Since its simulation involves computation of sine and cosine, the speed is slow. 
-We prefer the last method, Marsaglia Polar method. 
+Since its simulation involves computation of sine and cosine, the speed is slow.
+We prefer the last method, Marsaglia Polar method.
 
 $$ let \ V_1 = 2U_1-1,\  V_1 = 2U_2-1.$$
 where $U_1$ and $U_2$ are two independent uniform distribution.
@@ -131,8 +131,8 @@ As the computation doesn’t involve sine and cosine, it is generally faster tha
 The following is the simulation result and time used by different methods.
 \begin{center}
 \begin{tabular}{ c c c c }
-\textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time} \\ 
-\textit{ rand} generated U + CLT & cell5 & cell6&.. \\  
+\textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time} \\
+\textit{ rand} generated U + CLT & cell5 & cell6&.. \\
 \textit{ rand} generated U + Box-Muller & cell8 & cell9&..\\
 \textit{ rand} generated U + Marsagilia Polar & cell8 & cell9&..\\
  linear congruential generator + CLT & cell8 & cell9&..\\
@@ -150,7 +150,7 @@ $$dS_t=rS_tdt+\sigma S_tdW_t, \ 0\leq t \leq T$$
 with initial price $S_0 = S$, where $r$ is riskless interest rate, $\sigma$ volatility, and $W_t$ the standard Brownian motion. A European call option pricd at time $t$ with maturity time $T$ is given by
 $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
-For the task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate the path of S. By Black-Scholes formula, 
+For the task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate the path of S. By Black-Scholes formula,
 $$C(S_t, t) = N(d_1)S_t - N(d_2)Ke^{-r(T-t)}$$
 where $$d_1=\frac{1}{\sigma \sqrt{T-t}}[ln(\frac{S_t}{K})+(r+\frac{\sigma^2}{2})(T-t)],\ d_2 = d_1-\sigma \sqrt{T-t}$$
 The Greeks are calculated the following way:
@@ -165,7 +165,7 @@ The following are the results calculated from the closed-form formulae and the s
 \begin{center}
 \begin{tabular}{| c| c| c |c| c| }
 \hline
-\multirow{2}{*}{} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Black-Scholes}}} & \multicolumn{3}{l|}{\textbf{Monte Carlo Simulation}} \\ \cline{3-5} 
+\multirow{2}{*}{} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Black-Scholes}}} & \multicolumn{3}{l|}{\textbf{Monte Carlo Simulation}} \\ \cline{3-5}
                   & \multicolumn{1}{c|}{}                                        & \textbf{1,000}  & \textbf{10,000} & \textbf{100,000} \\ \hline
 \textbf{Delta}    &                  ....                                 &                 &                 &                  \\ \hline
 \textbf{Gamma}    &                 ....                                       &                 &                 &                  \\ \hline
@@ -186,12 +186,12 @@ The following are the results calculated from the closed-form formulae and the s
 
 \begin{thebibliography}{9}
 
-\bibitem{Reference1} 
+\bibitem{Reference1}
 A
 
 \bibitem{Reference2}
 B
- 
+
 
 
 
@@ -229,7 +229,7 @@ B
   stringstyle=\color{mauve},      % string literal style
   escapeinside={\%*}{*)},         % if you want to add a comment within your code
   morekeywords={*,...}            % if you want to add more keywords to the set
-} 
+}
 % \lstinputlisting{partA.R}
 % \lstinputlisting{partB.R}
 
