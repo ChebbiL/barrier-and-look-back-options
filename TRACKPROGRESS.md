@@ -1,5 +1,5 @@
 # Tracking progress
-## Meeting 1: Fri 16.03.17
+## Meeting 1: Fri 16.02.17
 ### Proceedings
 - The project can be broken down in separate tasks.
 - The group will be split into three task teams. There are two coding teams and one delivery team.
@@ -20,3 +20,21 @@ The allocation of the members are detailed below.
 - Make sure every one is available for the upcoming meetings.
 - Set up the git hub accounts.
 - Each coding team should have a basic version of the code for next Wednesday. The two versions will be compared and merged to create a unique file.
+
+## Meeting 2: Fri 23.02.17
+### Proceedings
+- Every member of the code teams has developed a module for the core tasks.
+- The group is split in two between the new code team and the code review team.
+- The team will focus on completing the code by the end of next week to spend the last week on delivery.
+
+The allocation of the members are detailed below.
+
+| Team | Member |
+| --- | --- |
+|Delivery|Tresnia, Vera|
+|Code|ZhenTian, Callum|
+|Code Review|Konstantin, Thomas|
+
+### Upcoming tasks
+- The code team will continue working on task 1.
+- Code review team will merge the elements for the core task and begin work on the documentation/
