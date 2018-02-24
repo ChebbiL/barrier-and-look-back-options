@@ -111,7 +111,7 @@ public:
   'lr' is regarded as most accurate, so built as default
   */
   double delta(string method){
-    if (method=='pw') {return delta_pw();}
+    if (method=="pw") {return delta_pw();}
     return delta_lr();
   }
   // SERVICE FUNCTIONS
