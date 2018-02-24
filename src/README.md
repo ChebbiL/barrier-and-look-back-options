@@ -13,6 +13,13 @@ This package allows you to perform various computations on European call options
 
 ## Installation
 
+In order to compile and run the project, you can use the following command in the `src` folder.
+
+```
+make
+./run
+```
+
 ### Importing the package in your project
 
 It is very easy to import the package in your project. You can use the header file.
