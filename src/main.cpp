@@ -2,36 +2,22 @@
 This is the main project file.
 */
 
+
 #include<iostream> // For console output
+<<<<<<< Updated upstream
 
 #include "european_option.hpp"
 #include "barrier_option.hpp"
 
+=======
+#include <cmath> // For math calculations
+#include <string> // For user instructions in greeks
+#include <random> // For random numbers generation
+>>>>>>> Stashed changes
 using namespace std;
 
 
-/*
-Random normal class.
-This class encapsulates all the services for random normal generation.
-*/
-class random_normal{
-  // VARIABLES
-  double mean, variance;
-  // UTILITY FUNCTIONS
 
-  // MAIN FUNCTIONS
-
-public:
-  // Constructor
-  random_normal(double random_variable_mean = 0, double random_variable_variance = 1){
-    mean = random_variable_mean;
-    variance = random_variable_variance;
-  }
-  // ACCESS FUNCTIONS
-
-  // SERVICE FUNCTIONS
-
-};
 
 
 int debug_thomas(){
