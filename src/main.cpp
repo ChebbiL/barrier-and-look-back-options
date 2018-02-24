@@ -9,8 +9,8 @@ using namespace std;
 
 
 /*
-Black-Scholes Call Class
-This class encapsultaes the BSCall.
+Random normal class.
+This class encapsulates all the services for random normal generation.
 */
 class random_normal{
   // VARIABLES
@@ -33,10 +33,10 @@ public:
 
 
 /*
-Black-Scholes Call Class
+Black-Scholes European Call Option Class
 This class encapsultaes the BSCall.
 */
-class call{
+class european_option{
   // VARIABLES
   double St, K, r, sigma, T, t;
   double tau, discount;
@@ -83,7 +83,7 @@ class call{
 
 public:
   // Constructor
-  call(double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05, double volatility = 0.4,double time_final_T = 1, double time_initial_t = 0){
+  european_option(double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05, double volatility = 0.4,double time_final_T = 1, double time_initial_t = 0, int number_iterations_approximation){
 		St = initial_stock_price;
 		K = strike;
 		r = interest_rate;
@@ -92,8 +92,9 @@ public:
 		t = time_initial_t;
     tau = T - t;
     discount = exp(-r*(T - t));
-    number_iterations = 1000;
+    number_iterations = number_iterations_approximation;
   }
+  european_option(double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05, double volatility = 0.4,double time_final_T = 1, double time_initial_t = 0) : call(initial_stock_price, strike, interest_rate, volatility, time_final_T, time_initial_t, 10000) {}
 
   // ACCESS FUNCTIONS
   // Computes the call price by averaging (expectation) several (random) single call payoffs
@@ -134,6 +135,30 @@ public:
     return result / number_iterations;
   }
 };
+
+
+/*
+Black-Scholes Call Class
+This class encapsultaes the BSCall.
+*/
+class barrier_option{
+  // VARIABLES
+
+  // UTILITY FUNCTIONS
+
+  // MAIN FUNCTIONS
+
+public:
+  // Constructor
+  barrier_option(){
+
+  }
+  // ACCESS FUNCTIONS
+
+  // SERVICE FUNCTIONS
+
+};
+
 
 
 // SERVICE FUNCTIONS
