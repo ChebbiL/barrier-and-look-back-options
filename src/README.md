@@ -26,6 +26,12 @@ In case of an issue, run the following command.
 make clean
 ```
 
+Another cause of issue is the absence of the directory `/src/bin`. In this case, you can create it manually using the following command.
+```
+mkdir bin
+```
+
+
 ### Initialising the European call option
 
 Before you use any of the functions of the package, you must create a `call` object to interact with. This can be done using the following method. You will need the following parameters:
