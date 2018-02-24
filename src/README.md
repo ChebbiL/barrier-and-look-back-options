@@ -20,14 +20,6 @@ make
 ./run
 ```
 
-### Importing the package in your project
-
-It is very easy to import the package in your project. You can use the header file.
-
-```
-#import "bsgroup3.h"
-```
-
 ### Initialising the European call option
 
 Before you use any of the functions of the package, you must create a `call` object to interact with. This can be done using the following method. You will need the following parameters:
@@ -38,13 +30,14 @@ Before you use any of the functions of the package, you must create a `call` obj
 * `time_maturity_T (double)` the time of maturity of the call. Default value is `1
 .0`.
 * `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
-* Optional: `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
+* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
 ```
-european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t);
 european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
 ```
 
 ### Initialising the Barrier option
+
+---
 
 ## Usage
 
