@@ -26,11 +26,13 @@ call my_european_call_option(S_t0, strike, interest_rate, volatility, time_matur
 You can now access all the functionalities of the program by accessing the functions as follows `my_european_call_option.the_function_i_use()`.
 
 ### Call Option price
-In order to compute the call option price, you can use the following method.
+In order to compute the call option price, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
 ```
 double my_european_call_option.delta();
 ```
-You can either use the _pathwise estimates_ method by entering the argument `"pw"` or the likelihood ratios method by entering the argument `"lr"`. By default (with any input or no input at all), the method used is _likelihood ratios_.
+You can alsospecify the method you want to use.
+- To use the _pathwise estimates_ method, enter the argument `"pw"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument. 
 ```
 double my_european_call_option.delta("pw");
 double my_european_call_option.delta("lr");
