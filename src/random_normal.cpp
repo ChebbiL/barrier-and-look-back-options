@@ -25,12 +25,6 @@ void random_normal::generate_by_marsaglia (long int m) {
     }
 }
 
-// Constructor
-void random_normal::random_normal(double random_variable_mean = 0, double random_variable_variance = 1){
-    mean = random_variable_mean;
-    variance = random_variable_variance;
-}
-
 // Generates m numbers from distribution N(mean,variance), shows sample statistics and execution time
 void random_normal::generate (long int m) {
     clock_t first = clock();      // clock starts
@@ -54,18 +48,13 @@ long double random_normal::operator[] (const long int i) const {
     }
 }
 
-
-
-
-
-
-
-/*
 double normal_cdf(double x){
   return erfc( - x / sqrt(2)) / 2;
 }
-
 double normal_pdf(double x){
   return exp( - x * x / 2) / sqrt(2 * M_PI);
 }
-*/
+//temporary dummy function
+double fun(){
+  return .5;
+}

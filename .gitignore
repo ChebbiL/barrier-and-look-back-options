@@ -47,7 +47,7 @@
 
 # Visual Studio
 *.vscode
-bin
+/bin
 run
 
 # Latex pdf

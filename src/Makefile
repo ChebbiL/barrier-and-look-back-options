@@ -14,3 +14,7 @@ bin/european_option.o: european_option.hpp european_option.cpp
 
 bin/barrier_option.o: barrier_option.hpp barrier_option.cpp
 	g++ -c barrier_option.cpp -o bin/barrier_option.o
+
+clean:
+	rm -f bin/*.o
+	rm -f run
