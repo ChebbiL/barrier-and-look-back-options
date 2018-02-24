@@ -96,7 +96,6 @@ public:
   }
 
   // ACCESS FUNCTIONS
-
   // Computes the call price by averaging (expectation) several (random) single call payoffs
   double price(){
     double result = .0;
@@ -111,15 +110,29 @@ public:
   'lr' is regarded as most accurate, so built as default
   */
   double delta(string method){
-    if (method=="pw") {return delta_pw();}
+    if (method=='pw') {return delta_pw();}
     return delta_lr();
   }
-
   // SERVICE FUNCTIONS
-
-  // Computes the delta
-  double delta() {return delta("lr");}
-
+  // Computes delta using likelihood ratio method
+  double delta_lr(){
+    double result = .0, Z, current_value;
+  	for (long int i = 0; i < number_iterations; i++){
+  		Z = fun();
+  		current_value = stock_price_single(Z);
+  		(current_value > K) ? result += discount * (current_value - K) * Z : result += 0;
+  	}
+    return result / (St * sigma * sqrt(tau) * number_iterations);
+  }
+  // Computes delta using pathwise derivatives estimates method
+  double delta_pw(){
+    double result = 0.0, current_value;
+  	for (long int i = 0; i < number_iterations; i++){
+  		current_value = stock_price_single();
+  		(current_value > K / St) ? result += discount * current_value : result += 0;
+  	}
+    return result / number_iterations;
+  }
 };
 
 
