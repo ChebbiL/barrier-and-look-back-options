@@ -27,6 +27,12 @@ class european_option{
   double delta_lr();
   // Computes delta using pathwise derivatives estimates method
   double delta_pw();
+  // Computes gamma using likelihood ratio - pathwise derivatives method
+  double gamma_lrpw();
+  // Computes gamma using pathwise derivatives - likelihood ratio method
+  double gamma_pwlr();
+  // Computes gamma using double likelihood ratio method
+  double gamma_lrlr();
 
 public:
   // Constructor
@@ -53,6 +59,15 @@ public:
   'lr' is regarded as most accurate, so built as default
   */
   double delta(std::string method);
+  double delta();
+  /* Computes the gamma according to the user input:
+  - 'lrpw' for likelihood ratios - pathwise derivatives estimates method
+  - 'pwlr' for likelihood ratios - pathwise derivatives estimates method
+  - 'lrlr' for double likelihood ratios method
+  'pwlr' is regarded as most accurate, so built as default
+  */
+  double gamma(std::string method);
+  double gamma();
 
   // SERVICE FUNCTIONS
 

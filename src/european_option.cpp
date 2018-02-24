@@ -36,6 +36,34 @@ double european_option::delta_pw(){
 }
 
 
+double european_option::gamma_lrpw(){
+	double result = .0, Z, current_value;
+  for (long int i = 0; i < number_iterations; i++){
+		Z = fun();
+		current_value = stock_price_single(Z);
+		(current_value > K) ? result +=  discount * K * Z : result += 0;
+	}
+	return result/(number_iterations * St * St * sigma * sqrt(tau));
+}
+double european_option::gamma_pwlr(){
+	double result = .0, Z, current_value;
+  for (long int i = 0; i < number_iterations; i++){
+		Z = fun();
+		current_value = stock_price_single(Z);
+		(current_value > K) ? result +=  discount*(current_value / (St*St)) * (Z / (sigma * sqrt(tau)) - 1) : result += 0;
+	}
+	return result/number_iterations;
+}
+double european_option::gamma_lrlr(){
+	double result = .0, Z, current_value;
+  for (long int i = 0; i < number_iterations; i++){
+		Z = fun();
+		current_value = stock_price_single(Z);
+		(current_value > K) ? result +=  discount*(current_value - K) * ((Z*Z - 1) / (St*St*sigma*sigma*(tau)) - Z / (St*St*sigma*sqrt(tau))) : result += 0;
+	}
+	return result / number_iterations;
+}
+
 // --------------
 // PUBLIC
 // --------------
@@ -54,5 +82,15 @@ double european_option::delta(std::string method){
   if (method=="pw") {return delta_pw();}
   return delta_lr();
 }
+double european_option::delta(){return delta("lr");}
+
+double european_option::gamma(std::string method){
+  if (method=="lrpw") {return gamma_lrpw();}
+  if (method=="lrlr") {return gamma_lrlr();}
+  return gamma_pwlr();
+}
+double european_option::gamma(){return delta("pwlr");}
+
+
 
 // SERVICE FUNCTIONS

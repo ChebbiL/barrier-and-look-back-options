@@ -57,7 +57,7 @@ double call.price(100000);
 ```
 
 #### Delta
-In order to compute the call option price, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the call option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
 ```
 double call.delta();
 ```
@@ -67,6 +67,21 @@ You can alsospecify the method you want to use.
 ```
 double call.delta("pw");
 double call.delta("lr");
+```
+
+#### Gamma
+In order to compute the call option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _pathwise estimates - likelihood ratios_.
+```
+double call.gamma();
+```
+You can alsospecify the method you want to use.
+- To use the _likelihood ratios - pathwise estimates_ method, enter the argument `"lrpw"`.
+- To use the _likelihood ratios - likelihood ratios_ method, enter the argument `"lrlr"`.
+- To use the _pathwise estimates - likelihood ratios_ method, enter the argument `"pwlr"` or alternatively do not enter any argument.
+```
+double call.gamma("lrpw");
+double call.gamma("lrlr");
+double call.gamma("pwlr");
 ```
 
 ### Barrier option
