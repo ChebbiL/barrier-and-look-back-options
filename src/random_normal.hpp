@@ -2,14 +2,20 @@
  Random normal class.
  This class encapsulates all the services for random normal generation.
  */
+#ifndef RANDOM_NORMAL_H  // header guard
+#define RANDOM_NORMAL_H
 #include <vector>
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <ctime>
 #define TIME_USED(f,s) ((double)((s)-(f))/(double)CLOCKS_PER_SEC)
+
 using namespace std;
 
-class random_normal{
+long double get_random(void);
+
+class random_normal {
     // VARIABLES
     double mean, variance;
     vector<long double> normal_random_numbers;
@@ -34,7 +40,7 @@ public:
     // SERVICE FUNCTIONS
 };
 
-
+#endif
 
 
 

@@ -1,11 +1,19 @@
-#import "random_normal.hpp"
+#include "random_normal.hpp"
+
+
+random_device rd;             // an engine used to get a SEED for Mersenne Twister
+mt19937 mt(rd());             //  Mersenne Twister engine
+uniform_real_distribution<long double> dist(0, 1);
+
+
+long double get_random(void) {
+	return dist(mt);
+}
 
 // Generates m numbers from distribution N(mean,variance) using Marsaglia polar method
 void random_normal::generate_by_marsaglia (long int m) {
-    random_device rd;             // an engine used to get a SEED for Mersenne Twister
-    mt19937 mt(rd());             //  Mersenne Twister engine
-    uniform_real_distribution<long double> dist(0, 1);
-    normal_random_numbers.resize(m, 0);
+	normal_random_numbers.resize(m, 0);
+    if (m%2==1) normal_random_numbers.resize(m+1, 0);
     long double v1, v2, w;
     for (int j = 0; j < m; j += 2) {
         w = 1.1;  // set w>1
@@ -26,7 +34,7 @@ void random_normal::generate_by_marsaglia (long int m) {
 }
 
 // Constructor
-void random_normal::random_normal(double random_variable_mean = 0, double random_variable_variance = 1){
+random_normal::random_normal(double random_variable_mean = 0, double random_variable_variance = 1){
     mean = random_variable_mean;
     variance = random_variable_variance;
 }

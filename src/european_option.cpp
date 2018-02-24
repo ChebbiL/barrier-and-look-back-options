@@ -1,7 +1,7 @@
 #include "european_option.hpp"
 
 double european_option::stock_price_single(){
-  return St * exp((r - 0.5*pow(sigma, 2)) * (T - t) + sigma * sqrt(T - t) * fun());
+	return St * exp((r - 0.5*pow(sigma, 2)) * (T - t) + sigma * sqrt(T - t) * get_random());
 }
 
 double european_option::stock_price_single(double Z){
@@ -19,7 +19,7 @@ double european_option::call_payoff_single(){
 double european_option::delta_lr(){
   double result = .0, Z, current_value;
 	for (long int i = 0; i < number_iterations; i++){
-		Z = fun();
+		Z = get_random();
 		current_value = stock_price_single(Z);
 		(current_value > K) ? result += discount * (current_value - K) * Z : result += 0;
 	}
@@ -39,7 +39,7 @@ double european_option::delta_pw(){
 double european_option::gamma_lrpw(){
 	double result = .0, Z, current_value;
   for (long int i = 0; i < number_iterations; i++){
-		Z = fun();
+	  Z = get_random();
 		current_value = stock_price_single(Z);
 		(current_value > K) ? result +=  discount * K * Z : result += 0;
 	}
@@ -48,7 +48,7 @@ double european_option::gamma_lrpw(){
 double european_option::gamma_pwlr(){
 	double result = .0, Z, current_value;
   for (long int i = 0; i < number_iterations; i++){
-		Z = fun();
+	  Z = get_random();
 		current_value = stock_price_single(Z);
 		(current_value > K) ? result +=  discount*(current_value / (St*St)) * (Z / (sigma * sqrt(tau)) - 1) : result += 0;
 	}
@@ -57,7 +57,7 @@ double european_option::gamma_pwlr(){
 double european_option::gamma_lrlr(){
 	double result = .0, Z, current_value;
   for (long int i = 0; i < number_iterations; i++){
-		Z = fun();
+	  Z = get_random();
 		current_value = stock_price_single(Z);
 		(current_value > K) ? result +=  discount*(current_value - K) * ((Z*Z - 1) / (St*St*sigma*sigma*(tau)) - Z / (St*St*sigma*sqrt(tau))) : result += 0;
 	}

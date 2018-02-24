@@ -1,3 +1,5 @@
+#ifndef EUROPEAN_OPTION_H   // header guard
+#define EUROPEAN_OPTION_H
 #include <string> // For user instructions in greeks
 #include "random_normal.hpp" // For random normal functions
 
@@ -11,6 +13,7 @@ class european_option{
   double St, K, r, sigma, T, t;
   double tau, discount;
   int number_iterations;
+
 
   // UTILITY FUNCTIONS
 
@@ -72,3 +75,5 @@ public:
   // SERVICE FUNCTIONS
 
 };
+
+#endif
