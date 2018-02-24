@@ -1,3 +1,6 @@
+#ifndef BARRIER_OPTION_H   // header guard
+#define BARRIER_OPTION_H
+
 #include "random_normal.hpp" // For random normal functions
 
 /*
@@ -21,3 +24,5 @@ public:
   // SERVICE FUNCTIONS
 
 };
+
+#endif

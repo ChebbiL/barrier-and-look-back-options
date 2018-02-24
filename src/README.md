@@ -43,7 +43,7 @@ european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, t
 
 ### European call option
 
-You can access most the functionalities of the program by accessing the functions as follows `my_european_call_option.the_function_i_use()`.
+You can access most of the program's functionalities by accessing the functions as follows `my_european_call_option.the_function_i_use()`.
 
 #### Price
 
@@ -74,7 +74,7 @@ In order to compute the call option gamma, you can use the following method. By 
 ```
 double call.gamma();
 ```
-You can alsospecify the method you want to use.
+You can also specify the method you want to use.
 - To use the _likelihood ratios - pathwise estimates_ method, enter the argument `"lrpw"`.
 - To use the _likelihood ratios - likelihood ratios_ method, enter the argument `"lrlr"`.
 - To use the _pathwise estimates - likelihood ratios_ method, enter the argument `"pwlr"` or alternatively do not enter any argument.
@@ -85,3 +85,30 @@ double call.gamma("pwlr");
 ```
 
 ### Barrier option
+
+
+
+
+### Random numbers generation 
+In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
+```
+random_normal name_1(m, v);
+random_normal name_2();    // same as:  random_normal name_2(0,1)
+```
+Now the method _generate_ can be used with an integer argument 'n', to draw n numbers from distributions specified:
+```
+name_2.generate(n);
+```
+After n numbers have been drawn, you can access i-th number by using square brackets [], for instance:
+```
+double d = name_2[i];
+```
+You can also generate a single random number from standard normal distribution N(0,1) simply using global function:
+```
+get_random();    // the result is long double
+```
+Finally, you can compute the cdf and pdf of the standard normal distribution by using following functions:
+```
+normal_cdf(d);    // input/output are double types
+normal_pdf(d);    // input/output are double types
+```

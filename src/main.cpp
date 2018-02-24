@@ -2,8 +2,17 @@
 This is the main project file.
 */
 
+
+#include<iostream> // For console output
+
+
 #include "european_option.hpp"
 #include "barrier_option.hpp"
+
+
+#include <cmath> // For math calculations
+#include <string> // For user instructions in greeks
+#include <random> // For random numbers generation
 
 using namespace std;
 

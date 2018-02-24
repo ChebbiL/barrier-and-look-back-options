@@ -1,23 +1,43 @@
-/*
- Random normal class.
- This class encapsulates all the services for random normal generation.
- */
-#pragma once
+#ifndef RANDOM_NORMAL_H  // header guard
+#define RANDOM_NORMAL_H
+#include<iostream>  // For console output
+#include <vector>   // For storing random numbers
+#include <cmath>    // For pow() function and other math
+#include <random>   //
+#include <ctime>    //
+#define TIME_USED(f,s) ((double)((s)-(f))/(double)CLOCKS_PER_SEC) // For computing implementation time
 
-#include <vector>
-#include <iostream>
-#include <cmath>
-#include <random>
-#define TIME_USED(f,s) ((double)((s)-(f))/(double)CLOCKS_PER_SEC)
 using namespace std;
 
-class random_normal{
+/*
+ Random normal class.
+ This class encapsulates the services for normal random variables, namely:
+ 1) computing the cdf/pdf;
+ 2) random generation
+ */
+
+// GLOBAL FUNCTIONS
+
+// Computes the cdf of the normal distribution
+double normal_cdf(double x);
+
+// Computes the pdf of the normal distribution
+double normal_pdf(double x);
+
+// Generates a single random number from N(0,1)
+long double get_random(void);
+
+class random_normal {
     // VARIABLES
-    double mean, variance;
+    double mean, variance; // parameters of distribution, N(mean, variance)
     vector<long double> normal_random_numbers;
     long double sum, sum_of_squares;
     // UTILITY FUNCTIONS
+<<<<<<< HEAD
 
+=======
+    void random_normal::report (long int m);
+>>>>>>> 4a6688d0fe0e9d2fa658064a655bfb019af730e1
     // MAIN FUNCTIONS
 
     // Generates m numbers from distribution N(mean,variance) using Marsaglia polar method
@@ -39,9 +59,15 @@ public:
 };
 
 
+<<<<<<< HEAD
 // Computes the cdf of the normal distribution
 double normal_cdf(double x);
 // Computes the pdf of the normal distribution
 double normal_pdf(double x);
 //temporary dummy function
 double fun();
+=======
+
+
+#endif
+>>>>>>> 4a6688d0fe0e9d2fa658064a655bfb019af730e1
