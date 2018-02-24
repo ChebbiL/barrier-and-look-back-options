@@ -20,6 +20,12 @@ make
 ./run
 ```
 
+In case of an issue, run the following command.
+
+```
+make clean
+```
+
 ### Initialising the European call option
 
 Before you use any of the functions of the package, you must create a `call` object to interact with. This can be done using the following method. You will need the following parameters:
@@ -89,7 +95,7 @@ double call.gamma("pwlr");
 
 
 
-### Random numbers generation 
+### Random numbers generation
 In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
 ```
 random_normal name_1(m, v);
