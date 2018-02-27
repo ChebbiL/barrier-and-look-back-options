@@ -5,15 +5,15 @@ This package allows you to perform various computations on European call options
 ## Table of Contents
 - [Features](#features)
 - [Installation](#installation)
-  - [Installing the European Call Option](#installingtheeuropeancalloption)
-  - [Installing the Barrier Option](#installingthebarrieroption)
+  - [Installing the European Call Option](#installing-the-european-call-option)
+  - [Installing the Barrier Option](#installing-the-barrier-option)
 - [Usage](#usage)
-  - [Random Numbers Generation](#randomnumbersgeneration)
-  - [European Call Option](#europeancalloption)
+  - [Random Numbers Generation](#random-numbers-generation)
+  - [European Call Option](#european-call-option)
     - [Price](#price)
     - [Delta](#delta)
     - [Gamma](#gamma)
-  - [Barrier Option](#barrieroption)
+  - [Barrier Option](#barrier-option)
 
 
 ## Features
