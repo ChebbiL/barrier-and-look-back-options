@@ -1,4 +1,4 @@
-#include "random_normal.hpp»
+#include "random_normal.hpp"
 
 
 random_device rd;             // an engine used to get a SEED for Mersenne Twister
@@ -57,8 +57,8 @@ void random_normal::report (long int m, double time_used)  {
 long double random_normal::operator[] (const long int i) const {
     if (normal_random_numbers.size()>i) return normal_random_numbers[i];
     else {
-        cout<<"Error. Vector size is less than the value entered."<<endl;
-        return 0;
+        long int k = i % normal_random_numbers.size();
+        return normal_random_numbers[k];
     }
 }
 

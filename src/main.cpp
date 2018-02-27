@@ -30,8 +30,8 @@ int debug_thomas(){
     cout << "Delta: " << call.delta() << " (LR)" << endl;
     cout << "Delta: " << call.delta("pw") << " (PW)" << endl;
     cout << "Gamma: " << call.gamma() << " (PWLR)" << endl;
-    cout << "Delta: " << call.delta("lrpw") << " (LRPW)" << endl;
-    cout << "Delta: " << call.delta("lrlr") << " (LRLR)" << endl;
+    cout << "Gamma: " << call.delta("lrpw") << " (LRPW)" << endl;
+    cout << "Gamma: " << call.delta("lrlr") << " (LRLR)" << endl;
 
     return 0;
 }

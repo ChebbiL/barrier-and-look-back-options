@@ -14,7 +14,6 @@ class european_option{
     double tau, discount;
     int number_iterations;
 
-
     // UTILITY FUNCTIONS
 
     // Computes the stock price using the direct method

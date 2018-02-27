@@ -118,7 +118,7 @@ double european_option::gamma(std::string method){
     if (method=="th") {return gamma_theoretic();}
     return gamma_pwlr();
 }
-double european_option::gamma(){return delta("pwlr");}
+double european_option::gamma(){return gamma("pwlr");}
 
 
 
