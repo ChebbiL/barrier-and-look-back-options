@@ -2,6 +2,20 @@
 //hello
 This package allows you to perform various computations on European call options and on barrier options in the `C++` language.
 
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+  - [Installing the European Call Option](#installingtheeuropeancalloption)
+  - [Installing the Barrier Option](#installingthebarrieroption)
+- [Usage](#usage)
+  - [Random Numbers Generation](#randomnumbersgeneration)
+  - [European Call Option](#europeancalloption)
+    - [Price](#price)
+    - [Delta](#delta)
+    - [Gamma](#gamma)
+  - [Barrier Option](#barrieroption)
+
+
 ## Features
 
 * Compute the European call option price
@@ -53,6 +67,33 @@ european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, t
 
 ## Usage
 
+
+### Random numbers generation
+In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
+```
+random_normal name_1(m, v);
+random_normal name_2();    // same as:  random_normal name_2(0,1)
+```
+Now the method _generate_ can be used with an integer argument 'n', to draw n numbers from distributions specified:
+```
+name_2.generate(n);
+```
+After n numbers have been drawn, you can access i-th number by using square brackets [], for instance:
+```
+double d = name_2[i];
+```
+You can also generate a single random number from standard normal distribution N(0,1) simply using global function:
+```
+get_random();    // the result is long double
+```
+Finally, you can compute the cdf and pdf of the standard normal distribution by using following functions:
+```
+normal_cdf(d);    // input/output are double types
+normal_pdf(d);    // input/output are double types
+```
+
+
+
 ### European call option
 
 You can access most of the program's functionalities by accessing the functions as follows `my_european_call_option.the_function_i_use()`.
@@ -97,30 +138,3 @@ double call.gamma("pwlr");
 ```
 
 ### Barrier option
-
-
-
-
-### Random numbers generation
-In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
-```
-random_normal name_1(m, v);
-random_normal name_2();    // same as:  random_normal name_2(0,1)
-```
-Now the method _generate_ can be used with an integer argument 'n', to draw n numbers from distributions specified:
-```
-name_2.generate(n);
-```
-After n numbers have been drawn, you can access i-th number by using square brackets [], for instance:
-```
-double d = name_2[i];
-```
-You can also generate a single random number from standard normal distribution N(0,1) simply using global function:
-```
-get_random();    // the result is long double
-```
-Finally, you can compute the cdf and pdf of the standard normal distribution by using following functions:
-```
-normal_cdf(d);    // input/output are double types
-normal_pdf(d);    // input/output are double types
-```

@@ -101,21 +101,21 @@
 
 \section{Generate Random Number}
 
-There are two methods we used to generate random numbers. 
-The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Randon}}, which can directly generate a variable follows Standard Normal Distribution. 
+There are two methods we used to generate random numbers.
+The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Randon}}, which can directly generate a variable follows Standard Normal Distribution.
 
 To generate a uniform distribution we tried two ways: one can use the system build-in methods \textbf{\textit{rand}}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size we plan to generate. In other words, when we use \textbf{\textit{rand}} to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
 
-$$n_i = (an_{i-1}) \ mod\ m$$for $i=1,2,...,10,000$, and we let $ a = 7^5$, and $m = 2^{31}-1$, which gives about 2 billion points. We run 100,000 times and will only use $0.005\%$ of all points. Theoretically, no pattern should appear. 
+$$n_i = (an_{i-1}) \ mod\ m$$for $i=1,2,...,10,000$, and we let $ a = 7^5$, and $m = 2^{31}-1$, which gives about 2 billion points. We run 100,000 times and will only use $0.005\%$ of all points. Theoretically, no pattern should appear.
 
-To transform the uniform distribution we got into Standard Normal Distribution, we have tried three methods. By Central Limit theory, 
+To transform the uniform distribution we got into Standard Normal Distribution, we have tried three methods. By Central Limit theory,
 
-$$ Z_n = \frac{\sum_{i=1}^{n}X_i-n\mu}{\sqrt{n}\sigma}$$where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significant large simulations and speed is slow consequently. 
+$$ Z_n = \frac{\sum_{i=1}^{n}X_i-n\mu}{\sqrt{n}\sigma}$$where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significant large simulations and speed is slow consequently.
 
-We also tried Box-Muller methods 
+We also tried Box-Muller methods
 
-$$Z_1 = \sqrt{-2lnX_1}sin(2\pi X_2),\  \Z_2=\sqrt{-2lnX_1}cos(2\pi X_2)$$Since its simulation involves computation of \textit{sine} and \textit{cosine}, the speed is slow. 
-We prefer the last method, Marsaglia Polar method. 
+$$Z_1 = \sqrt{-2lnX_1}sin(2\pi X_2),\  \Z_2=\sqrt{-2lnX_1}cos(2\pi X_2)$$Since its simulation involves computation of \textit{sine} and \textit{cosine}, the speed is slow.
+We prefer the last method, Marsaglia Polar method.
 
 $$ let \ V_1 = 2U_1-1,\  V_1 = 2U_2-1.$$
 where $U_1$ and $U_2$ are two independent uniform distribution.
@@ -151,11 +151,11 @@ $$dS_t=rS_tdt+\sigma S_tdW_t, \ 0\leq t \leq T$$
 with initial price $S_0 = S$, where $r$ is riskless interest rate, $\sigma$ volatility, and $W_t$ the standard Brownian motion. A European call option price at time $t$ with maturity time $T$ is given by
 $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
-For the basic task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate the path of S and get sample distribution of $(S_t-K)^+$. By Black-Scholes formula, 
+For the basic task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate the path of S and get sample distribution of $(S_t-K)^+$. By Black-Scholes formula,
 
 \begin{center}
 \begin{equation}
-C_bs(S_t, K) = N(d_1)S_t - N(d_2)Ke^{-r(T-t)} 
+C_bs(S_t, K) = N(d_1)S_t - N(d_2)Ke^{-r(T-t)}
 \end{equation}
 \end{center}
 where $$d_1=\frac{1}{\sigma \sqrt{T-t}}[ln(\frac{S_t}{K})+(r+\frac{\sigma^2}{2})(T-t)],\ d_2 = d_1-\sigma \sqrt{T-t}$$
@@ -171,7 +171,7 @@ The following are the results calculated from the closed-form formulae and the s
 \begin{center}
 \begin{tabular}{| c| c| c |c| c| }
 \hline
-\multirow{2}{*}{} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Black-Scholes}}} & \multicolumn{3}{l|}{\textbf{Monte Carlo Simulation}} \\ \cline{3-5} 
+\multirow{2}{*}{} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Black-Scholes}}} & \multicolumn{3}{l|}{\textbf{Monte Carlo Simulation}} \\ \cline{3-5}
                   & \multicolumn{1}{c|}{}                                        & \textbf{1,000}  & \textbf{10,000} & \textbf{100,000} \\ \hline
 \textbf{Option Price} &                  ....                                 &                 &                 &                  \\ \hline
 \textbf{Delta}    &                  ....                                 &                 &                 &                  \\ \hline
@@ -190,17 +190,17 @@ The following is the Statistical information of errors as number of simulations 
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 \textbf{}                                                                        & \textbf{Simulation Number} & \textbf{Mean}         & \textbf{Error}        & \textbf{Variance}     & \textbf{Time}         \\ \hline
-\multirow{3}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Option\\ Price\end{tabular}}} & 1,000                      &                       &                       &                       &                       \\ \cline{2-6} 
-                                                                                 & 10,000                     &                       &                       &                       &                       \\ \cline{2-6} 
+\multirow{3}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Option\\ Price\end{tabular}}} & 1,000                      &                       &                       &                       &                       \\ \cline{2-6}
+                                                                                 & 10,000                     &                       &                       &                       &                       \\ \cline{2-6}
                                                                                  & 100,000                    &                       &                       &                       &                       \\ \hline
-\multirow{3}{*}{\textbf{Delta}}                                                  & 1,000                      & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6} 
-                                                                                 & 10,000                     & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6} 
+\multirow{3}{*}{\textbf{Delta}}                                                  & 1,000                      & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6}
+                                                                                 & 10,000                     & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6}
                                                                                  & 100,000                    &                       &                       &                       &                       \\ \hline
-\multirow{3}{*}{\textbf{Gamma}}                                                  & 1,000                      & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6} 
-                                                                                 & 10,000                     & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6} 
+\multirow{3}{*}{\textbf{Gamma}}                                                  & 1,000                      & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6}
+                                                                                 & 10,000                     & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6}
                                                                                  & 100,000                    &                       &                       &                       &                       \\ \hline
-\multirow{3}{*}{\textbf{Vega}}                                                   & 1,000                      & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6} 
-                                                                                 & 10,000                     & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6} 
+\multirow{3}{*}{\textbf{Vega}}                                                   & 1,000                      & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6}
+                                                                                 & 10,000                     & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-6}
                                                                                  & 100,000                    &                       &                       &                       &                       \\ \hline
 \end{tabular}
 \end{table}
@@ -217,7 +217,7 @@ UOC(S,K,B) ={} &1_{B>K}\{ C_{bs}(S, K)-C_{bs}(S,B)-(B-K)e^{-rT}N[d_{1}(S,B)] \\
       & -(B-K)e^{-rT}N[d_{1}(S,B)]]\}
 \end{aligned}
 \end{equation}
-Where $C_{bs}$ and $d_{1}$ are as stated in the Black-Scholes formula (1), and $v=r-\frac{\sigma^2}{2}$. 
+Where $C_{bs}$ and $d_{1}$ are as stated in the Black-Scholes formula (1), and $v=r-\frac{\sigma^2}{2}$.
 \\
 \\
 Closed-form for greeks...
@@ -240,7 +240,7 @@ We stimulate the path of $S_t$ by taking the maturity time $T$ into 10,000 steps
 \end{table}
 
 
-To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increase. 
+To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increase.
 
 graph
 graph
@@ -258,12 +258,12 @@ graph
 
 \begin{thebibliography}{9}
 
-\bibitem{Reference1} 
+\bibitem{Reference1}
 A
 
 \bibitem{Reference2}
 B
- 
+
 
 
 
@@ -301,7 +301,7 @@ B
   stringstyle=\color{mauve},      % string literal style
   escapeinside={\%*}{*)},         % if you want to add a comment within your code
   morekeywords={*,...}            % if you want to add more keywords to the set
-} 
+}
 % \lstinputlisting{partA.R}
 % \lstinputlisting{partB.R}
 
