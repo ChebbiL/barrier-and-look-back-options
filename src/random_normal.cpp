@@ -1,4 +1,4 @@
-#include "random_normal.hpp"
+#include "random_normal.hpp»
 
 
 random_device rd;             // an engine used to get a SEED for Mersenne Twister
@@ -7,12 +7,12 @@ uniform_real_distribution<long double> dist(0, 1);
 
 
 long double get_random(void) {
-	return dist(mt);
+    return dist(mt);
 }
 
 // Generates m numbers from distribution N(mean,variance) using Marsaglia polar method
 void random_normal::generate_by_marsaglia (long int m) {
-	normal_random_numbers.resize(m, 0);
+    normal_random_numbers.resize(m, 0);
     if (m%2==1) normal_random_numbers.resize(m+1, 0);
     long double v1, v2, w;
     for (int j = 0; j < m; j += 2) {
@@ -37,14 +37,14 @@ void random_normal::generate_by_marsaglia (long int m) {
 void random_normal::generate (long int m) {
     clock_t first = clock();      // clock starts
     generate_by_marsaglia(m);
-    double sample_mean = sum / m;
-    double sample_variance = (sum_of_squares / m) - pow(sample_mean, 2);
-    double time_used = TIME_USED(first, clock());
+    sample_mean = sum / m;
+    sample_variance = (sum_of_squares / m) - pow(sample_mean, 2);
+    time_used = TIME_USED(first, clock());
     report(m, time_used);
 }
 
 // Reports sample statistics and execution time
-void random_normal::report (long int m)  {
+void random_normal::report (long int m, double time_used)  {
     cout << m << " random variables have been generated from normal distribution"
          << "with Variance = "<<variance<<", Mean = "<<mean<<endl;
     cout << "Here is statistics of the sample: \n";
@@ -62,25 +62,12 @@ long double random_normal::operator[] (const long int i) const {
     }
 }
 
-<<<<<<< HEAD
-double normal_cdf(double x){
-  return erfc( - x / sqrt(2)) / 2;
-}
-double normal_pdf(double x){
-  return exp( - x * x / 2) / sqrt(2 * M_PI);
-}
-//temporary dummy function
-double fun(){
-  return .5;
-}
-=======
 // Computes the cdf of the normal distribution
 double normal_cdf(double x){
-  return erfc( - x / sqrt(2)) / 2;
+    return erfc( - x / sqrt(2)) / 2;
 }
 
 // Computes the cdf of the normal distribution
 double normal_pdf(double x){
-  return exp( - x * x / 2) / sqrt(2 * M_PI);
+    return exp( - x * x / 2) / sqrt(2 * M_PI);
 }
->>>>>>> 4a6688d0fe0e9d2fa658064a655bfb019af730e1
