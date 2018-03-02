@@ -69,7 +69,9 @@ european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, t
 
 
 ### Random numbers generation
-In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
+In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. **Note that if you use either the [European call option](#european-call-option) or the [barrier option](#barrier-option), the generation of random samples is already done automatically.**
+
+You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
 ```
 random_normal name_1(m, v);
 random_normal name_2();    // same as:  random_normal name_2(0,1)
