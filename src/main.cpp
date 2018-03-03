@@ -19,7 +19,7 @@ using namespace std;
 
 
 int debug_thomas(){
-    european_option call(100, 100, 0.05, 0.4, 1, 0, 1000);
+    european_option call(100, 100, 0.05, 0.4, 1, 0, 10000);
     cout<<"Theoretic price: "<<call.payoff_theoretic()<<endl;
     cout<<"Theoretic delta: "<<call.delta("th")<<endl;
     cout<<"Theoretic gamma: "<<call.gamma("th")<<endl;
