@@ -36,7 +36,7 @@ int debug_thomas(){
 }
 
 int debug_konstantin(){
-    cout << "hello" << endl;
+    cout << "hello Konstantin" << endl;
     return 0;
 }
 
