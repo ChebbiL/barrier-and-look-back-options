@@ -29,14 +29,14 @@ int debug_thomas(){
     cout << "Delta: " << call.delta() << " (LR)" << endl;
     cout << "Delta: " << call.delta("pw") << " (PW)" << endl;
     cout << "Gamma: " << call.gamma() << " (PWLR)" << endl;
-    cout << "Gamma: " << call.delta("lrpw") << " (LRPW)" << endl;
-    cout << "Gamma: " << call.delta("lrlr") << " (LRLR)" << endl;
+    cout << "Gamma: " << call.gamma("lrpw") << " (LRPW)" << endl;
+    cout << "Gamma: " << call.gamma("lrlr") << " (LRLR)" << endl;
 
     return 0;
 }
 
 int debug_konstantin(){
-    cout << "hello" << endl;
+    cout << "hello"<< "Change made by Konstantin"<<endl;
     return 0;
 }
 
