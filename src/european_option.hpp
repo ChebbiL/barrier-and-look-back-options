@@ -13,6 +13,8 @@ class european_option{
     double St, K, r, sigma, T, t, d1, d2;
     double tau, discount;
     int number_iterations;
+    random_normal random_sample;
+    vector<double> stock_price_at_maturity;
 
     // UTILITY FUNCTIONS
 
@@ -22,6 +24,8 @@ class european_option{
     double stock_price_single(double Z);
     // Computes the call payoff using a single stock price (random)
     double call_payoff_single();
+    // Computes the call payoff using a single stock price with the random variable as an input
+    double call_payoff_single(double Z);
     // Computes d1 for a Black-Scholes closed-form formula
     double d1_calculate();
     // Computes d2 for a Black-Scholes closed-form formula
@@ -46,6 +50,10 @@ class european_option{
     double gamma_pwlr();
     // Computes gamma using double likelihood ratio method
     double gamma_lrlr();
+    // Computes vega using likelihood ratio method
+    double vega_lr();
+    // Computes vega using pathwise derivatives estimates method
+    double vega_pw();
 
 public:
     // Constructor
@@ -57,10 +65,13 @@ public:
         T = time_final_T;
         t = time_initial_t;
         tau = T - t;
-        discount = exp(-r*(T - t));
+        discount = exp(-r*tau);
         number_iterations = number_iterations_approximation;
         d1=d1_calculate();
         d2=d2_calculate();
+        random_sample.generate(number_iterations);
+        stock_price_at_maturity.resize(number_iterations, 0);
+        for (long int i = 0; i < number_iterations; i++) stock_price_at_maturity[i]=stock_price_single(random_sample[i]);
     }
 
 
@@ -88,6 +99,14 @@ public:
     */
     double gamma(std::string method);
     double gamma();
+    /* Computes the vega according to the user input:
+    - 'th' for result using closed-form Black-Scholes formula
+    - 'pw' for pathwise derivatives estimates method
+    - 'lr' for likelihood ratios method
+    'lr' is built as default
+    */
+    double vega(std::string method);
+    double vega();
 
     // SERVICE FUNCTIONS
 
