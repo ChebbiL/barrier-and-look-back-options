@@ -46,7 +46,7 @@ void random_normal::generate (long int m) {
 // Reports sample statistics and execution time
 void random_normal::report (long int m, double time_used)  {
     cout << m << " random variables have been generated from normal distribution"
-         << "with Variance = "<<variance<<", Mean = "<<mean<<endl;
+         << " with Variance = "<<variance<<", Mean = "<<mean<<endl;
     cout << "Here is statistics of the sample: \n";
     cout << "Mean       = " << sample_mean << endl;
     cout << "Variance   = " << sample_variance << endl;

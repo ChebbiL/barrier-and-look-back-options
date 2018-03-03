@@ -1,11 +1,11 @@
 #include "european_option.hpp"
 
 double european_option::stock_price_single(){
-    return St * exp((r - 0.5*pow(sigma, 2)) * (T - t) + sigma * sqrt(T - t) * get_random());
+    return St * exp((r - 0.5*sigma*sigma) * (T - t) + sigma * sqrt(T - t) * get_random());
 }
 
 double european_option::stock_price_single(double Z){
-    return St * exp((r - 0.5*pow(sigma, 2)) * (T - t) + sigma * sqrt(T - t) * Z);
+    return St * exp((r - 0.5*sigma*sigma) * (T - t) + sigma * sqrt(T - t) * Z);
 }
 
 double european_option::call_payoff_single(){
@@ -14,12 +14,18 @@ double european_option::call_payoff_single(){
     return current_value;
 }
 
+double european_option::call_payoff_single(double Z){
+    double current_value = stock_price_single(Z);
+    current_value > K ? current_value = discount*(current_value - K) : current_value = 0;
+    return current_value;
+}
+
 double european_option::d1_calculate() {
-    return (log(St/K)+(r+0.5*pow(sigma,2))*(T-t))/sigma*sqrt(T-t);
+    return (log(St/K)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
 }
 
 double european_option::d2_calculate() {
-    return (log(St/K)+(r-0.5*pow(sigma,2))*(T-t))/sigma*sqrt(T-t);
+    return (log(St/K)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);
 }
 
 
@@ -28,7 +34,7 @@ double european_option::d2_calculate() {
 // MAIN FUNCTIONS
 
 double european_option::payoff_theoretic() {
-    return St*normal_cdf(d1) - K*exp(-r*(T-t))*normal_cdf(d2);
+    return St*normal_cdf(d1) - K*discount*normal_cdf(d2);
 }
 
 double european_option::delta_theoretic() {
@@ -44,49 +50,56 @@ double european_option::vega_theoretic() {
 }
 
 double european_option::delta_lr(){
-    double result = .0, Z, current_value;
+    double result = 0.0;
     for (long int i = 0; i < number_iterations; i++){
-        Z = get_random();
-        current_value = stock_price_single(Z);
-        (current_value > K) ? result += discount * (current_value - K) * Z : result += 0;
+        (stock_price_at_maturity[i] > K) ? result += discount * (stock_price_at_maturity[i] - K) * random_sample[i] : result += 0;
     }
     return result / (St * sigma * sqrt(tau) * number_iterations);
 }
 
 double european_option::delta_pw(){
-    double result = 0.0, current_value;
+    double result = 0.0;
     for (long int i = 0; i < number_iterations; i++){
-        current_value = stock_price_single();
-        (current_value > K / St) ? result += discount * current_value : result += 0;
+        (stock_price_at_maturity[i] > K) ? result += discount * stock_price_at_maturity[i] /St : result += 0;
     }
     return result / number_iterations;
 }
 
 
 double european_option::gamma_lrpw(){
-    double result = .0, Z, current_value;
+    double result = 0.0;
     for (long int i = 0; i < number_iterations; i++){
-        Z = get_random();
-        current_value = stock_price_single(Z);
-        (current_value > K) ? result +=  discount * K * Z : result += 0;
+        (stock_price_at_maturity[i] > K) ? result +=  discount * K * random_sample[i] : result += 0;
     }
-    return result/(number_iterations * St * St * sigma * sqrt(tau));
+    return result / (number_iterations * St * St * sigma * sqrt(tau));
 }
 double european_option::gamma_pwlr(){
-    double result = .0, Z, current_value;
+    double result = 0.0;
     for (long int i = 0; i < number_iterations; i++){
-        Z = get_random();
-        current_value = stock_price_single(Z);
-        (current_value > K) ? result +=  discount*(current_value / (St*St)) * (Z / (sigma * sqrt(tau)) - 1) : result += 0;
+        (stock_price_at_maturity[i] > K) ? result +=  discount*(stock_price_at_maturity[i] / (St*St)) * (random_sample[i] / (sigma * sqrt(tau)) - 1) : result += 0;
     }
-    return result/number_iterations;
+    return result / number_iterations;
 }
 double european_option::gamma_lrlr(){
-    double result = .0, Z, current_value;
+    double result = 0.0;
     for (long int i = 0; i < number_iterations; i++){
-        Z = get_random();
-        current_value = stock_price_single(Z);
-        (current_value > K) ? result +=  discount*(current_value - K) * ((Z*Z - 1) / (St*St*sigma*sigma*(tau)) - Z / (St*St*sigma*sqrt(tau))) : result += 0;
+        (stock_price_at_maturity[i] > K) ? result +=  discount*(stock_price_at_maturity[i] - K) * (( pow(random_sample[i], 2) - 1) / (St*St*sigma*sigma*(tau)) - random_sample[i] / (St*St*sigma*sqrt(tau))) : result += 0;
+    }
+    return result / number_iterations;
+}
+
+
+double european_option::vega_lr(){
+    double result = 0.0;
+    for (long int i = 0; i < number_iterations; i++){
+        (stock_price_at_maturity[i] > K) ? result += discount * (stock_price_at_maturity[i] - K) * ((pow(random_sample[i], 2) - 1) / sigma - random_sample[i] * sqrt(tau)) : result += 0;
+    }
+    return result / number_iterations;
+}
+double european_option::vega_pw(){
+    double result = 0.0;
+    for (long int i = 0; i < number_iterations; i++){
+        (stock_price_at_maturity[i] > K) ? result += discount * stock_price_at_maturity[i] * (-sigma*tau + sqrt(tau)*random_sample[i]) : result += 0;
     }
     return result / number_iterations;
 }
@@ -98,9 +111,9 @@ double european_option::gamma_lrlr(){
 // ACCESS FUNCTIONS
 
 double european_option::price(){
-    double result = .0;
+    double result = 0.0;
     for (int i=0; i< number_iterations; i++){
-        result += call_payoff_single();
+        result += call_payoff_single(random_sample[i]);
     }
     return result/number_iterations;
 }
@@ -120,6 +133,12 @@ double european_option::gamma(std::string method){
 }
 double european_option::gamma(){return gamma("pwlr");}
 
+double european_option::vega(std::string method){
+    if (method=="pw") {return vega_pw();}
+    if (method=="th") {return vega_theoretic();}
+    return vega_lr();
+}
+double european_option::vega(){return vega("lr");}
 
 
 // SERVICE FUNCTIONS
