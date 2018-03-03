@@ -2,6 +2,7 @@
 #define BARRIER_OPTION_H
 
 #include "random_normal.hpp" // For random normal functions
+#include "european_option.hpp"
 
 /*
 Black-Scholes Call Class

@@ -1,36 +1,27 @@
 
 
 class Black_Scholes{
-private:
+protected:
 	double St,K,r,sigma,T,t;
-    double(*fun)(void);
-	int M, N;
-	double BCF, deltaCF1, gammaCF1, vegaCF1;
-	static unsigned long int ran();//get a large random number 2^31-1
-	static long double rann();//get a uniform random number
-	double normalCDF(double x);
-	double normalpdf(double x);
-	void getCF(){
-		double d = (log(St / K) + (r + sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
-		BCF = normalCDF(d)*St - normalCDF(d - sigma*sqrt(T - t))*K*exp(-r*(T - t));
-		deltaCF1 = normalCDF(d);
-		gammaCF1 = normalpdf(d) / (St*sigma*sqrt(T - t));
-		vegaCF1 = St*normalpdf(d)*sqrt(T - t);
-	}
-	double BSC(double S0, double k){
-		double d = (log(S0 / k) + (r + sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
-		return normalCDF(d)*S0 - normalCDF(d - sigma*sqrt(T - t))*k*exp(-r*(T - t));
-	}
+	
+	int M,type;
+	unsigned long int ran()const;//get a large random number 2^31-1
+	long double rann()const;//get a uniform random number
+	double normalCDF(double x)const;
+	double normalpdf(double x)const;
+	double BSC(double S0, double k)const;
+	double BSCdelta(double S0, double k)const;
+	double BSCgamma(double S0, double k)const;
+	double BSCvega(double S0, double k)const;
+	double dbs(double x, double y)const;
+	double snd()const;   //Marsaglia polar method one output only
+	double snd_1()const;//Marsaglia polar method
+	double sndb()const;  //BoxMuller method one output only
+	double sndb_1()const;//BoxMuller method
+	double fun()const{ return snd_1(); }
 public:
-	static double snd();   //Marsaglia polar method one output only
-	static double snd_1();//Marsaglia polar method
-	static double sndb();  //BoxMuller method one output only
-	static double sndb_1();//BoxMuller method
-	void changeM(int L){ M = L; }
-	void changeN(int L){ N = L; }
-	void changeSt(double L){ St = L; getCF(); }
-	void changesigma(double L){ sigma = L; getCF(); }
-	double STT(double St, double T, double t);
+	
+	double STT(double St, double T, double t)const;
 	Black_Scholes(double a = 100.0, double b = 100.0, double c=0.05,double d=0.4,double e=1,double f=0){
 		St = a;
 		K = b;
@@ -38,37 +29,111 @@ public:
 		sigma = d;
 		T = e;
 		t = f;
-		fun = sndb_1;
 		M = 100000;
-		N = 100;
-		getCF();
+		type = 0;
 	};
-	double BSCall();
+	virtual ~Black_Scholes();
+	virtual void input(std::string x);
+	virtual void show()const{
+		std::cout << std::endl;
+		std::cout << "Europe Call option\nSt = " << St << std::endl << "K = " << K << std::endl << "r = " << r << std::endl << "sigma = " << sigma << std::endl;
+		std::cout << "T = " << T << std::endl << "t = " << t << std::endl << "M = " << M << std::endl;
+		std::cout << std::endl;
+	}
+	virtual void price()const{
+		std::cout << "price closed form result: \t \t" << CF() << std::endl << "price simulation result: \t \t" << OP() << std::endl << std::endl;
+	}
+	virtual void delta()const{
+		std::cout << "delta closed form result: \t \t" << deltaCF() << std::endl << "delta simulation result(by PW): \t" << deltaPW() << std::endl << "delta simulation result(by LR): \t" << deltaLR() << std::endl << std::endl;
+	}
+	virtual void gamma()const{
+		std::cout << "gamma closed form result: \t \t" << gammaCF() << std::endl << "gamma simulation result(by LRPW): \t" << gammaLRPW() << std::endl << "gamma simulation result(by PWLR): \t" << gammaPWLR() << std::endl << "gamma simulation result(by LRLR): \t" << gammaLR() << std::endl << std::endl;
+	}
+	virtual void vega()const{
+		std::cout << "vega closed form result: \t \t" << vegaCF() << std::endl << "vega simulation result(by PW): \t \t" << vegaPW() << std::endl << "vega simulation result(by LR): \t \t" << vegaLR() << std::endl << std::endl;
+	}
 	//initial price St, strike price K, interest rate r,volatility sigma, maturity time T, starting time t
-	double black_scholes_closed_form()const{ return BCF; }
-	double optional_price();
+	virtual double CF()const{
+		return BSC(St, K);
+	}
+	virtual double OP()const;
 	//repeating times M
-	double deltaCF()const{ return deltaCF1; }
-	double deltaPW();
-	double deltaLR();
-	double gammaCF()const{ return gammaCF1; }
-	double gammaLRPW();
-	double gammaPWLR();
-	double gammaLRLR();
-	double vegaCF()const{ return vegaCF1; }
-	double vegaLR();
-	double vegaPW();
-	std::pair<double, double> Barrier_option(double B);
-	double Barrier_option(double B1, double B2);
-	double EBO(double B);
-	double BOCF(double B);
-	double EBO(double B1, double B2);
-	double lookback_option(double L);
-	double ELB(double L);
-	double BOdLR(std::pair<double, double>&x);
-	double BOdLR(std::pair<double, double>&x,double B);
-	double BOdeltaLR(double B);
-	double BOdeltaCF(double B);
+	virtual double deltaCF()const{ return  BSCdelta(St, K); }
+	double deltaPW()const;
+	virtual double deltaLR()const;
+	virtual double gammaCF()const{ return BSCgamma(St, K); }
+	double gammaLRPW()const;
+	double gammaPWLR()const;
+	virtual double gammaLR()const;
+	virtual double vegaCF()const{ return BSCvega(St, K); }
+	virtual double vegaLR()const;
+	double vegaPW()const;
+	double choose(int j);
+	virtual void ET();
+	virtual void ETdelta();
+	virtual void ETgamma();
+	virtual void ETvega();
+	
 };
-void Errortest(Black_Scholes x, double(Black_Scholes::*foo)(), double y,std::ostream &os);
+class Barrier_option:public Black_Scholes{
+private:
+	double B;
+	int N;
+	double Barrier_option_down()const;
+	double Barrier_option_up()const;
+	double BOdLR(double x)const;
+	double BOvLR(double x)const;
+	double BOgLR(double x)const;
+	double BOCF_down()const;
+	double BOCF_up()const;
+public:
+	Barrier_option(double a = 100.0, double b = 100.0, double c = 0.05, double d = 0.4, double e = 1, double f = 0, double g = 80) :Black_Scholes(a, b, c, d, e, f), B(g){ N = 100; type = 1; }
+	~Barrier_option(){}
+	void input(std::string x);
+	void show()const{
+		std::cout << std::endl;
+		std::cout << "Barrier out Call option\nSt = " << St << std::endl << "K = " << K << std::endl << "B = " << B << std::endl << "r = " << r << std::endl << "sigma = " << sigma << std::endl;
+		std::cout << "T = " << T << std::endl << "t = " << t << std::endl << "M = " << M << std::endl << "N = " << N << std::endl;
+		std::cout << std::endl;
+	}
+	void price()const{
+		std::cout << "price closed form result: \t \t" << CF() << std::endl << "price simulation result: \t \t" << OP() << std::endl << std::endl;
+	}
+	void delta()const{
+		std::cout << "delta closed form result: \t \t" << deltaCF() << std::endl << "delta simulation result(by LR): \t" << deltaLR() << std::endl << std::endl;
+	}
+	void gamma()const{
+		std::cout << "gamma closed form result: \t \t" << gammaCF() << std::endl << "gamma simulation result(by LR): \t" << gammaLR() << std::endl << std::endl;
+	}
+	void vega()const{
+		std::cout << "vega closed form result: \t \t" << vegaCF() << std::endl << "vega simulation result(by LR): \t \t" << vegaLR() << std::endl << std::endl;
+	}
+	double OP()const;
+	double CF()const;
+	double deltaLR()const;
+	double deltaCF()const;
+	double gammaLR()const;
+	double gammaCF()const;
+	double vegaLR()const;
+	double vegaCF()const;
+	void ET();
+	void ETdelta();
+	void ETgamma();
+	void ETvega();
+};
+class Lookback_option :public Black_Scholes{
+	int N;
+public:
+	Lookback_option(){}
+	~Lookback_option(){}
+	double lookback_option();
+	double ELB();
+	double LBCF();
+	//double LBdLR(double M);
+	/*double LBdeltaLR();
+	double LBpdf(double x);*/
+};
+void Errortest(Black_Scholes &a, int j, std::pair<double, double>&z);
+
+
 
