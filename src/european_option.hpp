@@ -10,6 +10,7 @@ This class encapsulates the BSCall.
 
 class european_option{
     // VARIABLES
+protected:
     double St, K, r, sigma, T, t, d1, d2;
     double tau, discount;
     int number_iterations;
@@ -20,6 +21,9 @@ class european_option{
 
     // Computes the stock price using the direct method
     double stock_price_single();
+    double stock_price_single(double time_final, double time_inital) const;
+
+private:
     // Computes the stock price using the direct method with the random variable as an input
     double stock_price_single(double Z);
     // Computes the call payoff using a single stock price (random)

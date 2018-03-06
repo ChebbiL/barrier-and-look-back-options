@@ -1,7 +1,11 @@
 #include "european_option.hpp"
 
 double european_option::stock_price_single(){
-    return St * exp((r - 0.5*sigma*sigma) * (T - t) + sigma * sqrt(T - t) * get_random());
+    return stock_price_single(T,t);
+}
+
+double european_option::stock_price_single(double time_final, double time_inital) const{
+    return St * exp((r - 0.5*sigma*sigma) * (time_final - time_inital) + sigma * sqrt(time_final - time_inital) * get_random());
 }
 
 double european_option::stock_price_single(double Z){
