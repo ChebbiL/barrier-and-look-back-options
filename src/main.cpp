@@ -3,7 +3,7 @@ This is the main project file.
 */
 
 #include<iostream> // For console output
-
+#include <fstream> // For csv output
 
 #include "european_option.hpp"
 #include "barrier_option.hpp"
@@ -16,6 +16,21 @@ This is the main project file.
 using namespace std;
 
 
+int write_csv(int pace){
+  ofstream myfile;
+  myfile.open("../report/graphs/core_task.csv");
+  myfile << "iterations;delta lr;delta pw;gamma pwlr;gamma lrpw;gamma lrlr;vega lr;vega pw\n";
+
+  european_option s1(100, 100, 0.05, 0.4, 1, 0, 1);
+
+  for (int i=1; i<10000000; i*=pace){
+    s1 = european_option(100, 100, 0.05, 0.4, 1, 0, i);
+    myfile << i << ";" << s1.delta() << ";" << s1.delta("lr") << ";" << s1.gamma() << ";" << s1.gamma("lrpw") << ";" << s1.gamma("lrlr") << ";" << s1.vega() << ";" << s1.vega("pw") << "\n";
+  }
+
+
+  return 0;
+}
 
 
 
@@ -41,29 +56,27 @@ int debug_thomas(int x){
 }
 
 int debug_konstantin(){
-    european_option call(100, 100, 0.05, 0.4, 1, 0, 1000);
-    cout<<"Theoretic price: "<<call.payoff_theoretic()<<endl;
-    cout<<"Theoretic delta: "<<call.delta("th")<<endl;
-    cout<<"Theoretic gamma: "<<call.gamma("th")<<endl;
-    cout<<" Theoretic vega: "<<call.vega("th")<<endl;
+  european_option call(100, 100, 0.05, 0.4, 1, 0, 1000);
+  cout<<"Theoretic price: "<<call.payoff_theoretic()<<endl;
+  cout<<"Theoretic delta: "<<call.delta("th")<<endl;
+  cout<<"Theoretic gamma: "<<call.gamma("th")<<endl;
+  cout<<" Theoretic vega: "<<call.vega("th")<<endl;
 
-    cout << "Simulation:"<<endl;
-    cout << "Price: " << call.price() << endl;
-    cout << "Delta: " << call.delta() << " (LR)" << endl;
-    cout << "Delta: " << call.delta("pw") << " (PW)" << endl;
-    cout << "Gamma: " << call.gamma() << " (PWLR)" << endl;
-    cout << "Gamma: " << call.gamma("lrpw") << " (LRPW)" << endl;
-    cout << "Gamma: " << call.gamma("lrlr") << " (LRLR)" << endl;
-    cout << "Vega : " <<  call.vega() << " (LR)" << endl;
-    cout << "Vega : " <<  call.vega("pw") << " (PW)" << endl;
+  cout << "Simulation:"<<endl;
+  cout << "Price: " << call.price() << endl;
+  cout << "Delta: " << call.delta() << " (LR)" << endl;
+  cout << "Delta: " << call.delta("pw") << " (PW)" << endl;
+  cout << "Gamma: " << call.gamma() << " (PWLR)" << endl;
+  cout << "Gamma: " << call.gamma("lrpw") << " (LRPW)" << endl;
+  cout << "Gamma: " << call.gamma("lrlr") << " (LRLR)" << endl;
+  cout << "Vega : " <<  call.vega() << " (LR)" << endl;
+  cout << "Vega : " <<  call.vega("pw") << " (PW)" << endl;
 
-    return 0;
+  return 0;
 }
 
 int main(){
     cout << "hello" << endl;
-    debug_thomas(1000);
-    debug_thomas(10000);
-    debug_thomas(100000);
+    write_csv(2);
     return 0;
 }
