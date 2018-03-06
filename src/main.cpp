@@ -80,5 +80,6 @@ int main(){
     //write_csv(2);
     barrier_option boption(1, 100, 100, 0.05, 0.4, 1, 0, 1000);
     cout << boption.price() << endl;
+    cout << boption.delta() << endl;
     return 0;
 }

@@ -16,9 +16,22 @@ class barrier_option: public european_option{
   // UTILITY FUNCTIONS
   double barrier_down();
   double barrier_up();
-  double barrier_option_price();
+
+  double payoff_theoretic(double initial_stock_price, double strike);
+
+  double d_calculate(double x, double y);
+
+  double barrier_down_theoric();
+  double barrier_up_theoric();
+
+
+  double delta_lr_step(double current_value);
+
 
   // MAIN FUNCTIONS
+  double barrier_option_price();
+  double payoff_theoretic();
+  double delta_lr();
 
 public:
   // Constructor
@@ -29,7 +42,13 @@ public:
 
   // Computes the barrier option price
   double price();
-
+  /* Computes the delta according to the user input:
+  - 'th' for result using closed-form Black-Scholes formula
+  - 'lr' for likelihood ratios method
+  'lr' is regarded as most accurate, so built as default
+  */
+  double delta(std::string method);
+  double delta();
 
   // SERVICE FUNCTIONS
 
