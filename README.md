@@ -15,8 +15,8 @@ The team includes the following members, with the associated GitHub identifiers.
 
 | Name | GitHub id | Main allocation |
 | --- | --- | --- |
-|Thomas Espel|tjespel| Code 2 |
-|Konstantin Kulak|suncomer| Code 1 |
 |Callum MacIver|maciverc| Code 2 |
+|Konstantin Kulak|suncomer| Code 1 |
+|Thomas Espel|tjespel| Code 2 |
 |Vera Zhang|xuanverazhang| Delivery |
-|ZhenTian Qiu|qingwa901| Code 1 |
+|ZhengTian Qiu|qingwa901| Code 1 |
