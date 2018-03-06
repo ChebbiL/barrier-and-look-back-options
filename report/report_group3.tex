@@ -80,7 +80,9 @@
 \pagestyle{headings}
 
 \author{Course: Simulation Methods for Finance\\Professor Harry Zheng
-\\[3cm] Author:\\ Tresnia Berah\\ Thomas Espel\\ Konstantin Kulak\\ Zhengtian Qiu\\Vera Zhang }
+\\[3cm] Authos:\\ 
+%Tresnia Berah\\
+Thomas Espel\\ Konstantin Kulak\\ Zhengtian Qiu\\Vera Zhang }
 \title{Simulation Methos for Barrier/ Look-back Options }
 \date{02.22.2018}
 \begin{document}
@@ -148,11 +150,11 @@ $$S_T=S_0e^{(r-\frac{1}{2}\sigma ^2)T+\sigma \sqrt{T}Z} $$
 
 and get sample distribution of $(S_t-K)^+$. By Black-Scholes formula,
 
-\begin{center}
+
 \begin{equation}
-C_bs(S_t, K) = N(d_1)S_t - N(d_2)Ke^{-r(T-t)}
+$$C_bs(S_t, K) = N(d_1)S_t - N(d_2)Ke^{-r(T-t)}$$
 \end{equation}
-\end{center}
+
 where $$d_1=\frac{1}{\sigma \sqrt{T-t}}[ln(\frac{S_t}{K})+(r+\frac{\sigma^2}{2})(T-t)],\ d_2 = d_1-\sigma \sqrt{T-t}$$
 The closed-form Greeks are calculated the following way:
 
@@ -178,11 +180,17 @@ where $Z~N(0,1).$
 
 $$Gamma = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}(S_T-K)^+(\frac{Z^2-1}{S_0^2\sigma^2 T } - \frac{Z}{S_0^2 \sigma \sqrt{T}})]$$
 
-**need closed form LR vega formula
+$$Vega = \frac{\partial C}{\partial \sigma}=E[e^{-rT}(S_T-K)^+\left(\frac{Z^2-1}{\sigma}-Z\sqrt{T}\right)]$$
 
-By pathwise methods, the greeks are given as following:
+By pathwise methods, the greeks are given as following\footnote{For gamma, there are two different methods.}, with $Z~N(0,1)$:
 
-**need formula for pathwise greeks
+$$Delta=\frac{\partial C}{\partial S_0}=E[e^{-rT}\frac{S_T}{S_0}]$$
+
+$$Gamma_{LRPW} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}K\frac{Z}{S_0^2\sigma\sqrt{T}}]$$
+
+$$Gamma_{PWLR} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}\frac{S_T}{S_0^2}\left(\frac{Z}{\sigma\sqrt{T}}-1\right)]$$
+
+$$Vega = \frac{\partial C}{\partial \sigma}=E[e^{-rT}S_T(\sqrt{T}Z-\sigma T)]$$
 
 The following are the results calculated from the closed-form formulae and the simulations:\\
 
@@ -190,15 +198,15 @@ The following are the results calculated from the closed-form formulae and the s
 \label{my-label}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-\multicolumn{2}{|c|}{\multirow{2}{*}{}}          & \multirow{2}{*}{\textbf{Black -Scholes}} & \multicolumn{3}{l|}{\textbf{Monte Carlo Simulation}} \\ \cline{4-6} 
+\multicolumn{2}{|c|}{\multirow{2}{*}{}}          & \multirow{2}{*}{\textbf{Black -Scholes}} & \multicolumn{3}{l|}{\textbf{Monte Carlo Simulation}} \\ \cline{4-6}
 \multicolumn{2}{|c|}{}                           &                                          & \textbf{1,000}  & \textbf{10,000} & \textbf{100,000} \\ \hline
 \multicolumn{2}{|c|}{\textbf{Option Price}}      & 18.023                                   & 19.0162         & 17.6732         & 18.0014          \\ \hline
-\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                & 0.662561        & 0.612362        & 0.627889         \\ \cline{2-2} \cline{4-6} 
+\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                & 0.662561        & 0.612362        & 0.627889         \\ \cline{2-2} \cline{4-6}
                                 & \textbf{PW}    &                                          & 0.64485         & 0.623239        & 0.627453         \\ \hline
-\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}               & 0.0101213       & 0.00919597      & 0.00945029       \\ \cline{2-2} \cline{4-6} 
-                                & \textbf{LR PW} &                                          & 0.00994418      & 0.00930474      & 0.00944593       \\ \cline{2-2} \cline{4-6} 
+\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}               & 0.0101213       & 0.00919597      & 0.00945029       \\ \cline{2-2} \cline{4-6}
+                                & \textbf{LR PW} &                                          & 0.00994418      & 0.00930474      & 0.00944593       \\ \cline{2-2} \cline{4-6}
                                 & \textbf{LR LR} &                                          & 0.00975465      & 0.00918059      & 0.0095502        \\ \hline
-\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842}                  & 39.0186         & 36.7224         & 38.2008          \\ \cline{2-2} \cline{4-6} 
+\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842}                  & 39.0186         & 36.7224         & 38.2008          \\ \cline{2-2} \cline{4-6}
                                 & \textbf{PW}    &                                          & 40.4851         & 36.7839         & 37.8012          \\ \hline
 \end{tabular}\\
 
@@ -211,12 +219,12 @@ We can see from above table that simulation results improve and get closer to th
 \hline
 \multicolumn{2}{|c|}{\textbf{100,000 Simulations}} & \textbf{Mean} & \textbf{Error} & \textbf{Variance} & \textbf{Time} \\ \hline
 \multicolumn{2}{|c|}{\textbf{Option Price}}        &               &                &                   &               \\ \hline
-\multirow{2}{*}{\textbf{Delta}}  & \textbf{LR}     &               &                &                   &               \\ \cline{2-6} 
+\multirow{2}{*}{\textbf{Delta}}  & \textbf{LR}     &               &                &                   &               \\ \cline{2-6}
                                  & \textbf{PW}     &               &                &                   &               \\ \hline
-\multirow{3}{*}{\textbf{Gamma}}  & \textbf{PW LR}  &               &                &                   &               \\ \cline{2-6} 
-                                 & \textbf{LR PW}  &               &                &                   &               \\ \cline{2-6} 
+\multirow{3}{*}{\textbf{Gamma}}  & \textbf{PW LR}  &               &                &                   &               \\ \cline{2-6}
+                                 & \textbf{LR PW}  &               &                &                   &               \\ \cline{2-6}
                                  & \textbf{LR LR}  &               &                &                   &               \\ \hline
-\multirow{2}{*}{\textbf{Vega}}   & \textbf{LR}     &               &                &                   &               \\ \cline{2-6} 
+\multirow{2}{*}{\textbf{Vega}}   & \textbf{LR}     &               &                &                   &               \\ \cline{2-6}
                                  & \textbf{PW}     &               &                &                   &               \\ \hline
 \end{tabular}\\
 
@@ -326,5 +334,3 @@ B
 
 
 \end{document}
-
-
