@@ -171,9 +171,46 @@ double boption.price();
 
 #### Delta
 
+In order to compute the barrier option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+```
+double boption.delta();
+```
+You can alsospecify the method you want to use.
+- To use the _theoretical value_, enter the argument `"th"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+```
+double boption.delta("th");
+double boption.delta("lr");
+```
+
 #### Gamma
 
+In order to compute the barrier option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+```
+double boption.gamma();
+```
+You can alsospecify the method you want to use.
+- To use the _theoretical value_, enter the argument `"th"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+```
+double boption.gamma("th");
+double boption.gamma("lr");
+```
+
 #### Vega
+
+In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+```
+double boption.vega();
+```
+You can alsospecify the method you want to use.
+- To use the _theoretical value_, enter the argument `"th"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+```
+double boption.vega("th");
+double boption.vega("lr");
+```
+
 
 ### Look-back option
 
