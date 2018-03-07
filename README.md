@@ -5,12 +5,17 @@ This is the simulation project `barrier-and-look-back-options` of team 3 at Impe
 
 ## Features
 
-Our project includes the following features:
+Our project includes the following features.
 
 
 ## Installation
 
 ## Usage
+
+### Terminal app
+
+### C++ Package
+
 
 ## Contribute and support
 

@@ -208,7 +208,6 @@ double barrier_option::vega(std::string method){
 
 
 
-
 double barrier_option::vega_lr_step(double current_value){
 	if (current_value == 0 ) return 0.0;
 	double mu = (r - sigma*sigma / 2) / sigma;

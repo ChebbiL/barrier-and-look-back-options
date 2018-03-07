@@ -1,6 +1,6 @@
-# User Manual
+# Package User Manual
 
-This package allows you to perform various computations on European call options and on barrier options in the `C++` language.
+This package allows you to perform various computations on European call options, barrier options and look-back options in the `C++` language.
 
 ## Table of Contents
 - [Features](#features)
@@ -14,10 +14,13 @@ This package allows you to perform various computations on European call options
     - [Delta](#delta)
     - [Gamma](#gamma)
   - [Barrier Option](#barrier-option)
-    - [Price](#price)
-    - [Delta](#delta)
-    - [Gamma](#gamma)
-
+    - [Price](#price-1)
+    - [Delta](#delta-1)
+    - [Gamma](#gamma-1)
+  - [Look-back Option](#look-back-option)
+    - [Price](#price-2)
+    - [Delta](#delta-2)
+    - [Gamma](#gamma-2)
 ## Features
 
 * Compute the European call option price
@@ -165,6 +168,19 @@ The price is computed using the Monte Carlo method with the number of iterations
 ```
 double boption.price();
 ```
+
+#### Delta
+
+#### Gamma
+
+#### Vega
+
+### Look-back option
+
+You can access most of the program's functionalities by accessing the functions as follows `my_lookback_option.the_function_i_use()`.
+
+#### Price
+
 
 #### Delta
 
