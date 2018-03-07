@@ -27,6 +27,7 @@ class barrier_option: public european_option{
 
   double delta_lr_step(double current_value);
   double gamma_lr_step(double current_value);
+  double vega_lr_step(double current_value);
 
 
   // MAIN FUNCTIONS
@@ -37,6 +38,11 @@ class barrier_option: public european_option{
   double delta_theoric();
 
   double gamma_lr();
+  double gamma_theoretic();
+  double gamma_theoretic_dnorm(double x);
+
+  double vega_lr();
+  double vega_theoretic();
 
 public:
   // Constructor
@@ -62,6 +68,15 @@ public:
   */
   double gamma(std::string method);
   double gamma();
+
+  /* Computes the vega according to the user input:
+  - 'th' for result using closed-form formula
+  - 'lr' for likelihood ratios method
+  'lr' is built as default
+  */
+  double vega(std::string method);
+  double vega();
+
   // SERVICE FUNCTIONS
 
 };

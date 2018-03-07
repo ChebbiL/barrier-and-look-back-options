@@ -21,7 +21,7 @@ protected:
 
     // Computes the stock price using the direct method
     double stock_price_single();
-    double stock_price_single(double time_final, double time_inital) const;
+    double stock_price_single(double time_final, double time_inital);
 
     // Computes the stock price using the direct method with the random variable as an input
     double stock_price_single(double Z);
@@ -39,10 +39,13 @@ protected:
 
     // Computes delta using closed-form formula
     double delta_theoretic();
+    double delta_theoretic_call(double S0, double k); //For barrier_option
     // Computes gamma using closed-form formula
     double gamma_theoretic();
+    double gamma_theoretic_call(double S0, double k); // For barrier_option
     // Computes vega using closed-form formula
     double vega_theoretic();
+    double vega_theoretic_call(double S0, double k); // For barrier_option
     // Computes delta using likelihood ratio method
     double delta_lr();
     // Computes delta using pathwise derivatives estimates method
