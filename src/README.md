@@ -14,7 +14,9 @@ This package allows you to perform various computations on European call options
     - [Delta](#delta)
     - [Gamma](#gamma)
   - [Barrier Option](#barrier-option)
-
+    - [Price](#price)
+    - [Delta](#delta)
+    - [Gamma](#gamma)
 
 ## Features
 

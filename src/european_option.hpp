@@ -23,7 +23,6 @@ protected:
     double stock_price_single();
     double stock_price_single(double time_final, double time_inital) const;
 
-private:
     // Computes the stock price using the direct method with the random variable as an input
     double stock_price_single(double Z);
     // Computes the call payoff using a single stock price (random)
