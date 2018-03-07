@@ -294,6 +294,7 @@ You can access most of the program's functionalities by accessing the functions 
 
 #### Price
 
+
 #### Greeks
 
 ##### Delta
