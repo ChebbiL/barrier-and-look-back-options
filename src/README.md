@@ -234,28 +234,17 @@ double boption.gamma("lr");
 
 ##### Vega
 
-<<<<<<< HEAD
+
 In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
 ```
 double boption.vega();
-=======
-In order to compute the barrier option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
-```
-double boption.delta();
->>>>>>> a9c17851fe95ca86e40fa5370867e7b8c330400c
 ```
 You can alsospecify the method you want to use.
 - To use the _theoretical value_, enter the argument `"th"`.
 - To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
 ```
-<<<<<<< HEAD
 double boption.vega("th");
 double boption.vega("lr");
-```
-
-=======
-double boption.delta("th");
-double boption.delta("lr");
 ```
 
 #### Gamma
@@ -273,7 +262,6 @@ double boption.gamma("lr");
 ```
 
 #### Vega
->>>>>>> a9c17851fe95ca86e40fa5370867e7b8c330400c
 
 In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
 ```
@@ -293,6 +281,7 @@ double boption.vega("lr");
 You can access most of the program's functionalities by accessing the functions as follows `my_lookback_option.the_function_i_use()`.
 
 #### Price
+
 
 #### Greeks
 
