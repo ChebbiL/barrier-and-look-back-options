@@ -157,15 +157,21 @@ $$C_{bs}(S_0, K) = N(d_1)S_0 - N(d_2)Ke^{-rT}$$
 \end{equation}
 
 where 
+
 \begin{equation}
-$$d_1(S_0,K)=\frac{1}{\sigma \sqrt{T}}[ln(\frac{S_0}{K})+(r+\frac{\sigma^2}{2})T],\ d_2(S_0,K) = d_1-\sigma \sqrt{T}$$
+d_1(S_0,K)=\frac{1}{\sigma \sqrt{T}}[ln(\frac{S_0}{K})+(r+\frac{\sigma^2}{2})T],\ d_2(S_0,K) = d_1-\sigma \sqrt{T}
 \end{equation}
 
 The closed-form Greeks are calculated the following way:
-
-$$Delta = \frac{\partial C}{\partial S_0}=N(d_1)$$
-$$Gamma = \frac{\partial^2 C}{\partial S_0^2}=\frac{N'(d_1)}{S_0\sigma \sqrt{T}}$$
-$$Vega =  \frac{\partial C}{\partial \sigma}=N'(d_1)\sqrt{T}$$
+\begin{equation}
+\delta_{bs} = \frac{\partial C}{\partial S_0}=\Phi(d_1)
+\end{equation}
+\begin{equation}
+\gamma_{bs} = \frac{\partial^2 C}{\partial S_0^2}=\frac{\Phi'(d_1)}{S_0\sigma \sqrt{T}}
+\end{equation}
+\begin{equation}
+\nu_{bs} =  \frac{\partial C}{\partial \sigma}=\Phi'(d_1)\sqrt{T}
+\end{equation}
 
 To calculate the Greeks from simulation, we compare Likelihood ratio method and Pathwise method.As the Call option price is given by
 
@@ -251,12 +257,27 @@ UOC(S_0,K,B) ={} &1_{B>K} \{ C_{bs}(S_0, K)-C_{bs}(S_0,B)-(B-K)e^{-rT}\Phi[d_{1}
       & -\frac{B}{S_0}^{\frac{2v^2}{\sigma^2}}\left[C_{bs}(\frac{B^2}{S_0}, K)-C_{bs}(\frac{B^2}{S_0}, B) -(B_0-K)e^{-rT}\Phi[d_{1}(S_0,B)]\right]\}
 \end{aligned}
 \end{equation}
-Where $C_{bs}$ and $d_{1}$ are as stated in the Black-Scholes formula (1) and (2), and $v=r-\frac{\sigma^2}{2}$.
-\\
-\\
-**need Closed-form for greeks...
-\\
-\\
+Where $C_{bs}$ and $d_{1}$ are as stated in the Black-Scholes formula (1) and (2), and $v=r-\frac{\sigma^2}{2}$.\\
+
+The closed-form formulas for the greeks are the following:
+
+\begin{align*}
+DOC\delta =& \Phi\left({\log{S_0 \over K} + (r + {\sigma^2 \over 2})T \over \sigma\sqrt{T}}\right)- \left({B\over S_0}\right)^{r /\sigma^2 - 1}\\
+&\times \left(-{B\over S_0}^2 \Phi\left({log{B^2 \over S_0K} + \upsilon T \over \sigma \sqrt{T}} + \sigma \sqrt{T}\right) - {2 \upsilon C_{BS}(B^2 / S_0, K) \over (S_0\sigma^2)}\right)
+\end{align*}
+
+\begin{align*}
+UOC\delta =& \delta_{BS}(S_0, K) - \delta_{BS}(S_0, B)-{B - K\over \sigma S_0 \sqrt{T}}e^{-rT}\Phi(d_2(S_0,B))\\
+&+ \left({2\upsilon\over \sigma^2 S_0} \left({B \over S_0}\right)^{ 2\upsilon / \sigma^2} \right)\\
+&\times \left(C_{BS}\left({B^2 \over S_0}, K\right) - C_{BS}\left({B^2\over S_0}, B\right) - (B - K)e^{-rT}\Phi(d_2(B, S_0))\right)\\
+&-\left({B \over S_0}\right)^{ 2\upsilon / \sigma^2}(\left({-B \over S_0}\right)^2\delta_{BS}\left({B^2 \over S_0}, K\right) + \left({B\over S_0}\right)^2\delta_{BS}\left({B^2 \over S_0}, B\right)\\
+&+ \left({B - K \over \sigma S_0\sqrt{T}}\right)e^{-rT}\Phi(d_2(B, S_0)));
+\end{align*}
+
+\begin{align*}
+DOC\gamma =& {\phi(d_2) \over S_0\sigma\sqrt{T}}- \left({B \over S_0}\right)^{ 2\upsilon / \sigma^2}({4\upsilon^2 +2\upsilon \sigma^2\over S_0^2\sigma^4}C_{BS}(B^2 / S_0, K) + \gamma_{BS} - {4\upsilon\delta_{BS} \over S_0\sigma^2})
+\end{align*}
+
 We stimulate the path of $S_T$ by taking the maturity time $T$ into 10,000 steps, and we simulate 5,000 such paths. As standard normal distribution is symmetrically distributed, 5,000 paths can be treated as 10,000 paths by adding negative sign and creating the other 5,000.
 
 To determine the greeks for Barrier Option, we first assessed the pathwise method. It is impossible to find the partial direvative of the indicator function $1_{max 0\leq t\leq T \  S_t\leq B}$  with respect to $S_0$. Hense pathwise method is eliminated by us. For the likelihood ratio method, we find the joint cdf of $S_T$ and the  $M_T = \underset{0 \leq t \leq T}{max} S_t$ to be **
