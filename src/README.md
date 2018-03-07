@@ -5,22 +5,20 @@ This package allows you to perform various computations on European call options
 ## Table of Contents
 - [Features](#features)
 - [Installation](#installation)
-  - [Initialising the European Call Option](#initialising-the-european-call-option)
-  - [Initialising the Barrier Option](#initialising-the-barrier-option)
+  - [Building the Project](#building-the-project)
+  - [Importing the Package](#importing-the-package)
 - [Usage](#usage)
   - [Random Numbers Generation](#random-numbers-generation)
   - [European Call Option](#european-call-option)
-    - [Price](#price)
-    - [Delta](#delta)
-    - [Gamma](#gamma)
+    - [Initialising the European Call Option](#initialising-the-european-call-option)
+    - [Greeks](#greeks): [Delta](#delta), [Gamma](#gamma), [Vega](#vega)
   - [Barrier Option](#barrier-option)
-    - [Price](#price-1)
-    - [Delta](#delta-1)
-    - [Gamma](#gamma-1)
+    - [Initialising the Barrier Option](#initialising-the-barrier-option)
+    - [Greeks](#greeks-1): [Delta](#delta-1), [Gamma](#gamma-1), [Vega](#vega-1)
   - [Look-back Option](#look-back-option)
     - [Price](#price-2)
-    - [Delta](#delta-2)
-    - [Gamma](#gamma-2)
+    - [Greeks](#greeks-2): [Delta](#delta-2), [Gamma](#gamma-2), [Vega](#vega-2)
+
 ## Features
 
 * Compute the European call option price
@@ -31,6 +29,12 @@ This package allows you to perform various computations on European call options
 * Provide statistical informations
 
 ## Installation
+
+
+### Building the project
+
+The current repository comes with precompiled libraries in the `/lib` folder. However, if you edit the functions in the code, or simply prefer to import the header, we have also included a `Makefile` for your convenience.
+**Most users will skip this part to go directly to [importing the package](#importing-the-package).**
 
 In order to compile and run the project, you can use the following command in the `src` folder.
 
@@ -50,45 +54,24 @@ Another cause of issue is the absence of the directory `/src/bin`. In this case,
 mkdir bin
 ```
 
+### Importing the package
 
-### Initialising the European call option
+#### Importing with headers
 
-Before you use any of the functions of the package, you must create a `european_option` object to interact with. This can be done using the following method. You will need the following parameters:
-* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
-* `strike (double)` the value of the strike of the European option. Default is `100`.
-* `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
-* `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
-* `time_maturity_T (double)` the time of maturity of the call. Default value is `1
-.0`.
-* `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
-* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
-```
-european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
-```
+#### Importing via shared libraries (recommended)
 
-### Initialising the Barrier option
+##### Linux
 
-The `barrier_option` object takes the same arguments as the `european_option` plus the value of the barrier.
-You will need the following parameters:
-* `barrier_value (double)` the value of the barrier.
-* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
-* `strike (double)` the value of the strike of the European option. Default is `100`.
-* `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
-* `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
-* `time_maturity_T (double)` the time of maturity of the call. Default value is `1
-.0`.
-* `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
-* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
-```
-barrier_option boption(barrier_value, S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
-```
----
+##### Windows NT
+
+##### MacOS
+
 
 ## Usage
 
 
 ### Random numbers generation
-In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. **Note that if you use either the [European call option](#european-call-option) or the [barrier option](#barrier-option), the generation of random samples is already done automatically.**
+In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. **Note that if you use either the [European call option](#european-call-option), the [barrier option](#barrier-option) or the [Look-back option](#look-back-option), the generation of random samples is already done automatically.**
 
 You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
 ```
@@ -117,6 +100,24 @@ normal_pdf(d);    // input/output are double types
 
 ### European call option
 
+
+
+#### Initialising the European call option
+
+Before you use any of the functions of the package, you must create a `european_option` object to interact with. This can be done using the following method. You will need the following parameters:
+* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
+* `strike (double)` the value of the strike of the European option. Default is `100`.
+* `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
+* `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
+* `time_maturity_T (double)` the time of maturity of the call. Default value is `1
+.0`.
+* `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
+* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
+```
+european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
+```
+
+
 You can access most of the program's functionalities by accessing the functions as follows `my_european_call_option.the_function_i_use()`.
 
 #### Price
@@ -130,7 +131,9 @@ You can however specify any other number of iterations by specifying an `int` nu
 double call.price(100000);
 ```
 
-#### Delta
+#### Greeks
+
+##### Delta
 In order to compute the call option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
 ```
 double call.delta();
@@ -143,7 +146,7 @@ double call.delta("pw");
 double call.delta("lr");
 ```
 
-#### Gamma
+##### Gamma
 In order to compute the call option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _pathwise estimates - likelihood ratios_.
 ```
 double call.gamma();
@@ -158,7 +161,37 @@ double call.gamma("lrlr");
 double call.gamma("pwlr");
 ```
 
+##### Vega
+In order to compute the call option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+```
+double call.vega();
+```
+You can alsospecify the method you want to use.
+- To use the _pathwise estimates_ method, enter the argument `"pw"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+```
+double call.vega("pw");
+double call.vega("lr");
+```
+
 ### Barrier option
+
+#### Initialising the barrier option
+
+The `barrier_option` object takes the same arguments as the `european_option` plus the value of the barrier.
+You will need the following parameters:
+* `barrier_value (double)` the value of the barrier.
+* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
+* `strike (double)` the value of the strike of the European option. Default is `100`.
+* `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
+* `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
+* `time_maturity_T (double)` the time of maturity of the call. Default value is `1
+.0`.
+* `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
+* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
+```
+barrier_option boption(barrier_value, S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
+```
 
 You can access most of the program's functionalities by accessing the functions as follows `my_barrier_option.the_function_i_use()`.
 
@@ -169,11 +202,50 @@ The price is computed using the Monte Carlo method with the number of iterations
 double boption.price();
 ```
 
-#### Delta
+#### Greeks
 
-#### Gamma
+##### Delta
 
-#### Vega
+In order to compute the barrier option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+```
+double boption.delta();
+```
+You can alsospecify the method you want to use.
+- To use the _theoretical value_, enter the argument `"th"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+```
+double boption.delta("th");
+double boption.delta("lr");
+```
+
+##### Gamma
+
+In order to compute the barrier option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+```
+double boption.gamma();
+```
+You can alsospecify the method you want to use.
+- To use the _theoretical value_, enter the argument `"th"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+```
+double boption.gamma("th");
+double boption.gamma("lr");
+```
+
+##### Vega
+
+In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+```
+double boption.vega();
+```
+You can alsospecify the method you want to use.
+- To use the _theoretical value_, enter the argument `"th"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+```
+double boption.vega("th");
+double boption.vega("lr");
+```
+
 
 ### Look-back option
 
@@ -181,9 +253,10 @@ You can access most of the program's functionalities by accessing the functions 
 
 #### Price
 
+#### Greeks
 
-#### Delta
+##### Delta
 
-#### Gamma
+##### Gamma
 
-#### Vega
+##### Vega
