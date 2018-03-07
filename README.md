@@ -19,4 +19,4 @@ The team includes the following members, with the associated GitHub identifiers.
 |Konstantin Kulak|suncomer| Code 1 |
 |Thomas Espel|tjespel| Code 2 |
 |Vera Zhang|xuanverazhang| Delivery |
-|ZhengTian Qiu|qingwa901| Code 1 |
+|ZhenTian Qiu|qingwa901| Code 1 |
