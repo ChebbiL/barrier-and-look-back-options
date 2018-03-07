@@ -26,12 +26,17 @@ class barrier_option: public european_option{
 
 
   double delta_lr_step(double current_value);
+  double gamma_lr_step(double current_value);
 
 
   // MAIN FUNCTIONS
   double barrier_option_price();
   double payoff_theoretic();
+
   double delta_lr();
+  double delta_theoric();
+
+  double gamma_lr();
 
 public:
   // Constructor
@@ -43,13 +48,20 @@ public:
   // Computes the barrier option price
   double price();
   /* Computes the delta according to the user input:
-  - 'th' for result using closed-form Black-Scholes formula
+  - 'th' for result using closed-form formula
   - 'lr' for likelihood ratios method
-  'lr' is regarded as most accurate, so built as default
+  'lr' is built as default
   */
   double delta(std::string method);
   double delta();
 
+  /* Computes the gamma according to the user input:
+  - 'th' for result using closed-form formula
+  - 'lr' for likelihood ratios method
+  'lr' is built as default
+  */
+  double gamma(std::string method);
+  double gamma();
   // SERVICE FUNCTIONS
 
 };

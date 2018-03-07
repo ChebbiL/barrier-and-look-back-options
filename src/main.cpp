@@ -80,6 +80,9 @@ int main(){
     //write_csv(2);
     barrier_option boption(1, 100, 100, 0.05, 0.4, 1, 0, 1000);
     cout << boption.price() << endl;
-    cout << boption.delta() << endl;
+    cout << "Delta: " << boption.delta() << " (LR)" << endl;
+    cout << "Delta: " << boption.delta("th") << " (Theoretical)" << endl;
+    cout << "Gamma: " << boption.gamma() << " (LR)" << endl;
+    cout << "Gamma: " << boption.gamma("th") << " (Theoretical)" << endl;
     return 0;
 }

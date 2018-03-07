@@ -1,9 +1,12 @@
 # European Call Option, Barrier and Look-Back Options
-This is the simulation project `simulation-project-imperial` of team 3 at Imperial College London in the MSc in Mathematics and Finance. This project is part of the Simulation Methods in Finance (M5MF4) course and is carried under the supervision of Professor Harry Zheng.
+This is the simulation project `barrier-and-look-back-options` of team 3 at Imperial College London in the MSc in Mathematics and Finance. This project is part of the Simulation Methods in Finance (M5MF4) course and is carried under the supervision of Professor Harry Zheng.
 
 ## Table of Contents
 
 ## Features
+
+Our project includes the following features:
+
 
 ## Installation
 
