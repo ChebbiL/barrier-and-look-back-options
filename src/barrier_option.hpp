@@ -20,6 +20,7 @@ class barrier_option: public european_option{
   double payoff_theoretic(double initial_stock_price, double strike);
 
   double d_calculate(double x, double y);
+  double d_calculate_minus(double x, double y);
 
   double barrier_down_theoric();
   double barrier_up_theoric();
@@ -32,7 +33,6 @@ class barrier_option: public european_option{
 
   // MAIN FUNCTIONS
   double barrier_option_price();
-  double payoff_theoretic();
 
   double delta_lr();
   double delta_theoric();
@@ -53,6 +53,7 @@ public:
 
   // Computes the barrier option price
   double price();
+  double payoff_theoretic();
   /* Computes the delta according to the user input:
   - 'th' for result using closed-form formula
   - 'lr' for likelihood ratios method
