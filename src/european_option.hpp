@@ -22,7 +22,7 @@ protected:
     // Computes the stock price using the direct method
     double stock_price_single();
     double stock_price_single(double time_final, double time_inital);
-    double stock_price_single(double initial_value, double time_final, double time_inital);
+    double stock_price_single(double S0, double T1, double t1);
 
     // Computes the stock price using the direct method with the random variable as an input
     double stock_price_single(double Z);

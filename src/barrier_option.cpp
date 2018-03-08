@@ -11,26 +11,28 @@ double barrier_option::d_calculate_minus(double x, double y){
 
 
 double barrier_option::barrier_down(){
-	double ST = St,mt=St;
-	double b = (tau) / number_iterations;
-	for (int i = 0; i < number_iterations ; i++){
-		ST = stock_price_single(ST, t + (i + 1)*b, t + i*b);
-		if (mt > ST)mt = ST;
-		if (mt < barrier)return 0;
-	}
-	if (ST > K)return ST;
-	else return 0;
+  double current_value = St;
+  double minimum_price = St;
+  double h = tau / number_iterations;
+  for (int i = 0; i < number_iterations; i++){
+    current_value = stock_price_single(current_value, t + (i + 1) * h, t + i * h);
+    if (minimum_price > current_value) minimum_price = current_value;
+    if (minimum_price < barrier) return 0;
+ }
+ if (current_value > K) return current_value;
+   return 0.0;
 }
 double barrier_option::barrier_up(){
-	double ST = St, Mt = St;
-	double b = (tau) / number_iterations;
-	for (int i = 0; i < number_iterations; i++){
-		ST = stock_price_single(ST, t + (i + 1)*b, t + i*b);
-		if (Mt < ST)Mt = ST;
-		if (Mt > barrier)return 0.0;
-	}
-	if (ST > K)return ST;
-	else return 0.0;
+  double current_value = St;
+  double maximum_price = St;
+  double h = tau / number_iterations;
+  for (int i = 0; i < number_iterations; i++){
+    current_value = stock_price_single(current_value, t + (i + 1) * h, t + i * h);
+    if (maximum_price < current_value) maximum_price = current_value;
+    if (maximum_price > barrier) return 0;
+  }
+  if (current_value > K) return current_value;
+  return 0.0;
 }
 double barrier_option::barrier_option_price(){
 	double result = 0.0;

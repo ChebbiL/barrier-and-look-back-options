@@ -8,8 +8,8 @@ double european_option::stock_price_single(double time_final, double time_inital
     return St * exp((r - 0.5*sigma*sigma) * (time_final - time_inital) + sigma * sqrt(time_final - time_inital) * get_random());
 }
 
-double european_option::stock_price_single(double initial_value, double time_final, double time_inital){
-    return initial_value * exp((r - 0.5*sigma*sigma) * (time_final - time_inital) + sigma * sqrt(time_final - time_inital) * get_random());
+double european_option::stock_price_single(double S0, double T1, double t1){
+	return S0*exp((r - 0.5*pow(sigma, 2))*(T1 - t1) + sigma*sqrt(T1 - t1)*get_random());
 }
 
 double european_option::stock_price_single(double Z){
