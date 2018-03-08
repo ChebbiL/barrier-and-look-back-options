@@ -19,6 +19,9 @@
 \usepackage{amsfonts}
 \usepackage{listings}
 \usepackage{color}
+
+\usepackage{dsfont}
+
 \usepackage[text={15cm,24cm},top=3cm]{geometry}  % This line determines the page layout.
 % Consult the documentation of the geometry package if you want to change it.
 
@@ -83,7 +86,7 @@
 \author{Course: Simulation Methods for Finance\\Professor Harry Zheng
 \\[3cm] Authors:\\
 %Tresnia Berah\\
-Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhengtian Qiu\\Vera Zhang }
+Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang }
 \title{Simulation Methos for Barrier/ Look-back Options }
 \date{02.22.2018}
 \begin{document}
@@ -156,7 +159,7 @@ and get sample distribution of $(S_T-K)^+$. By Black-Scholes formula,
 $$C_{bs}(S_0, K) = N(d_1)S_0 - N(d_2)Ke^{-rT}$$
 \end{equation}
 
-where 
+where
 
 \begin{equation}
 d_1(S_0,K)=\frac{1}{\sigma \sqrt{T}}[ln(\frac{S_0}{K})+(r+\frac{\sigma^2}{2})T],\ d_2(S_0,K) = d_1-\sigma \sqrt{T}
@@ -195,13 +198,13 @@ $$Vega_{LR} = \frac{\partial C}{\partial \sigma}=E[e^{-rT}(S_T-K)^+\left(\frac{Z
 
 By pathwise methods, the greeks are given as following\footnote{For gamma, there are two different methods.}, with $Z~N(0,1)$:
 
-$$Delta_{PW}=\frac{\partial C}{\partial S_0}=E[e^{-rT}\frac{S_T}{S_0}]$$
+$$Delta_{PW}=\frac{\partial C}{\partial S_0}=E[e^{-rT}\mathds{1}_{S_T>K}\frac{S_T}{S_0}]$$
 
-$$Gamma_{LRPW} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}K\frac{Z}{S_0^2\sigma\sqrt{T}}]$$
+$$Gamma_{LRPW} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}\mathds{1}_{S_T>K}\frac{KZ}{S_0^2\sigma\sqrt{T}}]$$
 
-$$Gamma_{PWLR} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}\frac{S_T}{S_0^2}\left(\frac{Z}{\sigma\sqrt{T}}-1\right)]$$
+$$Gamma_{PWLR} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}\mathds{1}_{S_T>K}\frac{S_T}{S_0^2}\left(\frac{Z}{\sigma\sqrt{T}}-1\right)]$$
 
-$$Vega_{PW} = \frac{\partial C}{\partial \sigma}=E[e^{-rT}S_T(\sqrt{T}Z-\sigma T)]$$
+$$Vega_{PW} = \frac{\partial C}{\partial \sigma}=E[e^{-rT}\mathds{1}_{S_T>K}S_T(\sqrt{T}Z-\sigma T)]$$
 
 The following are the results calculated from the closed-form formulae and the simulations:\\
 
@@ -308,11 +311,11 @@ To analyze further the accuracy of our simulation, we plot the simulated option 
 
 \section{Look-back Option}
 
-Let $T$ denote option expiration time and $[0,T]$ lookback period. For $T_0 \leq t\leq T$ denote by 
+Let $T$ denote option expiration time and $[0,T]$ lookback period. For $T_0 \leq t\leq T$ denote by
 
 $$m^t_{0} =\underset{0 \leq u \leq t}{min}  S_u, \ \   M^t_{0} = \underset{0 \leq u \leq t}{max} S_u$$
 
-minimum (maximum) value of realized asset. Lookback call option with fixed strik price $K$ has payoff $(M^T_{0}-K)^+$. The call option price at time $t$ is 
+minimum (maximum) value of realized asset. Lookback call option with fixed strik price $K$ has payoff $(M^T_{0}-K)^+$. The call option price at time $t$ is
 
 $$c(S_0,K,t) = e^{-r(T-t)}E[(max(M^t_0,M^T_t)-K)^+|\mathcal{F}_t] $$
 
