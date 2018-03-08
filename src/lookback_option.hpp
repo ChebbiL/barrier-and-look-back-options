@@ -1,12 +1,12 @@
 #ifndef LOOKBACK_OPTION_H
 #define LOOKBACK_OPTION_H
 
+#include "random_normal.hpp" // For random normal functions
 #include "european_option.hpp" // Include the european_option class for inheritance
-#include <random>
-#include <iostream>
+
 using namespace std;
 
-double h = 1.0 / 1000.0, h_ = sqrt(h); //step size for the barrier
+//double h = 1.0 / 1000.0, h_ = sqrt(h); //step size for the barrier
 
 /*
  *

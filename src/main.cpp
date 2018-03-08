@@ -6,7 +6,7 @@ This is the main project file.
 #include "barrier_option.hpp"
 #include "lookback_option.hpp"
 
-#include<iostream> // For console output
+#include <iostream> // For console output
 #include <cmath> // For math calculations
 #include <string> // For user instructions in greeks
 #include <random> // For random numbers generation
@@ -75,7 +75,6 @@ int main(){
     cout << "Vega: " << boption.vega() << " (LR)" << endl;
     cout << "Vega: " << boption.vega("th") << " (Theoretical)" << endl;
     //write_csv(2);
-    debug_konstantin();
+    //debug_konstantin();
     return 0;
 }
-
