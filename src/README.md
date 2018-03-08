@@ -71,7 +71,7 @@ mkdir bin
 
 
 ### Random numbers generation
-In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. **Note that if you use either the [European call option](#european-call-option), the [barrier option](#barrier-option) or the [Look-back option](#look-back-option), the generation of random samples is already done automatically.**
+In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. **Note that if you use either the [European call option](#european-call-option), the [barrier option](#barrier-option) or the [look-back option](#look-back-option), the generation of random samples is already done automatically.**
 
 You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
 ```

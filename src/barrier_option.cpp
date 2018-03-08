@@ -27,8 +27,12 @@ double barrier_option::barrier_up(){
 }
 
 double barrier_option::d_calculate(double x, double y){
+	return (log(x / y) + (r + sigma * sigma / 2.0) * tau) / (sigma * sqrt(tau));
+}
+double barrier_option::d_calculate_minus(double x, double y){
 	return (log(x / y) + (r - sigma * sigma / 2.0) * tau) / (sigma * sqrt(tau));
 }
+
 
 double barrier_option::payoff_theoretic(double initial_stock_price, double strike){
   double d_reference = (log(initial_stock_price / strike) + (r + sigma*sigma / 2)*tau) / (sigma*sqrt(tau));
@@ -42,7 +46,7 @@ double barrier_option::barrier_down_theoric(){
 double barrier_option::barrier_up_theoric(){
 	if (barrier < K) return 0;
 	double mu = r - sigma * sigma / 2.0;
-	return payoff_theoretic(St, K) - payoff_theoretic(St, barrier) - (barrier - K)*exp(-r*(tau))*normal_cdf(d_calculate(St, barrier)) - pow(barrier / St, 2.0 * mu / (sigma*sigma))*(payoff_theoretic(barrier*barrier / St, K) - payoff_theoretic(barrier*barrier / St, barrier) - (barrier - K)*exp(-r*(tau))*normal_cdf(d_calculate(barrier, St)));
+	return payoff_theoretic(St, K) - payoff_theoretic(St, barrier) - (barrier - K)*exp(-r*(tau))*normal_cdf(d_calculate_minus(St, barrier)) - pow(barrier / St, 2.0 * mu / (sigma*sigma))*(payoff_theoretic(barrier*barrier / St, K) - payoff_theoretic(barrier*barrier / St, barrier) - (barrier - K)*exp(-r*(tau))*normal_cdf(d_calculate_minus(barrier, St)));
 }
 
 
@@ -125,10 +129,10 @@ double barrier_option::delta_theoric(){
 
 	}
 	else{
-		res = normal_cdf(d_calculate(St, K)) - normal_cdf(d_calculate(St, barrier));
+		res = normal_cdf(d_calculate(St, K)) - normal_cdf(d_calculate_minus(St, barrier));
 		res -= (barrier - K)*exp(-r*(tau))*normal_pdf(d_calculate(St,barrier))/(sigma*St*sqrt(T-t));
-		res += (2.0*mu*pow(barrier / St, 2.0*mu / pow(sigma, 2)) / (pow(sigma, 2)*St))*(stock_price_single(barrier*barrier / St, K) - stock_price_single(barrier*barrier / St, barrier) - (barrier - K)*exp(-r*(tau))*normal_cdf(d_calculate(barrier, St)));
-		res -= pow(barrier / St, 2.0*mu / pow(sigma, 2))*(-barrier*barrier / (St*St)*normal_cdf(d_calculate(barrier*barrier / St, K)) + barrier * barrier / (St*St)*normal_cdf(d_calculate(barrier * barrier / St, barrier)) + (barrier - K)*exp(-r*(tau))*normal_pdf(d_calculate(barrier, St)) / (sigma*St*sqrt(tau)));
+		res += (2.0*mu*pow(barrier / St, 2.0*mu / pow(sigma, 2)) / (pow(sigma, 2)*St))*(stock_price_single(barrier*barrier / St, K) - stock_price_single(barrier*barrier / St, barrier) - (barrier - K)*exp(-r*(tau))*normal_cdf(d_calculate_minus(barrier, St)));
+		res -= pow(barrier / St, 2.0*mu / pow(sigma, 2))*(-barrier*barrier / (St*St)*normal_cdf(d_calculate(barrier*barrier / St, K)) + barrier * barrier / (St*St)*normal_cdf(d_calculate(barrier * barrier / St, barrier)) + (barrier - K)*exp(-r*(tau))*normal_pdf(d_calculate_minus(barrier, St)) / (sigma*St*sqrt(tau)));
 	}
 	return res;
 }
@@ -169,10 +173,10 @@ double barrier_option::gamma_theoretic(){
 	}
 	else {
 		double mu = r - sigma*sigma / 2.0;
-		double result = gamma_theoretic_call(St, K) - gamma_theoretic_call(St, barrier) - (barrier - K)*discount*gamma_theoretic_dnorm(d_calculate(St, barrier)) / (sigma*sigma*St*St*tau) + (barrier - K)*discount*normal_pdf(d_calculate(St, barrier)) / (sigma*St*St*sqrt(tau));
-		result -= (4.0*mu*(mu + 0.5*sigma*sigma)*pow(barrier / St, 2.0*mu / sigma*sigma) / (pow(sigma, 4)*St*St))*(stock_price_single(barrier*barrier / St, K) - stock_price_single(barrier*barrier / St, barrier) - (barrier - K)*discount*normal_cdf(d_calculate(barrier, St)));
-		result += (4.0*mu*pow(barrier / St, 2.0*mu / pow(sigma, 2)) / (pow(sigma, 2)*St))*(-barrier*barrier / (St*St)*delta_theoretic_call(barrier*barrier / St, K) + barrier*barrier / (St*St)*delta_theoretic_call(barrier*barrier / St, barrier) + (barrier - K)*discount*normal_pdf(d_calculate(barrier, St)) / (sigma*St*sqrt(tau)));
-		result -= pow(barrier / St, 2.0*mu / pow(sigma, 2))*(pow(barrier / St, 4)*gamma_theoretic_call(barrier*barrier / St, K) +2.0*barrier*barrier/pow(St,3)*delta_theoretic_call(barrier*barrier/St,K)- pow(barrier / St, 4)*gamma_theoretic_call(barrier*barrier / St, barrier)-2.0*barrier*barrier/pow(St,3)*delta_theoretic_call(barrier*barrier/St,barrier) - (barrier - K)*discount*gamma_theoretic_dnorm(d_calculate(barrier, St)) / (sigma*sigma*St*St*tau) - (barrier - K)*discount*normal_pdf(d_calculate(barrier, St)) / (sigma*St*St*sqrt(tau)));
+		double result = gamma_theoretic_call(St, K) - gamma_theoretic_call(St, barrier) - (barrier - K)*discount*gamma_theoretic_dnorm(d_calculate_minus(St, barrier)) / (sigma*sigma*St*St*tau) + (barrier - K)*discount*normal_pdf(d_calculate_minus(St, barrier)) / (sigma*St*St*sqrt(tau));
+		result -= (4.0*mu*(mu + 0.5*sigma*sigma)*pow(barrier / St, 2.0*mu / sigma*sigma) / (pow(sigma, 4)*St*St))*(stock_price_single(barrier*barrier / St, K) - stock_price_single(barrier*barrier / St, barrier) - (barrier - K)*discount*normal_cdf(d_calculate_minus(barrier, St)));
+		result += (4.0*mu*pow(barrier / St, 2.0*mu / pow(sigma, 2)) / (pow(sigma, 2)*St))*(-barrier*barrier / (St*St)*delta_theoretic_call(barrier*barrier / St, K) + barrier*barrier / (St*St)*delta_theoretic_call(barrier*barrier / St, barrier) + (barrier - K)*discount*normal_pdf(d_calculate_minus(barrier, St)) / (sigma*St*sqrt(tau)));
+		result -= pow(barrier / St, 2.0*mu / pow(sigma, 2))*(pow(barrier / St, 4)*gamma_theoretic_call(barrier*barrier / St, K) +2.0*barrier*barrier/pow(St,3)*delta_theoretic_call(barrier*barrier/St,K)- pow(barrier / St, 4)*gamma_theoretic_call(barrier*barrier / St, barrier)-2.0*barrier*barrier/pow(St,3)*delta_theoretic_call(barrier*barrier/St,barrier) - (barrier - K)*discount*gamma_theoretic_dnorm(d_calculate_minus(barrier, St)) / (sigma*sigma*St*St*tau) - (barrier - K)*discount*normal_pdf(d_calculate_minus(barrier, St)) / (sigma*St*St*sqrt(tau)));
 		return result;
 	}
 }

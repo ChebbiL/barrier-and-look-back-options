@@ -65,6 +65,16 @@ int debug_konstantin(){
 
 int main(){
     cout << "hello" << endl;
+    barrier_option boption(90, 100, 100, 0.05, 0.4, 1, 0, 1000);
+    cout << "Price: " << boption.price() << endl;
+    cout << "Price: " << boption.payoff_theoretic() << " (Theoretical)" << endl;
+    cout << "Delta: " << boption.delta() << " (LR)" << endl;
+    cout << "Delta: " << boption.delta("th") << " (Theoretical)" << endl;
+    cout << "Gamma: " << boption.gamma() << " (LR)" << endl;
+    cout << "Gamma: " << boption.gamma("th") << " (Theoretical)" << endl;
+    cout << "Vega: " << boption.vega() << " (LR)" << endl;
+    cout << "Vega: " << boption.vega("th") << " (Theoretical)" << endl;
+    //write_csv(2);
     debug_konstantin();
     return 0;
 }
