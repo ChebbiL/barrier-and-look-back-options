@@ -8,6 +8,10 @@ double european_option::stock_price_single(double time_final, double time_inital
     return St * exp((r - 0.5*sigma*sigma) * (time_final - time_inital) + sigma * sqrt(time_final - time_inital) * get_random());
 }
 
+double european_option::stock_price_single(double initial_value, double time_final, double time_inital){
+    return initial_value * exp((r - 0.5*sigma*sigma) * (time_final - time_inital) + sigma * sqrt(time_final - time_inital) * get_random());
+}
+
 double european_option::stock_price_single(double Z){
     return St * exp((r - 0.5*sigma*sigma) * (T - t) + sigma * sqrt(T - t) * Z);
 }
@@ -39,6 +43,9 @@ double european_option::d2_calculate() {
 
 double european_option::payoff_theoretic() {
     return St*normal_cdf(d1) - K*discount*normal_cdf(d2);
+}
+double european_option::payoff_theoretic(double initial_value, double strike) {
+    return initial_value*normal_cdf(d1) - strike*discount*normal_cdf(d2);
 }
 
 double european_option::delta_theoretic() {

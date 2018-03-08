@@ -22,6 +22,7 @@ protected:
     // Computes the stock price using the direct method
     double stock_price_single();
     double stock_price_single(double time_final, double time_inital);
+    double stock_price_single(double initial_value, double time_final, double time_inital);
 
     // Computes the stock price using the direct method with the random variable as an input
     double stock_price_single(double Z);
@@ -85,6 +86,7 @@ public:
 
     // Computes the call payoff using a closed-form formula
     double payoff_theoretic();
+    double payoff_theoretic(double initial_value, double strike);
 
     // Computes the call price by averaging (expectation) several (random) single call payoffs
     double price();
