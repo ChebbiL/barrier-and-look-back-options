@@ -192,7 +192,8 @@ You will need the following parameters:
 * `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
 ```
 barrier_option boption(barrier_value, S_t0, strike, interest_rate,
-   volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
+  volatility, time_maturity_T, time_initial_t,
+  number_iterations_approximation);
 ```
 
 You can access most of the program's functionalities by accessing the functions as follows `my_barrier_option.the_function_i_use()`.
@@ -292,8 +293,9 @@ You will need the following parameters:
 * `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
 * `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
 ```
-barrier_option boption(min_or_max_observed, S_t0, strike, interest_rate,
-   volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
+lookback_option lboption(min_or_max_observed, S_t0, strike,
+   interest_rate, volatility, time_maturity_T,
+   time_initial_t, number_iterations_approximation);
 ```
 
 You can access most of the program's functionalities by accessing the functions as follows `my_lookback_option.the_function_i_use()`.
