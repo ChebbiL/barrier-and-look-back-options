@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[11pt]{beamer}
 \usetheme{Boadilla}
 
 \usepackage[utf8]{inputenc}
@@ -6,81 +6,169 @@
 \usepackage{amsmath}
 \usepackage{tikz}
 
-\title{My Presentation}
-\subtitle{Using Beamer}
-\author{Berah, Espel, Kulak, Qiu, Zhang}
+\setbeamersize{text margin left=10mm,text margin right=10mm}
+
+\title{Simulation Methods for Finance}
+\subtitle{Barrier and Look-back Options}
+\author{Espel, Kulak, Qiu, Zhang}
 \institute{Imperial College London}
 \date{\today}
 
 \begin{document}
 
 \begin{frame}
-    \frametitle{Introduction}
     \titlepage
 \end{frame}
-\begin{frame}
-\frametitle{Generate Random Number I}
-\section{Generate Random Number}
-
-There are two methods we used to generate random numbers.
-The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Randon}}, which can directly generate a variable follows Standard Normal Distribution.
-\\
-To generate a uniform distribution we tried two ways: one can use the system build-in methods \textbf{\textit{rand}}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size. In other words, when we use rand to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
-\end{frame}
-
-\begin{frame}
-\frametitle{Generate Random Number II}
-$$n_i = (an_{i-1})  mod  m$$
-for $i=1,2,...,10,000$, and we let$ a = 7^5$, and $m = 2^{31}-1$, which give about 2 billion points. We run 100,000 times use $0.005\%$ of all point. Theoretically, no pattern should appear.
-
-To transform the uniform distribution we got into Standard Normal Distribution, we have tried three methods. By Central Limit theory,
-
-$$ Z_n = \frac{\sum_{i=1}^{n}X_i-n\mu}{\sqrt{n}\sigma}$$
-
-where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significant large simulations and speed is slow consequently.
-\end{frame}
-
-\begin{frame}
-\frametitle{Box-Muller methods}
-
-We also tried Box-Muller methods
-
-$$Z_1 = \sqrt{-2lnX_1}sin(2\pi X_2),\  \Z_2=\sqrt{-2lnX_1}cos(2\pi X_2)$$
-
-Since its simulation involves computation of sine and cosine, the speed is slow.
-We prefer the last method, Marsaglia Polar method.
-
-$$ let \ V_1 = 2U_1-1,\  V_1 = 2U_2-1.$$
-where $U_1$ and $U_2$ are two independent uniform distribution.
- Let\ $W = V_1^2+V_2^2.$\ If $W>1$, return to the beginning. Otherwise,
-
-$$N_1 = \sqrt{\frac{(-2logW)}{W}}V_1,\ N_2 = \sqrt{\frac{(-2logW)}{W}}V_2$$
-
-As the computation doesn’t involve sine and cosine, it is generally faster than Box-Muller.
-\end{frame}
 
 
 \begin{frame}
-\frametitle{My table}
-
-The following is the simulation result and time used by different methods.
-\begin{center}
-\begin{tabular}{ c c c c }
-\textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time} \\
-\textit{ rand} generated U + CLT & cell5 & cell6&.. \\
-\textit{ rand} generated U + Box-Muller & cell8 & cell9&..\\
-\textit{ rand} generated U + Marsagilia Polar & cell8 & cell9&..\\
- linear congruential generator + CLT & cell8 & cell9&..\\
-linear congruential generator + Box-Muller & cell8 & cell9&..\\
- linear congruential generator + Marsagilia & cell8 & cell9&..\\
-\textit{Randon} & cell8 & cell9&..
-
-\end{tabular}
-\end{center}
-
+\frametitle{Introduction}
 
 \end{frame}
 
 
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+\end{frame}
+
+
+\section{Random Variable Generation}
+\begin{frame}
+\frametitle{Random Variable Generation - Task}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Random Variable Generation - Analysis}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Random Variable Generation - Results}
+
+\end{frame}
+
+
+
+\section{European Call Option}
+\begin{frame}
+\frametitle{European Call Option - Task}
+
+With the usual conventions, recall our model.
+$$dS_t=rS_tdt+\sigma S_tdW_t, \ 0\leq t \leq T$$
+$$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
+
+\begin{itemize}
+  \item Create a module to simulate the results for the European option.
+  \item Compute the Greeks (delta, gamma, vega) using different methods.
+  \item Analyse the error compared to the theoretical result.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{European Call Option - Analysis}
+\includegraphics[width=.5\textwidth]{graphs/eurodeltalr.png}
+\includegraphics[width=.5\textwidth]{graphs/eurodeltapw.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{European Call Option - Analysis}
+\includegraphics[width=.5\textwidth]{graphs/eurogammapwlr.png}
+\includegraphics[width=.5\textwidth]{graphs/eurogammalrlr.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{European Call Option - Results}
+\begin{itemize}
+  \item There is a significant accuracy gap beyond 1,000 simulations.
+  \item We based our conclusions on the industry standard: 100,000 simulations.
+  \item There is a trade-off computation time/accuracy.
+\end{itemize}
+
+\begin{table}
+  \centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+& \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time} \\ \hline
+\textbf{Delta LR} & Worst & Worst & Best\\
+\textbf{Delta PW} & Best & Best & Worst\\ \hline
+\textbf{Gamma PWLR} & Worst & Best & Best\\
+\textbf{Gamma LRPW} & - & Worst & Best\\
+\textbf{Gamma LRLR} & - & - & Worst\\ \hline
+\textbf{Vega LR} & Worst & - & Worst\\
+\textbf{Vega PW} & Best & - & Best\\ \hline
+\end{tabular}\\
+
+\end{table}
+
+\end{frame}
+
+
+
+
+\section{Barrier Option}
+\begin{frame}
+\frametitle{Barrier Option - Task}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Barrier Option - Analysis}
+%\includegraphics[width=.5\textwidth]{graphs/barrierdeltalr.png}
+%\includegraphics[width=.5\textwidth]{graphs/barriergammalr.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Barrier Option - Results}
+
+\end{frame}
+
+
+\section{Look-back Option}
+\begin{frame}
+\frametitle{Look-back Option - Task}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Look-back Option - Analysis}
+%\includegraphics[width=.5\textwidth]{graphs/lookbdeltalr.png}
+%\includegraphics[width=.5\textwidth]{graphs/lookbgammalr.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Look-back Option - Results}
+
+\end{frame}
+
+
+\section{Using our Code}
+\begin{frame}
+\frametitle{Using our Code}
+
+\end{frame}
+\begin{frame}
+\frametitle{Using our Code}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Conclusion}
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\centering
+{\Large Thank you!}
+
+{\small\url{github.com/tjespel/barrier-and-look-back-options}}
+\end{frame}
 
 \end{document}

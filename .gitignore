@@ -55,3 +55,6 @@ run
 
 # Python
 /.ropeproject
+
+# Testing
+/src/temporary*
