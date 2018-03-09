@@ -8,7 +8,7 @@ int write_csv(string pathToFile){
 
   european_option s1(100, 100, 0.05, 0.4, 1, 0, 1);
 
-  for (int i=1; i<1000000; i+=10){
+  for (int i=1; i<10000000; i*=10){
     for (int j=0; j<1000; j+=1){
       s1 = european_option(100, 100, 0.05, 0.4, 1, 0, i);
 

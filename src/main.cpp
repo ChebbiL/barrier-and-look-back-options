@@ -160,7 +160,7 @@ int main(){
     cout << "Vega: " << boption.vega("th") << " (Theoretical)" << endl;
 */
     //debug_thomas();
-    //write_csv("../report/graphs/core_task.csv");
+    write_csv("../report/graphs/core_task.csv");
     //debug_konstantin();
     return 0;
 }

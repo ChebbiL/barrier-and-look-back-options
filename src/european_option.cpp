@@ -9,7 +9,7 @@ double european_option::stock_price_single(double time_final, double time_inital
 }
 
 double european_option::stock_price_single(double S0, double T1, double t1){
-	return S0*exp((r - 0.5*pow(sigma, 2))*(T1 - t1) + sigma*sqrt(T1 - t1)*get_random());
+	return S0*exp((r - 0.5*pow(sigma, 2))*(T1 - t1) + sigma*sqrt(T1 - t1)*get_Nrandom());
 }
 
 double european_option::stock_price_single(double Z){
