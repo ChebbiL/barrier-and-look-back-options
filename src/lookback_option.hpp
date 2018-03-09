@@ -38,9 +38,9 @@ protected:
 
 public:
     // Constructor
-    lookback_option( double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05,
+    lookback_option(double min_or_max_observed = 150, double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05,
                      double volatility = 0.4,double time_final_T = 1, double time_initial_t = 0,
-                     int number_iterations_approximation = 10000, double min_or_max_observed = 150): european_option(initial_stock_price, strike, interest_rate, volatility, time_final_T, time_initial_t, number_iterations_approximation){
+                     int number_iterations_approximation = 10000): european_option(initial_stock_price, strike, interest_rate, volatility, time_final_T, time_initial_t, number_iterations_approximation){
         maxmin = min_or_max_observed; }
 
 

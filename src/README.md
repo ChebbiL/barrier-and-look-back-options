@@ -21,8 +21,8 @@ This package allows you to perform various computations on European call options
 
 ## Features
 
-* Compute the European call option price
-* Compute the European call option greeks:
+* Compute the European call option, the barrier option and the look-back price
+* Compute the European call option, the barrier option and the look-back option greeks:
   * delta
   * gamma
   * vega
@@ -114,7 +114,8 @@ Before you use any of the functions of the package, you must create a `european_
 * `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
 * `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
 ```
-european_option call(S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
+european_option call(S_t0, strike, interest_rate, volatility,
+   time_maturity_T, time_initial_t, number_iterations_approximation);
 ```
 
 
@@ -190,7 +191,8 @@ You will need the following parameters:
 * `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
 * `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
 ```
-barrier_option boption(barrier_value, S_t0, strike, interest_rate, volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
+barrier_option boption(barrier_value, S_t0, strike, interest_rate,
+   volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
 ```
 
 You can access most of the program's functionalities by accessing the functions as follows `my_barrier_option.the_function_i_use()`.
@@ -277,6 +279,22 @@ double boption.vega("lr");
 
 
 ### Look-back option
+
+The `lookback_option` object takes the same arguments as the `european_option` plus the value of the barrier.
+You will need the following parameters:
+* `min_or_max_observed (double)` the maximum or minimum observed. Default is `150`.
+* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
+* `strike (double)` the value of the strike of the European option. Default is `100`.
+* `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
+* `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
+* `time_maturity_T (double)` the time of maturity of the call. Default value is `1
+.0`.
+* `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
+* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
+```
+barrier_option boption(min_or_max_observed, S_t0, strike, interest_rate,
+   volatility, time_maturity_T, time_initial_t, number_iterations_approximation);
+```
 
 You can access most of the program's functionalities by accessing the functions as follows `my_lookback_option.the_function_i_use()`.
 
