@@ -1,4 +1,4 @@
-\documentclass[11pt]{beamer}
+\documentclass[12pt]{beamer}
 \usetheme{Boadilla}
 
 \usepackage[utf8]{inputenc}
@@ -23,7 +23,12 @@
 
 \begin{frame}
 \frametitle{Introduction}
-
+\begin{itemize}
+  \item Create a module for the core task: random variable generation, European option.
+  \item Barrier option: price and greeks.
+  \item Look-back option: price and greeks.
+  \item Document the code and create a user manual.
+\end{itemize}
 \end{frame}
 
 
@@ -87,6 +92,8 @@ $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
   \item There is a trade-off computation time/accuracy.
 \end{itemize}
 
+
+
 \begin{table}
   \centering
 \begin{tabular}{|l|c|c|c|}
@@ -146,11 +153,22 @@ $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
 \section{Using our Code}
 \begin{frame}
-\frametitle{Using our Code}
+\frametitle{Using our Code - C++ Package}
+\begin{itemize}
+  \item We have created a package for C++ users.
+  \item Uses industry standards with dynamic library files.
+  \item Package is very intuitive.
+\end{itemize}
 
+\begin{figure}[h!]
+  \centering
+\includegraphics[width=\textwidth]{graphs/code_easy_demo.png}
+\end{figure}
 \end{frame}
+
+
 \begin{frame}
-\frametitle{Using our Code}
+\frametitle{Using our Code - "Code Free" terminal}
 
 \end{frame}
 
@@ -158,7 +176,11 @@ $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
 \begin{frame}
 \frametitle{Conclusion}
-
+\begin{itemize}
+  \item We have created a module with the core task.
+  \item The module also can also compute elements related to the barrier option and the look-back option.
+  \item Our package is user-friendly and has a "code-free" interface.
+\end{itemize}
 \end{frame}
 
 
@@ -167,7 +189,7 @@ $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
 \centering
 {\Large Thank you!}
-
+\\[1cm]
 {\small\url{github.com/tjespel/barrier-and-look-back-options}}
 \end{frame}
 
