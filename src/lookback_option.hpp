@@ -59,7 +59,9 @@ public:
     double gamma();
     // Computes the vega (likelihood ratios method)
     double vega();
-
+    
+    double Call_An();
+    double Put_An();
 
     // SERVICE FUNCTIONS
 
