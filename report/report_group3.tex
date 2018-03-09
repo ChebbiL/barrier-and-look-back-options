@@ -24,6 +24,7 @@
 \usepackage{dsfont}
 \usepackage{placeins}
 
+\usepackage{pdfpages}
 
 \usepackage[text={15cm,24cm},top=3cm]{geometry}  % This line determines the page layout.
 % Consult the documentation of the geometry package if you want to change it.
@@ -454,11 +455,14 @@ B
 \end{figure}
 
 
+\FloatBarrier
 
+\section{Interface User Guide}
+%\includepdf[pages=-]{../app/README.pdf}
+\FloatBarrier
+\section{Package User Guide}
 
-\section{C++ Package User Guide}
-
-
+%\includepdf[pages=-]{../src/README.pdf}
 
 
 

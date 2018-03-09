@@ -2,13 +2,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-data = pd.DataFrame.from_csv('core_task.csv', sep=';')
+data = pd.DataFrame.from_csv('barrier.csv', sep=',')
 #data.tail()
 print('Data loaded.')
 
 
-mytype = "euro"
-greeks = [('delta',['lr', 'pw']), ('gamma',['pwlr', 'lrpw', 'lrlr']), ('vega',['lr', 'pw'])]
+#mytype = "euro"
+mytype = "barrier"
+#greeks = [('delta',['lr', 'pw']), ('gamma',['pwlr', 'lrpw', 'lrlr']), ('vega',['lr', 'pw'])]
+greeks = [('delta',['lr']), ('gamma',['lrlr']), ('vega',['lr'])]
 
 greeks_files_temp = [[greek[0]+'_'+greek[1][j] for j in range(len(greek[1]))] for greek in greeks]
 greeks_files = []
