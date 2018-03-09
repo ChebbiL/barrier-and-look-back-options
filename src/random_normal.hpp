@@ -17,8 +17,8 @@ double normal_cdf(double x);
 // Computes the pdf of the normal distribution
 double normal_pdf(double x);
 
-// Generates a single random number from N(0,1)
-long double get_random(void);
+// Generates a single random number from U(0,1)
+double get_Urandom(void);
 
 /*
  Random normal class.
@@ -30,8 +30,8 @@ long double get_random(void);
 class random_normal {
     // VARIABLES
     double mean, variance; // parameters of distribution, N(mean, variance)
-    vector<long double> normal_random_numbers;
-    long double sum, sum_of_squares;
+    vector<double> normal_random_numbers;
+    long double sum = 0, sum_of_squares = 0;
     double sample_mean, sample_variance;
     double time_used;
     // UTILITY FUNCTIONS
@@ -52,7 +52,7 @@ public:
     void generate (long int m);
 
     // Returns the value of i-th random number
-    long double operator[] (const long int i) const;
+    double operator[] (const long int i) const;
 
     // SERVICE FUNCTIONS
 };
@@ -62,8 +62,6 @@ public:
 double normal_cdf(double x);
 // Computes the pdf of the normal distribution
 double normal_pdf(double x);
-//temporary dummy function
-double fun();
 
 
 #endif

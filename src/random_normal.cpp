@@ -3,10 +3,10 @@
 
 random_device rd;             // an engine used to get a SEED for Mersenne Twister
 mt19937 mt(rd());             //  Mersenne Twister engine
-uniform_real_distribution<long double> dist(0, 1);
+uniform_real_distribution<double> dist(0, 1);
 
 
-long double get_random(void) {
+double get_Urandom(void) {
     return dist(mt);
 }
 
@@ -14,7 +14,7 @@ long double get_random(void) {
 void random_normal::generate_by_marsaglia (long int m) {
     normal_random_numbers.resize(m, 0);
     if (m%2==1) normal_random_numbers.resize(m+1, 0);
-    long double v1, v2, w;
+    double v1, v2, w;
     for (int j = 0; j < m; j += 2) {
         w = 1.1;  // set w>1
         while (w > 1) {
@@ -54,7 +54,7 @@ void random_normal::report (long int m, double time_used)  {
 }
 
 // Overloading [] operator for easy output of random numbers
-long double random_normal::operator[] (const long int i) const {
+double random_normal::operator[] (const long int i) const {
     if (normal_random_numbers.size()>i) return normal_random_numbers[i];
     else {
         long int k = i % normal_random_numbers.size();

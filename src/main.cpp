@@ -56,13 +56,12 @@ int debug_konstantin(){
     cout << "Vega : " <<  call.vega() << " (LR)" << endl;
     cout << "Vega : " <<  call.vega("pw") << " (PW)" << endl;
     cout<< "______________________________"<<endl;
-
-    lookback_option l(100, 120, 0.05, 0.3, 3.0, 0, 100000, 100, true);
-    cout << "lookback lR delta: " << l.delta_LR() << endl;
-    cout << "lookback PW delta: " << l.delta_PW() << endl;
-    cout << "lookback LR gamma: " << l.gamma_LR() << endl;
-    cout << "lookback LR  vega: " << l.vega_LR() << endl;
-    cout << "lookback    Price: " << l.value() << endl;
+    lookback_option l(100, 120, 0.05, 0.3, 3.0, 0, 100000, 100);
+    cout << "lookback lR delta: " << l.delta() << endl;
+    cout << "lookback PW delta: " << l.delta("pw") << endl;
+    cout << "lookback LR gamma: " << l.gamma() << endl;
+    cout << "lookback LR  vega: " << l.vega() << endl;
+    cout << "lookback    Price: " << l.price() << endl;
 
     return 0;
 }
