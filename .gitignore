@@ -51,7 +51,7 @@
 run
 
 # Latex pdf
-/report/**/*.pdf
+#/report/**/*.pdf
 
 # Python
 /.ropeproject

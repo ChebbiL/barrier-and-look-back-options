@@ -36,4 +36,13 @@ for element in greeks_names:
     plt.xlabel('log(iterations)')
     plt.ylabel('value')
     plt.legend()
-    plt.savefig(mytype + element + '.png', dpi=my_dpi)
+    plt.savefig(mytype + element.replace(' ', '') + '.png', dpi=my_dpi)
+
+for element in greeks_names:
+    print(element + ' error mean: ' + str(data[data.index==100000][element + " err"].mean()))
+
+for element in greeks_names:
+    print(element + ' error var: ' + str(data[data.index==100000][element + " err"].var()))
+
+for element in greeks_names:
+    print(element + ' time: ' + str(data[data.index==100000][element + " time"].mean()))

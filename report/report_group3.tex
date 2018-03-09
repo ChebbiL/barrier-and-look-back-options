@@ -20,7 +20,9 @@
 \usepackage{listings}
 \usepackage{color}
 
+\usepackage{subcaption}
 \usepackage{dsfont}
+\usepackage{placeins}
 
 \usepackage[text={15cm,24cm},top=3cm]{geometry}  % This line determines the page layout.
 % Consult the documentation of the geometry package if you want to change it.
@@ -225,31 +227,72 @@ The following are the results calculated from the closed-form formulae and the s
 \end{tabular}\\ \\
 
 
-We can see from above table that simulation results improve and get closer to the theoretical value as simulation number increase. Hence to compare the results from different methods, we will only analyze the simulation result from the most simulation number - 100,000 in this case.
+We can see from above table that simulation results improve and get closer to the theoretical value as simulation number increase. Hence to compare the results from different methods, we will only analyze the simulation result from the most simulation number - 100,000 in this case. This is even more clear on the graphs (Figure \ref{fig:eurographs}).
+
+\begin{figure}
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltalr.png}
+          \caption{Delta with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltapw.png}
+          \caption{Delta with PW method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrlr.png}
+          \caption{Gamma with LRLR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrpw.png}
+          \caption{Gamma with LRPW method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammapwlr.png}
+          \caption{Gamma with PWLR method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegalr.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegapw.png}
+          \caption{Vega with PW method}
+      \end{subfigure}
+
+      \caption{\label{fig:eurographs}A graphical analysis of the error of the greeks depending on the number of simulations. We notice that there is a significant increase above 1000 simulations in all cases. This is very clear on our vega which tends to have a very high error variance below 1000 simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+
+
+\end{figure}
 
 
 
-
-\begin{center}
-\label{my-label}
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{table}
+  \centering
+\label{eco:values}
+\begin{tabular}{|l|c|c|c|}
 \hline
-\multicolumn{2}{|c|}{\textbf{100,000 Simulations}} & \textbf{Mean} & \textbf{Error} & \textbf{Variance} & \textbf{Time} \\ \hline
-\multicolumn{2}{|c|}{\textbf{Option Price}}        &               &                &                   &               \\ \hline
-\multirow{2}{*}{\textbf{Delta}}  & \textbf{LR}     &               &                &                   &               \\ \cline{2-6}
-                                 & \textbf{PW}     &               &                &                   &               \\ \hline
-\multirow{3}{*}{\textbf{Gamma}}  & \textbf{PW LR}  &               &                &                   &               \\ \cline{2-6}
-                                 & \textbf{LR PW}  &               &                &                   &               \\ \cline{2-6}
-                                 & \textbf{LR LR}  &               &                &                   &               \\ \hline
-\multirow{2}{*}{\textbf{Vega}}   & \textbf{LR}     &               &                &                   &               \\ \cline{2-6}
-                                 & \textbf{PW}     &               &                &                   &               \\ \hline
+100 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
+\textbf{Option Price} & na &          na         & 5.0 e-6 \\ \hline
+\textbf{Delta LR} & 4.1 e-3 & 9.7 e-6 & 1.4 e-3\\
+\textbf{Delta PW} & 1.8 e-3 & 1.8 e-6 & 9.9 e-4\\ \hline
+\textbf{Gamma PWLR} & 6.1 e-5 & 2.0 e-9 & 1.4 e-3\\
+\textbf{Gamma LRPW} & 3.5 e-5 & 7.4 e-10 & 1.4 e-3\\
+\textbf{Gamma LRLR} & 1.9 e-4 & 2.1 e-8 & 4.7 e-3\\ \hline
+\textbf{Vega LR} & 7.7 e-1 & 3.3 e-1 & 4.6 e-3\\
+\textbf{Vega PW} & 2.4 e-1 & 3.2 e-2 & 1.6 e-3\\ \hline
 \end{tabular}\\
-\end{center}
+
+\caption{Sample from our simlation dataset with 100 000 Monte-Carlo simlations.}
+
+\end{table}
 
 
-
-**Method comparison\\
 For the following section, PW methods will be infeasible to do for Barrier Option. Hense, we will use Likelihood ratio method when calculating the greeks.
+
+\FloatBarrier
 
 \section{Main Task - Barrier Option}
 
@@ -289,17 +332,21 @@ To determine the greeks for Barrier Option, we first assessed the pathwise metho
 \\
 
 
-
-\label{my-label}
-\begin{tabular}{|c|l|c|c|c|c|}
+\begin{table}
+  \centering
+\label{bo:values}
+\begin{tabular}{|l|c|c|c|}
 \hline
-                      & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Closed-form\\ Formula\end{tabular}}} & \textbf{Mean} & \textbf{Error} & \textbf{Variance} & \textbf{Time} \\ \hline
-\textbf{Option Price} &                                                                                             &               &                &                   &               \\ \hline
-\textbf{Delta}        &                                                                                             &               &                &                   &               \\ \hline
-\textbf{Gamma}        &                                                                                             &               &                &                   &               \\ \hline
-\textbf{Vega}         &                                                                                             &               &                &                   &               \\ \hline
+100 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time} \\ \hline
+\textbf{Option Price} & &                   &               \\ \hline
+\textbf{Delta}        & &                   &               \\ \hline
+\textbf{Gamma}        & &                &                   \\ \hline
+\textbf{Vega}         & &                &                   \\ \hline
 \end{tabular}\\
 
+\caption{Sample from our simlation dataset with 100 000 Monte-Carlo simlations.}
+
+\end{table}
 
 
 To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increase.
