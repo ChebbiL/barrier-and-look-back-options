@@ -415,6 +415,46 @@ B
 % the \\ insures the section title is centered below the phrase: AppendixA
 
 
+\section{Analysis of the error with time}
+\begin{figure}
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltalrtime.png}
+          \caption{Delta with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltapwtime.png}
+          \caption{Delta with PW method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrlrtime.png}
+          \caption{Gamma with LRLR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrpwtime.png}
+          \caption{Gamma with LRPW method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammapwlrtime.png}
+          \caption{Gamma with PWLR method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegalrtime.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegapwtime.png}
+          \caption{Vega with PW method}
+      \end{subfigure}
+
+      \caption{\label{fig:eurographs}A graphical analysis of the error of the greeks depending on the time of computation. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+
+
+\end{figure}
+
+
 \lstset{ %
   language=R,                     % the language of the code
   basicstyle=\footnotesize,       % the size of the fonts that are used for the code
