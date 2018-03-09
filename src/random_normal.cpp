@@ -10,6 +10,19 @@ double get_Urandom(void) {
     return dist(mt);
 }
 
+
+double get_Nrandom(void) {
+    double v1, v2, w, dummy;
+    w = 1.1;  // set w>1
+    while (w > 1) {
+        v1 = 2.0 * dist(mt) - 1;
+        v2 = 2.0 * dist(mt) - 1;
+        w = v1*v1 + v2*v2;
+    }
+    dummy = sqrt(-2 * log(w) / w)*v1;
+    return dummy;
+}
+
 // Generates m numbers from distribution N(mean,variance) using Marsaglia polar method
 void random_normal::generate_by_marsaglia (long int m) {
     normal_random_numbers.resize(m, 0);

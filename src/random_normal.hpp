@@ -17,8 +17,10 @@ double normal_cdf(double x);
 // Computes the pdf of the normal distribution
 double normal_pdf(double x);
 
-// Generates a single random number from U(0,1)
+// Generates a single random number from U[0,1]
 double get_Urandom(void);
+// Generates a single random number from N(0,1)
+double get_Nrandom(void);
 
 /*
  Random normal class.

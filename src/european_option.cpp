@@ -5,7 +5,7 @@ double european_option::stock_price_single(){
 }
 
 double european_option::stock_price_single(double time_final, double time_inital){
-    return St * exp((r - 0.5*sigma*sigma) * (time_final - time_inital) + sigma * sqrt(time_final - time_inital) * get_random());
+    return St * exp((r - 0.5*sigma*sigma) * (time_final - time_inital) + sigma * sqrt(time_final - time_inital) * get_Nrandom());
 }
 
 double european_option::stock_price_single(double S0, double T1, double t1){
