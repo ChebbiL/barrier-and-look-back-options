@@ -153,3 +153,13 @@ double lookback_option::vega()
     }
     return sum / number_iterations;
 }
+
+///////////////////////////////////////
+
+double d1(double moneyness, double r, double sigma, double T)
+{
+    double a = moneyness + (r + sigma*sigma / 2.0) *T;
+    return a/(sigma * sqrt(T));
+}
+
+//double lookback
