@@ -9,7 +9,7 @@ double european_option::stock_price_single(double time_final, double time_inital
 }
 
 double european_option::stock_price_single(double S0, double T1, double t1){
-	return S0*exp((r - 0.5*pow(sigma, 2))*(T1 - t1) + sigma*sqrt(T1 - t1)*get_Nrandom());
+    return S0*exp((r - 0.5*pow(sigma, 2))*(T1 - t1) + sigma*sqrt(T1 - t1)*get_Nrandom());
 }
 
 double european_option::stock_price_single(double Z){
@@ -31,12 +31,16 @@ double european_option::call_payoff_single(double Z){
 double european_option::d1_calculate() {
     return (log(St/K)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
 }
-double european_option::d1_calculate(double a, double b, double c) {
-    return (a+(b+0.5*c*c)*tau)/c*sqrt(tau);
+double european_option::d1_calculate(double St_given) {
+    return (log(St_given/K)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
 }
 
 double european_option::d2_calculate() {
     return (log(St/K)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);
+}
+
+double european_option::d2_calculate(double St_given) {
+    return (log(St_given/K)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);
 }
 
 
@@ -47,32 +51,32 @@ double european_option::d2_calculate() {
 double european_option::payoff_theoretic() {
     return St*normal_cdf(d1) - K*discount*normal_cdf(d2);
 }
-double european_option::payoff_theoretic(double initial_value, double strike) {
-    return initial_value*normal_cdf(d1) - strike*discount*normal_cdf(d2);
+double european_option::payoff_theoretic(double initial_value_given, double strike_given) {
+    return initial_value_given*normal_cdf(d1_calculate(initial_value_given)) - strike_given*discount*normal_cdf(d2_calculate(initial_value_given));
 }
 
 double european_option::delta_theoretic() {
     return normal_cdf(d1);
 }
 double european_option::delta_theoretic_call(double S0, double k){
-	double d = (log(S0 / k) + (r + sigma*sigma / 2)*tau) / (sigma*sqrt(tau));
-	return  normal_cdf(d);
+    double d = (log(S0 / k) + (r + sigma*sigma / 2)*tau) / (sigma*sqrt(tau));
+    return  normal_cdf(d);
 }
 
 double european_option::gamma_theoretic() {
     return (exp(-0.5*d1*d1) / sqrt(2 * M_PI)) / (St*sigma*sqrt(T));
 }
 double european_option::gamma_theoretic_call(double S0, double k){
-  double d = (log(S0 / k) + (r + sigma*sigma / 2)*(tau)) / (sigma*sqrt(tau));
-  return  normal_pdf(d) / (S0*sigma*sqrt(tau));
+    double d = (log(S0 / k) + (r + sigma*sigma / 2)*(tau)) / (sigma*sqrt(tau));
+    return  normal_pdf(d) / (S0*sigma*sqrt(tau));
 }
 
 double european_option::vega_theoretic() {
     return St*sqrt(T)*(exp(-0.5*d1*d1) / sqrt(2 * M_PI));
 }
 double european_option::vega_theoretic_call(double S0, double k){
-	double d = (log(S0 / k) + (r + sigma*sigma / 2)*tau) / (sigma*sqrt(tau));
-	return  S0*normal_pdf(d)*sqrt(tau);
+    double d = (log(S0 / k) + (r + sigma*sigma / 2)*tau) / (sigma*sqrt(tau));
+    return  S0*normal_pdf(d)*sqrt(tau);
 }
 
 
