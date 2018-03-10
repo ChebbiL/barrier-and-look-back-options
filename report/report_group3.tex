@@ -180,7 +180,7 @@ The closed-form Greeks are calculated the following way:
 \nu_{bs} =  \frac{\partial C}{\partial \sigma}=\Phi'(d_1)\sqrt{T}
 \end{equation}
 
-To calculate the Greeks from simulation, we compare Likelihood ratio method and Pathwise method.As the Call option price is given by
+To calculate the Greeks from simulation, we compare Likelihood ratio method and Pathwise method. As the Call option price is given by
 
 $$C = e^{-rT}E[(S_T-K)^+]=e^{-rT}\int(S_T-K)^+ h_{S_0}(S_T) dS_T$$
 
@@ -191,7 +191,7 @@ $$\frac{\partial C}{\partial S_0}=\int(S_T-K)^+\frac{d}{dS_0}h_{S_0}(S_T) dS_T=E
 And the lognormal density function of $S_T$ is given by
 $$h(x)=\frac{1}{x\sigma \sqrt{T}}\phi(\xi(x)), \ \ \xi(x)=\frac{ln(x/S_0)-(r-\frac{1}{2}\sigma^2)T}{\sigma \sqrt{T}}  $$
 
-Therefore,
+Therefore \cite{lectures},
 
 $$Delta_{LR}=\frac{\partial C}{\partial S_0}=E[e^{-rT}(S_T-K)^+\frac{Z}{S_0\sigma\sqrt{T}}]$$
 where $Z~N(0,1).$
@@ -200,7 +200,7 @@ $$Gamma_{LR LR} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}(S_T-K)^+(\frac
 
 $$Vega_{LR} = \frac{\partial C}{\partial \sigma}=E[e^{-rT}(S_T-K)^+\left(\frac{Z^2-1}{\sigma}-Z\sqrt{T}\right)]$$
 
-By pathwise methods, the greeks are given as following\footnote{For gamma, there are two different methods.}, with $Z~N(0,1)$:
+By pathwise methods, the greeks are given as following\footnote{For gamma, there are two different methods.} \cite{lectures}, with $Z~N(0,1)$:
 
 $$Delta_{PW}=\frac{\partial C}{\partial S_0}=E[e^{-rT}\mathds{1}_{S_T>K}\frac{S_T}{S_0}]$$
 
@@ -354,7 +354,7 @@ Lookback call option with fixed strik price $K$ has payoff $(M^T_{0}-K)^+$. The 
 
 $$c(S_0,K,t) = e^{-r(T-t)}E[(max(M^t_0,M^T_t)-K)^+|\mathcal{F}_t] $$
 
-The closed-form formula for fixed strike lookback call option at time 0 is
+The closed-form formula for fixed strike lookback call option at time 0 \cite{lectures} is
 
 $$c(S_0,K,0)=C_{bs}(S_0,K) + \frac{S_0\sigma^2}{2r}\{ \Phi[d_2(S_0,K)]-e^{-rT}\frac{S_0}{K}^{-\frac{2r}{\sigma^2}} \Phi[-d_1(K,S_0)]\}$$
 
@@ -388,12 +388,17 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 
 \begin{thebibliography}{9}
 
-\bibitem{Reference1}
-A
+\bibitem{lectures}
+Harry Zheng (Pr.),
+  \textit{Simulation Methods for Finance},
+  Imperial College London, London,
+  2018.
 
-\bibitem{Reference2}
-B
-
+\bibitem{barrieropt}
+Diogo Monteiro da Costa Soares Justino,
+  \textit{Hedging of Barrier Options},
+  Instituto Universit\'ario de Lisboa, Lisbon,
+  2010.
 
 
 
