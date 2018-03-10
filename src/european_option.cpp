@@ -31,16 +31,16 @@ double european_option::call_payoff_single(double Z){
 double european_option::d1_calculate() {
     return (log(St/K)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
 }
-double european_option::d1_calculate(double St_given) {
-    return (log(St_given/K)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
+double european_option::d1_calculate(double St_given, double strike_given) {
+    return (log(St_given/strike_given)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
 }
 
 double european_option::d2_calculate() {
     return (log(St/K)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);
 }
 
-double european_option::d2_calculate(double St_given) {
-    return (log(St_given/K)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);
+double european_option::d2_calculate(double St_given, double strike_given) {
+    return (log(St_given/strike_given)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);
 }
 
 
@@ -52,7 +52,7 @@ double european_option::payoff_theoretic() {
     return St*normal_cdf(d1) - K*discount*normal_cdf(d2);
 }
 double european_option::payoff_theoretic(double initial_value_given, double strike_given) {
-    return initial_value_given*normal_cdf(d1_calculate(initial_value_given)) - strike_given*discount*normal_cdf(d2_calculate(initial_value_given));
+    return initial_value_given*normal_cdf(d1_calculate(initial_value_given, strike_given)) - strike_given*discount*normal_cdf(d2_calculate(initial_value_given, strike_given));
 }
 
 double european_option::delta_theoretic() {

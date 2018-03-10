@@ -60,7 +60,7 @@ int debug_konstantin(){
     cout << "lookback LR  vega: " << l.vega() << endl;
     cout << "lookback    Price: " << l.price() << endl;
 */
-    barrier_option call(80, 100, 100, 0.05, 0.4, 1, 0, 10000);   // need Price  around 18
+    barrier_option call(125, 100, 100, 0.05, 0.4, 1, 0, 10000);   // need Price  around 18
     cout << "Theoretic price: " << call.price_theoretic() << endl;
     cout << "Price: " << call.price() << endl;
     cout << "Delta: " << call.delta("lr") << " (LR)" << endl;
