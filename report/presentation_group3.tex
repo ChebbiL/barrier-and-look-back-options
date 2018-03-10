@@ -41,7 +41,7 @@
 \textbf{Generate Uniform Distribution}       & \textbf{Convert U to SDN} \\
 System built-in Rand & Central Limit Theory      \\
 Linear Congruential Generator                & Box-Muller                \\
-                                             & Marsagilia Polar         
+                                             & Marsagilia Polar
 \end{tabular}
 \end{table}
 
@@ -163,7 +163,7 @@ Time used for ***simulation : ***seconds/minutes/hours
 The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion
 
 $$F(x) = 1 - e^{-2x(x-b)}, \ x \geq b.$$
-Hense, at time T with $S_T$, 
+Hense, at time T with $S_T$,
 $$M^T={S_T+\sqrt{S_T^2-2TlogU}\over 2}$$
 
 Method 2 is 500 times faster!
@@ -197,11 +197,11 @@ Simulate Greeks using Likelihood ratio method as Pathwise method is not feasible
 \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
-    & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
-\textbf{Option Price} & na &          na         & .. \\ \hline
-\textbf{Delta LR} & 1.036 e-2 & 3.029 e-5 & 9.284 e-2\\ \hline
-\textbf{Gamma LRLR} & 1.895 e-4 & 1.895 e-8& 1.475 e-1\\ \hline
-\textbf{Vega LR} & 7.507 e-1 & 3.220 e-1 & 1.097 e-1\\ \hline
+    & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (s)} \\ \hline
+\textbf{Price} & na &          na         & .. \\ \hline
+\textbf{Delta LR} & 1.04 e-2 & 3.03 e-5 & 9.28 e-2\\ \hline
+\textbf{Gamma LRLR} & 1.89 e-4 & 1.89 e-8& 1.48 e-1\\ \hline
+\textbf{Vega LR} & 7.51 e-1 & 3.22 e-1 & 1.09 e-1\\ \hline
 \end{tabular}
 \caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7).}
 \end{table}
@@ -221,7 +221,7 @@ $$c(S_0,K,t) = e^{-r(T-t)}E[(max(M^t_0,M^T_t)-K)^+|\mathcal{F}_t] $$
 
 \begin{frame}
 \frametitle{Look-back Option - Method}
-The cdf of the distribution of Maximum $S_t$ for standard Brownian motion for the period of (0, T) is 
+The cdf of the distribution of Maximum $S_t$ for standard Brownian motion for the period of (0, T) is
 
 $$F = \Phi(\frac{m-aT}{\sqrt{T}})-e^{2am}\Phi(\frac{-m-aT}{\sqrt{T}})$$
 

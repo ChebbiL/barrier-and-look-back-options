@@ -34,6 +34,9 @@ double european_option::d1_calculate() {
 double european_option::d1_calculate(double St_given, double strike_given) {
     return (log(St_given/strike_given)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
 }
+double european_option::d1_calculate(double a, double b, double c) {
+    return (a+(b+0.5*c*c)*tau)/c*sqrt(tau);
+}
 
 double european_option::d2_calculate() {
     return (log(St/K)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);

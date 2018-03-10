@@ -2,8 +2,9 @@ CXX = clang++
 
 run: bin/main.o bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o
 	g++ bin/main.o bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o -o run
-	g++ -dynamiclib -fPIC -o ../libs/BarrierLookBackOptions.dylib  bin/european_option.o bin/random_normal.o bin/barrier_option.o bin/lookback_option.o
-	g++ -shared -o ../libs/libBarrierLookBackOptions.so bin/european_option.o bin/random_normal.o bin/barrier_option.o bin/lookback_option.o
+	g++ -dynamiclib -fPIC -o ../libs/BarrierLookBackOptions.dylib bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o
+	g++ -shared -o ../libs/libBarrierLookBackOptions.so bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o
+	ar rvs ../libs/BarrierLookBackOptions.a  bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o
 
 bin/main.o: main.cpp
 	g++ -c main.cpp -o bin/main.o

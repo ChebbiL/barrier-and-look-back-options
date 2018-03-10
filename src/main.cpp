@@ -2,15 +2,15 @@
 This is the main project file.
 */
 
-#include "european_option.hpp"
-#include "barrier_option.hpp"
-#include "lookback_option.hpp"
+#include "BarrierLookBackOptions.h"
 
-#include<iostream> // For console output
+/*
 #include <cmath> // For math calculations
 #include <string> // For user instructions in greeks
 #include <random> // For random numbers generation
+*/
 
+#include<iostream> // For console output
 using namespace std;
 
 
@@ -75,7 +75,7 @@ int debug_konstantin(){
 
 int main(){
     cout << "hello" << endl;
-    debug_konstantin();
-
+    //debug_konstantin();
+    debug_thomas();
     return 0;
 }

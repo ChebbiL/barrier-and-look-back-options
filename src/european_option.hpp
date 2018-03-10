@@ -33,6 +33,7 @@ protected:
     // Computes d1 for a Black-Scholes closed-form formula
     double d1_calculate();
     double d1_calculate(double St_given, double strike_given);
+    double d1_calculate(double a, double b, double c); //For look-back option
     // Computes d2 for a Black-Scholes closed-form formula
     double d2_calculate();
     double d2_calculate(double St_given, double strike_given);
