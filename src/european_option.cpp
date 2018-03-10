@@ -31,6 +31,9 @@ double european_option::call_payoff_single(double Z){
 double european_option::d1_calculate() {
     return (log(St/K)+(r+0.5*sigma*sigma)*tau)/sigma*sqrt(tau);
 }
+double european_option::d1_calculate(double a, double b, double c) {
+    return (a+(b+0.5*c*c)*tau)/c*sqrt(tau);
+}
 
 double european_option::d2_calculate() {
     return (log(St/K)+(r-0.5*sigma*sigma)*(tau))/sigma*sqrt(tau);

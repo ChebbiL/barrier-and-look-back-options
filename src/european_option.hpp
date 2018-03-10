@@ -32,6 +32,7 @@ protected:
     double call_payoff_single(double Z);
     // Computes d1 for a Black-Scholes closed-form formula
     double d1_calculate();
+    double d1_calculate(double a, double b, double c);
     // Computes d2 for a Black-Scholes closed-form formula
     double d2_calculate();
 
