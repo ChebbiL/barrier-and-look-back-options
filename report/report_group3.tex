@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,fleqn,draft]{article}
+\documentclass[12pt,a4paper,fleqn]{article}
 
 \usepackage{multirow}
 \usepackage[table,xcdraw]{xcolor}
@@ -97,7 +97,7 @@ Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang }
 \tableofcontents
 
 \newpage
-
+\setcounter{page}{1}
 \section{Generate Random Number}
 
 There are two methods we used to generate random numbers.
@@ -123,20 +123,22 @@ where $U_1$ and $U_2$ are two independent uniform distribution.
 $$N_1 = \sqrt{\frac{(-2logW)}{W}}V_1,\ N_2 = \sqrt{\frac{(-2logW)}{W}}V_2$$As the computation does not involve sine and cosine, it is generally faster than Box-Muller.
 
 The following is the simulation result of Standard Normal distribution and time used by different methods from generating 1000,000 random variables.
-\begin{center}
+
+\begin{table}
+\centering
 \begin{tabular}{| c| c| c| c| }
 \hline
 \textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time} \\ \hline
-\textbf{\textit{ rand} generated U + CLT} & 6.28 e-5 & 0.999916 & 8.751 \\  \hline
-\textbf{\textit{ rand} generated U + Box-Muller} & cell8 & cell9&..\\ \hline
-\textbf{\textit{ rand} generated U + Marsagilia Polar} & -5.93 e-4& 1.000759& 0.530\\ \hline
-\textbf{ linear congruential generator + CLT} & 8.87 e-5& 0.999189&23.96\\ \hline
-\textbf{linear congruential generator + Box-Muller} & 1.34 e-4 & 1.000405&0.905\\ \hline
-\textbf{ linear congruential generator + Marsagilia} & -8.517 e-5 & 1.000525&0.936\\ \hline
+\textbf{\textit{ rand} generated \& + CLT} & 6.28 e-5 & 0.999916 & 8.751 \\  \hline
+\textbf{\textit{ rand} generated U \& Box-Muller} & cell8 & cell9&..\\ \hline
+\textbf{\textit{ rand} generated U \& Marsagilia Polar} & -5.93 e-4& 1.000759& 0.530\\ \hline
+\textbf{ linear congruential gen. \& CLT} & 8.87 e-5& 0.999189&23.96\\ \hline
+\textbf{linear congruential gen. \& Box-Muller} & 1.34 e-4 & 1.000405&0.905\\ \hline
+\textbf{ linear congruential gen. \& Marsagilia} & -8.517 e-5 & 1.000525&0.936\\ \hline
 \textbf{\textit{Randon} }& cell8 & cell9&..\\ \hline
-
 \end{tabular}
-\end{center}
+\caption{We note that the Marsaglia method is faster compared to the other methods. Note that the run time depends on the computer used for the simulation (here a 3.4 GHz Intel Core i7).}
+\end{table}
 
 As shown in the table above, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. **More
 For the tasks in this project, we use the combination of linear congruential generator and Marsagilia methods to simulate random variable.
@@ -375,10 +377,6 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 \textbf{Vega}         &                                                                                             &               &                &                   &               \\ \hline
 \end{tabular}\\
 
-\newpage
-
-\newpage
-%\appendix
 
 
 
