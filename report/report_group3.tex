@@ -270,7 +270,7 @@ We can see from above table that simulation results improve and get closer to th
 \label{eco:values}
 \begin{tabular}{|l|c|c|c|}
 \hline
-100 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
+1 000 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
 \textbf{Option Price} & na &          na         & 5.0 e-6 \\ \hline
 \textbf{Delta LR} & 4.1 e-3 & 9.7 e-6 & 1.4 e-3\\
 \textbf{Delta PW} & 1.8 e-3 & 1.8 e-6 & 9.9 e-4\\ \hline
@@ -281,7 +281,7 @@ We can see from above table that simulation results improve and get closer to th
 \textbf{Vega PW} & 2.4 e-1 & 3.2 e-2 & 1.6 e-3\\ \hline
 \end{tabular}
 
-\caption{Sample from our simlation dataset with 100 000 Monte-Carlo simlations. Note that the run time depends on the computer (here a 3.1 GHz Intel Core~i5).}
+\caption{Sample from our simlation dataset with 100 000 Monte-Carlo simlations. Note that the run time depends on the computer (here a 3.1 GHz Intel Core~i5). We computed the absolute error and since the option price is computed using the closed form formula no error is represented.}
 
 \end{table}
 
@@ -340,13 +340,13 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 \vspace*{.5cm}\\
 \begin{tabular}{|l|c|c|c|}
 \hline
-100 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
+1 000 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
 \textbf{Option Price} & PLEASE PASTE NEW &          na         & .. \\ \hline
 \textbf{Delta LR} & 1.036 e-2 & 3.029 e-5 & 9.284 e-2\\ \hline
 \textbf{Gamma LRLR} & 1.895 e-4 & 1.895 e-8& 1.475 e-1\\ \hline
 \textbf{Vega LR} & 7.507 e-1 & 3.220 e-1 & 1.097 e-1\\ \hline
 \end{tabular}
-\caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7).}
+\caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7). We computed the absolute error and since the option price is computed using the closed form formula no error is represented.}
 \end{table}
 
 To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increases \ref{fig:barriergraphs}.
