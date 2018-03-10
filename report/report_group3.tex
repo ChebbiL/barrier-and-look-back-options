@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,fleqn,draft]{article}
+\documentclass[11pt,a4paper,fleqn]{article}
 
 \usepackage{multirow}
 \usepackage[table,xcdraw]{xcolor}
@@ -311,17 +311,17 @@ $$F(x) = 1 - e^{-2x(x-b)}, \ x \geq b.$$
 solving the equation $F(x) = u, u\in (0,1)$ has roots
 $$x = {b \over 2} \pm {\sqrt{b^2-2log(1-u)}\over 2}$$
 
-Hense, at time T with $S_T$, 
+Hense, at time T with $S_T$,
 $$M^T={S_T+\sqrt{S_T^2-2TlogU}\over 2}$$
 And we simulate $S_T$ by Black-Scholes formula
 $$S_T=S_0e^{(r-{1\over 2}\sigma^2)T+\sigma \sqrt{T}Z}$$
 
-Therefore, 
+Therefore,
 $$M^T=S_0e^{{1\over2}log({S_T\over S_0})+\sqrt{log({S_T\over S_0})^2-2\sigma^2TlogU}}$$
 
 With this method, we only need to generate one $S_T$ for each path and one random variable for U to get the $M^T$. It reduces the amount of simulation by 500 times (as before, 1,000 $S_t$ need to be generated for each path).
 
-As we mentioned previously, it is impossible to find the partial direvative of the indicator function $1_{M^T_0\leq B}$  with respect to $S_0$. Hense pathwise method is eliminated by us. For the likelihood ratio method, we find the differentiation of joint cdf of $S_T$ and the  $M_T $ to be 
+As we mentioned previously, it is impossible to find the partial direvative of the indicator function $1_{M^T_0\leq B}$  with respect to $S_0$. Hense pathwise method is eliminated by us. For the likelihood ratio method, we find the differentiation of joint cdf of $S_T$ and the  $M_T $ to be
 $$f_{uo}(x, m, T)={1\over \sqrt{T}}\left(\phi({x-\mu T \over \sqrt{T}})-e^{2m\mu} \phi({x-2m-\mu T\over \sqrt{T}})\right) $$
 
 where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2})$ and $m = {1\over \sigma}ln {M_T\over S_0}$. Then we can find the greeks accordingly, the detail of the computation is in Appendix \ref{sec:bocomp}.
@@ -349,40 +349,40 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 \caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7).}
 \end{table}
 
-To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increase \ref{fig:barriergraphs}.
+To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increases \ref{fig:barriergraphs}.
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
       \begin{subfigure}[b]{0.45\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurodeltalr.png}
+          \includegraphics[width=\textwidth]{graphs/barrierolddeltalrtime.png}
           \caption{Delta with LR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.45\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurodeltapw.png}
-          \caption{Delta with PW method}
+          \includegraphics[width=\textwidth]{graphs/barrierdeltalrtime.png}
+          \caption{Delta with Rayleight method}
       \end{subfigure}
 
       \begin{subfigure}[b]{0.45\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurogammalrlr.png}
+          \includegraphics[width=\textwidth]{graphs/barrieroldgammalrlrtime.png}
           \caption{Gamma with LRLR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.45\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurogammapwlr.png}
-          \caption{Gamma with PWLR method}
+          \includegraphics[width=\textwidth]{graphs/barriergammalrlrtime.png}
+          \caption{Gamma with Rayleight method}
       \end{subfigure}
 
       \begin{subfigure}[b]{0.45\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurovegalr.png}
+          \includegraphics[width=\textwidth]{graphs/barrieroldvegalrtime.png}
           \caption{Vega with LR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.45\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurovegapw.png}
-          \caption{Vega with PW method}
+          \includegraphics[width=\textwidth]{graphs/barriervegalrtime.png}
+          \caption{Vega with Rayleight method}
       \end{subfigure}
 
-      \caption{\label{fig:barriergraphs}A graphical analysis of the error of the greeks depending on thecomputation time. We notice that the method with Rayleight distribution is between 100 and 1,000 times faster. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+      \caption{\label{fig:barriergraphs}A graphical analysis of the error of the greeks depending on the computation time. We notice that the method with Rayleight distribution is between 100 and 1,000 times faster. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10. However, due to the extremely slow computation time for LR methods, we only computed up to 100,000 samples compared to 1,000,000 for the Rayleight method.}
 \end{figure}
-
+\FloatBarrier
 
 \section{Look-back Option}
 
@@ -395,10 +395,10 @@ The closed-form formula for fixed strike lookback call option at time 0 \cite{le
 $$c(S_0,K,0)=C_{bs}(S_0,K) + \frac{S_0\sigma^2}{2r}\{ \Phi[d_2(S_0,K)]-e^{-rT}\frac{S_0}{K}^{-\frac{2r}{\sigma^2}} \Phi[-d_1(K,S_0)]\}$$
 
 
-The pdf of the distribution of Maximum $S_t$ for standard Brownian motion for the period of (0, T) is 
+The pdf of the distribution of Maximum $S_t$ for standard Brownian motion for the period of (0, T) is
 $$f = \frac{2}{\sqrt{T}}\phi\left(\frac{m-aT}{\sqrt{T}}\right)-2ae^{2am}\Phi\left(\frac{-m-aT}{\sqrt{T}}\right)$$
 
-and the cdf is 
+and the cdf is
 $$F = \Phi\left(\frac{m-aT}{\sqrt{T}}\right)-e^{2am}\Phi\left(\frac{-m-aT}{\sqrt{T}}\right)$$
 
 We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each random number we generate from [0,1], we receive one m in by solving for F. And to get $M^T$ of stock price follows geometric Browninan motion with starting price $S_0$, we let $M^T=S_0e^{\sigma m }$.\\
@@ -457,7 +457,7 @@ UOC(S_0,K,B) ={} &1_{B>K} \{ C_{bs}(S_0, K)-C_{bs}(S_0,B)-(B-K)e^{-rT}\Phi[d_{1}
 \end{equation}
 Where $C_{bs}$ and $d_{1}$ are as stated in the Black-Scholes formula (1) and (2), and $v=r-\frac{\sigma^2}{2}$.\\
 
-closed form for DOC price is 
+closed form for DOC price is
 $$C_{DO}(S_0,K,B) = C_{bs}(S_0, K) -  (\frac{S_0}{B})^{ -2\frac{\upsilon}{\sigma^2}}C_{bs}(\frac{B^2}{S_0}, K)$$
 
 where $\upsilon = r - {\sigma^2 \over 2}$.
