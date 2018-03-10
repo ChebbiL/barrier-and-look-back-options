@@ -32,10 +32,10 @@ protected:
     double call_payoff_single(double Z);
     // Computes d1 for a Black-Scholes closed-form formula
     double d1_calculate();
-    double d1_calculate(double a, double b, double c);
+    double d1_calculate(double St_given);
     // Computes d2 for a Black-Scholes closed-form formula
     double d2_calculate();
-
+    double d2_calculate(double St_given);
 
     // MAIN FUNCTIONS
 
@@ -87,7 +87,7 @@ public:
 
     // Computes the call payoff using a closed-form formula
     double payoff_theoretic();
-    double payoff_theoretic(double initial_value, double strike);
+    double payoff_theoretic(double initial_value_given, double strike_given);
 
     // Computes the call price by averaging (expectation) several (random) single call payoffs
     double price();
