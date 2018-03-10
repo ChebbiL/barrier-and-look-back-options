@@ -101,14 +101,14 @@ Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang}
 
 \part{Basic Task}
 \section{Generate Random Number}
-
+\subsection{Presentation}
 There are two methods we used to generate random numbers.
 The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Random}}, which can directly generate a variable follows Standard Normal Distribution.
-
-To generate a uniform distribution we tried two ways: one can use the system build-in methods \textbf{\textit{rand}}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size we plan to generate. In other words, when we use \textbf{\textit{rand}} to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
+\subsection{Generating the uniform distribution}
+To generate a uniform distribution we tried two ways: one can use the system build-in methods\texttt{rand}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size we plan to generate. In other words, when we use \texttt{rand} to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
 
 $$n_i = (an_{i-1}) \ mod\ m$$for $i=1,2,...,10,000$, and we let $ a = 7^5$, and $m = 2^{31}-1$, which gives about 2 billion points. We run 100,000 times and will only use $0.005\%$ of all points. Theoretically, no pattern should appear.
-
+\subsection{Generating the normal distribution}
 To transform the uniform distribution we got into Standard Normal Distribution, we have tried three methods. By Central Limit theory,
 
 $$ Z_n = \frac{\sum_{i=1}^{n}X_i-n\mu}{\sqrt{n}\sigma}$$where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significant large simulations and speed is slow consequently.
@@ -139,17 +139,17 @@ The following is the simulation result of Standard Normal distribution and time 
 \textbf{ linear congruential gen. \& Marsagilia} & -8.517 e-5 & 1.000525&0.936\\ \hline
 \textbf{\textit{random} }& cell8 & cell9&..\\ \hline
 \end{tabular}
-\caption{We note that the Marsaglia method is faster compared to the other methods. Note that the run time depends on the computer used for the simulation (here a 3.4 GHz Intel Core i7).}
+\caption{We note that the Marsaglia method is faster compared to the other methods. Note that the run time depends on the computer used for the simulation (here a 3.4 GHz Intel Core~i7).}
 \end{table}
 
-As shown in the table above, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. We use the combination of linear congruential generator and Marsagilia methods to simulate random variable.
+As shown in the table above, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. We use the combination of linear congruential generator and Marsagilia methods to simulate random variables. This was also the opportunity for us to have full control over the generation of random numbers, as it is a critical step towards efficient simulations \cite{lectures}. It also features very good results in terms of statistical parameters and time.
 
 
 \FloatBarrier
 
 \section{European Option}
 
-
+\subsection{Presentation}
 The asset price in a risk neutral probability space $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{0\leq t\leq T}, P)$ follows Geometric Brownian Motion,
 
 $$dS_t=rS_tdt+\sigma S_tdW_t, \ 0\leq t \leq T$$
@@ -170,10 +170,9 @@ where
 $$d_1(S_0,K)=\frac{1}{\sigma \sqrt{T}}[ln(\frac{S_0}{K})+(r+\frac{\sigma^2}{2})T],\ d_2(S_0,K) = d_1-\sigma \sqrt{T}$$
 
 The closed-form Greeks are calculated the following way:
-$$\delta_{bs} = \frac{\partial C}{\partial S_0}=\Phi(d_1) $$
-$$\gamma_{bs} = \frac{\partial^2 C}{\partial S_0^2}=\frac{\Phi'(d_1)}{S_0\sigma \sqrt{T}}$$
-$$\nu_{bs} =  \frac{\partial C}{\partial \sigma}=\Phi'(d_1)\sqrt{T}$$
+$$\delta_{bs} = \frac{\partial C}{\partial S_0}=\Phi(d_1),\hspace*{.5cm} \gamma_{bs} = \frac{\partial^2 C}{\partial S_0^2}=\frac{\Phi'(d_1)}{S_0\sigma \sqrt{T}},\hspace*{.5cm} \nu_{bs} =  \frac{\partial C}{\partial \sigma}=\Phi'(d_1)\sqrt{T}$$
 
+\subsection{Likelihood Ratio Greeks}
 To calculate the Greeks from simulation, we compare Likelihood ratio method and Pathwise method. As the Call option price is given by
 
 $$C = e^{-rT}E[(S_T-K)^+]=e^{-rT}\int(S_T-K)^+ h_{S_0}(S_T) dS_T$$
@@ -194,6 +193,7 @@ $$Gamma_{LR LR} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}(S_T-K)^+(\frac
 
 $$Vega_{LR} = \frac{\partial C}{\partial \sigma}=E[e^{-rT}(S_T-K)^+\left(\frac{Z^2-1}{\sigma}-Z\sqrt{T}\right)]$$
 
+\subsection{Pathwise Derivative Greeks}
 By pathwise methods, the greeks are given as following\footnote{For gamma, there are two different methods.} \cite{lectures}, with $Z~N(0,1)$:
 
 $$Delta_{PW}=\frac{\partial C}{\partial S_0}=E[e^{-rT}\mathds{1}_{S_T>K}\frac{S_T}{S_0}]$$
@@ -261,8 +261,6 @@ We can see from above table that simulation results improve and get closer to th
       \end{subfigure}
 
       \caption{\label{fig:eurographs}A graphical analysis of the error of the greeks depending on the number of simulations. We notice that there is a significant increase above 1000 simulations in all cases. This is very clear on our vega which tends to have a very high error variance below 1000 simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
-
-
 \end{figure}
 
 
@@ -283,7 +281,7 @@ We can see from above table that simulation results improve and get closer to th
 \textbf{Vega PW} & 2.4 e-1 & 3.2 e-2 & 1.6 e-3\\ \hline
 \end{tabular}
 
-\caption{Sample from our simlation dataset with 100 000 Monte-Carlo simlations. Note that the run time depends on the computer (here a 3.1 GHz Intel Core i5).}
+\caption{Sample from our simlation dataset with 100 000 Monte-Carlo simlations. Note that the run time depends on the computer (here a 3.1 GHz Intel Core~i5).}
 
 \end{table}
 
@@ -296,16 +294,17 @@ For the following section, PW methods will be infeasible to do for Barrier Optio
 
 \part{Main Task}
 \section{Barrier Option}
-
+\subsection{Presentation}
 Let $T$ denote option expiration time and $[0,T]$ lookback period. For $T_0 \leq t\leq T$ denote by
 
 $$m^T_{0} =\underset{0 \leq t \leq T}{min}  S_t, \ \   M^t_{0} = \underset{0 \leq t \leq T}{max} S_t$$
 
 For an up-and-out barrier call option $A_T=(S_T-K)^+1_{max 0\leq t\leq T \  S_t\leq B}$, where $B$ is a barrier leve and $1_S$ is an indicator function.
 
-We stimulate the path of $S_t$ by taking the maturity time $T$ into 1,000 steps, and we simulate 5,000 such paths. As standard normal distribution is symmetrically distributed, 5,000 paths can be treated as 10,000 paths by adding negative sign and creating the other 5,000. We have an $M^T_0$ for each path. However, this method is bordensome as we need to generate each step for each path. The simulation process is long. Hense, we tried second method using Rayleigh Distribution to simulate the distribution of $M^t_0$ directly. 
+We stimulate the path of $S_t$ by taking the maturity time $T$ into 1,000 steps, and we simulate 5,000 such paths. As standard normal distribution is symmetrically distributed, 5,000 paths can be treated as 10,000 paths by adding negative sign and creating the other 5,000. We have an $M^T_0$ for each path. However, this method is bordensome as we need to generate each step for each path. The simulation process is long.
 
-The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion \cite{lectures, barrieropt}
+\subsection{Another Mothod using Rayleigh Distribution}
+Hense, we tried second method using Rayleigh Distribution to simulate the distribution of $M^t_0$ directly. The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion \cite{barrieropt, glasserman}
 
 $$F(x) = 1 - e^{-2x(x-b)}, \ x \geq b.$$
 
@@ -341,13 +340,39 @@ where $x = {1\over \sigma}ln {x\over S_0}$ and $m = {1\over \sigma}ln {M_T\over 
 \caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7).}
 \end{table}
 
+To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increase \ref{fig:barriergraphs}.
 
+\begin{figure}
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltalr.png}
+          \caption{Delta with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltapw.png}
+          \caption{Delta with PW method}
+      \end{subfigure}
 
-To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increase.
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrlr.png}
+          \caption{Gamma with LRLR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammapwlr.png}
+          \caption{Gamma with PWLR method}
+      \end{subfigure}
 
-**graph\\
-**graph\\
-**graph\\
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegalr.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegapw.png}
+          \caption{Vega with PW method}
+      \end{subfigure}
+
+      \caption{\label{fig:barriergraphs}A graphical analysis of the error of the greeks depending on thecomputation time. We notice that the method with Rayleight distribution is between 100 and 1,000 times faster. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+\end{figure}
 
 
 \section{Look-back Option}
@@ -398,6 +423,11 @@ Diogo Monteiro da Costa Soares Justino,
   Instituto Universit\'ario de Lisboa, Lisbon,
   2010.
 
+\bibitem{glasserman}
+Paul Glasserman (Pr.),
+  \textit{Monte Carlo Methods in Financial Engineering},
+  Springer Sciencea, New York,
+  2013.
 
 
 \end{thebibliography}
@@ -435,11 +465,11 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
 \end{align*}
 
 \begin{align*}
-\gamma_{DOC} =& {\phi(d_2) \over S_0\sigma\sqrt{T}}- \left({B \over S_0}\right)^{ 2\upsilon / \sigma^2}({4\upsilon^2 +2\upsilon \sigma^2\over S_0^2\sigma^4}C_{BS}(B^2 / S_0, K) + \gamma_{bs} - {4\upsilon\delta_{bs} \over S_0\sigma^2})
+\gamma_{DOC} =& {\phi(d_2) \over S_0\sigma\sqrt{T}}- \left({B \over S_0}\right)^{ 2\upsilon / \sigma^2}\left({4\upsilon^2 +2\upsilon \sigma^2\over S_0^2\sigma^4}C_{BS}(B^2 / S_0, K) + \gamma_{bs} - {4\upsilon\delta_{bs} \over S_0\sigma^2}\right)
 \end{align*}
 
 \begin{align*}
-\nu_{DOC} = S_0\phi(\frac{log({S_0 \over K}) + (r + {\sigma^2 \over 2})T}{\sigma\sqrt{T}})\sqrt{T}-({B \over S_0})^{2\upsilon \over \sigma^2}(\nu_{bs} - {4rC_{bs}({B^2\over S_0}, K)log({B\over S_0}) \over \sigma^3} )
+\nu_{DOC} = S_0\phi\left(\frac{log({S_0 \over K}) + (r + {\sigma^2 \over 2})T}{\sigma\sqrt{T}}\right)\sqrt{T}-\left({B \over S_0}\right)^{2\upsilon \over \sigma^2}\left(\nu_{bs} - {4rC_{bs}({B^2\over S_0}, K)log({B\over S_0}) \over \sigma^3}\right)
 \end{align*}
 % the \\ insures the section title is centered below the phrase: AppendixA
 
