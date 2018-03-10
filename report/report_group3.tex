@@ -83,19 +83,21 @@
 
 \pagestyle{headings}
 
-\author{Simulation Methods for Finance\\under the supervision of Professor Harry Zheng
+\author{{\LARGE Simulation Methods for Finance}\\under the supervision of Professor Harry Zheng
 \\[5cm] Authors:\\
 %Tresnia Berah\\
-Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang}
-\title{Simulation Methos for Barrier and Look-back Options}
-\date{\today}
+Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang\\[6.5cm]}
+\title{\vspace*{-2cm}\begin{flushleft}\includegraphics[width=7cm]{imperial.png}\end{flushleft}
+\vspace*{4cm}
+\Huge\sffamily Simulation Methods for Barrier and Look-back Options}
+\date{\sffamily\today}
+
 \begin{document}
 \maketitle
+\thispagestyle{empty}
 
 \newpage
-
 \tableofcontents
-
 \newpage
 \setcounter{page}{1}
 
@@ -204,10 +206,10 @@ $$Gamma_{PWLR} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}\mathds{1}_{S_T>
 
 $$Vega_{PW} = \frac{\partial C}{\partial \sigma}=E[e^{-rT}\mathds{1}_{S_T>K}S_T(\sqrt{T}Z-\sigma T)]$$
 
-The following are the results calculated from the closed-form formulae and the simulations:\\
+The results calculated from the closed-form formulae and the simulations are rempresented in Table \ref{tab:euroresults}.
 
 
-\begin{table}
+\begin{table}[h!]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -222,7 +224,7 @@ The following are the results calculated from the closed-form formulae and the s
 \multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842}                  & 39.0186         & 36.7224         & 38.2008          \\ \cline{2-2} \cline{4-6}
                                 & \textbf{PW}    &                                          & 40.4851         & 36.7839         & 37.8012          \\ \hline
 \end{tabular}
-\caption{Table with the result of our simulations for different Monte-Carlo iterations. We can clearly see the improvement between 1,000 and 10,000 simulations.}
+\caption{\label{tab:euroresults}Table with the result of our simulations for different Monte-Carlo iterations. We can clearly see the improvement between 1,000 and 10,000 simulations.}
 \end{table}
 
 We can see from above table that simulation results improve and get closer to the theoretical value as simulation number increase. Hence to compare the results from different methods, we will only analyze the simulation result from the most simulation number - 100,000 in this case. This is even more clear on the graphs (Figure \ref{fig:eurographs}).
@@ -240,15 +242,15 @@ We can see from above table that simulation results improve and get closer to th
 
       \begin{subfigure}[b]{0.3\textwidth}
           \includegraphics[width=\textwidth]{graphs/eurogammalrlr.png}
-          \caption{Gamma with LRLR method}
+          \caption{Gamma with LR-LR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.3\textwidth}
           \includegraphics[width=\textwidth]{graphs/eurogammalrpw.png}
-          \caption{Gamma with LRPW method}
+          \caption{Gamma with LR-PW method}
       \end{subfigure}
       \begin{subfigure}[b]{0.3\textwidth}
           \includegraphics[width=\textwidth]{graphs/eurogammapwlr.png}
-          \caption{Gamma with PWLR method}
+          \caption{Gamma with PW-LR method}
       \end{subfigure}
 
       \begin{subfigure}[b]{0.45\textwidth}
@@ -303,7 +305,7 @@ For an up-and-out barrier call option $A_T=(S_T-K)^+1_{max 0\leq t\leq T \  S_t\
 
 We stimulate the path of $S_t$ by taking the maturity time $T$ into 1,000 steps, and we simulate 5,000 such paths. As standard normal distribution is symmetrically distributed, 5,000 paths can be treated as 10,000 paths by adding negative sign and creating the other 5,000. We have an $M^T_0$ for each path. However, this method is bordensome as we need to generate each step for each path. The simulation process is long.
 
-\subsection{Another Mothod using Rayleigh Distribution}
+\subsection{Another Method using Rayleigh Distribution}
 Hense, we tried second method using Rayleigh Distribution to simulate the distribution of $M^t_0$ directly. The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion \cite{barrieropt, glasserman}
 
 $$F(x) = 1 - e^{-2x(x-b)}, \ x \geq b.$$
@@ -329,15 +331,21 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 
 \begin{table}
 \centering
+\begin{subtable}{\textwidth}
+  \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
 100 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
-\textbf{Option Price} & PLEASE PASTE OLD &          na         & .. \\ \hline
+\textbf{Option Price} & na & na & .. \\ \hline
 \textbf{Delta LR} & 1.036 e-2 & 3.029 e-5 & 9.284 e-2\\ \hline
 \textbf{Gamma LRLR} & 1.895 e-4 & 1.895 e-8& 1.475 e-1\\ \hline
 \textbf{Vega LR} & 7.507 e-1 & 3.220 e-1 & 1.097 e-1\\ \hline
 \end{tabular}
-\vspace*{.5cm}\\
+\caption{Error statistics and computation time for the "classical" method. We computed the absolute error and since the option price is computed using the closed form formula no error is represented.}
+\end{subtable}\\
+\vspace*{.5cm}
+\begin{subtable}{\textwidth}
+  \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
 1 000 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
@@ -346,7 +354,9 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 \textbf{Gamma LRLR} & 1.895 e-4 & 1.895 e-8& 1.475 e-1\\ \hline
 \textbf{Vega LR} & 7.507 e-1 & 3.220 e-1 & 1.097 e-1\\ \hline
 \end{tabular}
-\caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7). We computed the absolute error and since the option price is computed using the closed form formula no error is represented.}
+\caption{Error statistics and computation time for the Rayleight method. We computed the absolute error and since the option price is computed using the closed form formula no error is represented.}
+\end{subtable}
+\caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7).}
 \end{table}
 
 To analyze further the accuracy of our simulation, we plot the simulated option prices and greaks versus their theoretical value as barrier increases \ref{fig:barriergraphs}.
