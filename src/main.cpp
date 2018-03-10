@@ -75,24 +75,7 @@ int debug_konstantin(){
 
 int main(){
     cout << "hello" << endl;
-<<<<<<< HEAD
-    /*barrier_option boption(50, 100, 100, 0.05, 0.4, 1, 0, 1000);
-    cout << "Price: " << boption.price() << endl;
-    cout << "Price: " << boption.price_theoretic() << " (Theoretical)" << endl;
-    cout << "Delta: " << boption.delta() << " (LR)" << endl;
-    cout << "Delta: " << boption.delta("th") << " (Theoretical)" << endl;
-    cout << "Gamma: " << boption.gamma() << " (LR)" << endl;
-    cout << "Gamma: " << boption.gamma("th") << " (Theoretical)" << endl;
-    cout << "Vega: " << boption.vega() << " (LR)" << endl;
-    cout << "Vega: " << boption.vega("th") << " (Theoretical)" << endl;
-*/
-    //debug_thomas();
-    //write_csv("../report/graphs/core_task.csv");
-    write_csvlookback("../report/graphs/lookback.csv");
-    //debug_konstantin();
-=======
     debug_konstantin();
 
->>>>>>> c2c060cc2739de0cbbb9d57fec211a40872e76fc
     return 0;
 }
