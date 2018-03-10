@@ -103,9 +103,9 @@ Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang}
 \section{Generate Random Number}
 \subsection{Presentation}
 There are two methods we used to generate random numbers.
-The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Random}}, which can directly generate a variable follows Standard Normal Distribution.
+The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\texttt{ Random}, which can directly generate a variable follows Standard Normal Distribution.
 \subsection{Generating the uniform distribution}
-To generate a uniform distribution we tried two ways: one can use the system build-in methods\texttt{rand}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size we plan to generate. In other words, when we use \texttt{rand} to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
+To generate a uniform distribution we tried two ways: one can use the system build-in methods \texttt{rand}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size we plan to generate. In other words, when we use \texttt{rand} to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
 
 $$n_i = (an_{i-1}) \ mod\ m$$for $i=1,2,...,10,000$, and we let $ a = 7^5$, and $m = 2^{31}-1$, which gives about 2 billion points. We run 100,000 times and will only use $0.005\%$ of all points. Theoretically, no pattern should appear.
 \subsection{Generating the normal distribution}
@@ -124,22 +124,22 @@ where $U_1$ and $U_2$ are two independent uniform distribution.
 
 $$N_1 = \sqrt{\frac{(-2logW)}{W}}V_1,\ N_2 = \sqrt{\frac{(-2logW)}{W}}V_2$$As the computation does not involve sine and cosine, it is generally faster than Box-Muller.
 
-The following is the simulation result of Standard Normal distribution and time used by different methods from generating 1000,000 random variables.
+The following is the simulation result of Standard Normal distribution and time used by different methods from generating 100,000,000 random variables.
 
 \begin{table}
 \centering
 \begin{tabular}{| c| c| c| c| }
 \hline
 \textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time} \\ \hline
-\textbf{\textit{ rand} generated \& CLT} & 6.28 e-5 & 0.999916 & 8.751 \\  \hline
-\textbf{\textit{ rand} generated U \& Box-Muller} & cell8 & cell9&..\\ \hline
-\textbf{\textit{ rand} generated U \& Marsagilia Polar} & -5.93 e-4& 1.000759& 0.530\\ \hline
-\textbf{ linear congruential gen. \& CLT} & 8.87 e-5& 0.999189&23.96\\ \hline
-\textbf{linear congruential gen. \& Box-Muller} & 1.34 e-4 & 1.000405&0.905\\ \hline
-\textbf{ linear congruential gen. \& Marsagilia} & -8.517 e-5 & 1.000525&0.936\\ \hline
-\textbf{\textit{random} }& cell8 & cell9&..\\ \hline
+\textbf{\textit{ rand}  + CLT} & 1.77 e-5 & 0.999909 & 90.34 \\  \hline
+\textbf{\textit{ rand}  + Box-Muller} & -6.80 e-5 & 1.000703&8.64\\ \hline
+\textbf{\textit{ rand}  + Marsagilia Polar} & 1.70 e-5& 1.000472& 6.40\\ \hline
+\textbf{ LCG + CLT} & 1.52 e-5& 0.999973&236.3\\ \hline
+\textbf{LCG + Box-Muller} & -1.27 e-4 & 0.999797&11.59\\ \hline
+\textbf{ LCG + Marsagilia} & 7.36 e-5 & 0.999979&10.52\\ \hline
+\textbf{\texttt{random} }& 3.58 e-4 & 1.000210&1.498\\ \hline
 \end{tabular}
-\caption{We note that the Marsaglia method is faster compared to the other methods. Note that the run time depends on the computer used for the simulation (here a 3.4 GHz Intel Core~i7).}
+\caption{We note that the Marsaglia method is faster compared to the other methods. Note that the run time depends on the computer used for the simulation (here a 3.4 GHz Intel Core~i7). We have generated 100,000,000 variables to obtain these results.}
 \end{table}
 
 As shown in the table above, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. We use the combination of linear congruential generator and Marsagilia methods to simulate random variables. This was also the opportunity for us to have full control over the generation of random numbers, as it is a critical step towards efficient simulations \cite{lectures}. It also features very good results in terms of statistical parameters and time.
@@ -291,7 +291,7 @@ For delta, although the fastest methods is LR, it has a significantly lower accu
 For the following section, PW methods will be infeasible to do for Barrier Option. Hense, we will use Likelihood ratio method when calculating the greeks.
 
 \FloatBarrier
-
+\newpage
 \part{Main Task}
 \section{Barrier Option}
 \subsection{Presentation}
@@ -387,13 +387,15 @@ $$c(S_0,K,0)=C_{bs}(S_0,K) + \frac{S_0\sigma^2}{2r}\{ \Phi[d_2(S_0,K)]-e^{-rT}\f
 
 
 The pdf of the distribution of Maximum $S_t$ for standard Brownian motion for the period of (0, T) is 
-$$f = \frac{2}{\sqrt{T}}\phi (\frac{m-aT}{\sqrt{T}})-2ae^{2am}\Phi(\frac{-m-aT}{\sqrt{T}})$$
+$$f = \frac{2}{\sqrt{T}}\phi\left(\frac{m-aT}{\sqrt{T}}\right)-2ae^{2am}\Phi\left(\frac{-m-aT}{\sqrt{T}}\right)$$
 
 and the cdf is 
-$$F = \Phi(\frac{m-aT}{\sqrt{T}})-e^{2am}\Phi(\frac{-m-aT}{\sqrt{T}})$$
+$$F = \Phi\left(\frac{m-aT}{\sqrt{T}}\right)-e^{2am}\Phi\left(\frac{-m-aT}{\sqrt{T}}\right)$$
 
 We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each random number we generate from [0,1], we receive one m in by solving for F. And to get $M^T$ of stock price follows geometric Browninan motion with starting price $S_0$, we let $M^T=S_0e^{\sigma m }$.\\
 
+\begin{table}
+\centering
 \label{my-label}
 \begin{tabular}{|c|l|c|c|c|c|}
 \hline
@@ -402,9 +404,9 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 \textbf{Delta}        &                                                                                             &               &                &                   &               \\ \hline
 \textbf{Gamma}        &                                                                                             &               &                &                   &               \\ \hline
 \textbf{Vega}         &                                                                                             &               &                &                   &               \\ \hline
-\end{tabular}\\
-
-
+\end{tabular}
+\caption{}
+\end{table}
 
 
 
