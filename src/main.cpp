@@ -242,6 +242,7 @@ int main(){
 */
     //debug_thomas();
     //write_csv("../report/graphs/core_task.csv");
+    write_csvlookback("../report/graphs/lookback.csv");
     //debug_konstantin();
     return 0;
 }
