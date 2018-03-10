@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,fleqn,draft]{article}
+\documentclass[11pt,a4paper,fleqn,draft]{article}
 
 \usepackage{multirow}
 \usepackage[table,xcdraw]{xcolor}
@@ -22,7 +22,7 @@
 \usepackage{dsfont}
 \usepackage{placeins}
 
-\usepackage[text={15cm,24cm},top=3cm]{geometry}  % This line determines the page layout.
+\usepackage[top=1in, left=1in, right=1in, bottom=1in]{geometry}  % This line determines the page layout.
 % Consult the documentation of the geometry package if you want to change it.
 
 % include these lines if you want to typeset your report in a sans serif font
@@ -83,10 +83,10 @@
 
 \pagestyle{headings}
 
-\author{Course: Simulation Methods for Finance\\Professor Harry Zheng
-\\[3cm] Authors:\\
+\author{Simulation Methods for Finance\\under the supervision of Professor Harry Zheng
+\\[5cm] Authors:\\
 %Tresnia Berah\\
-Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang }
+Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang}
 \title{Simulation Methos for Barrier and Look-back Options}
 \date{\today}
 \begin{document}
@@ -98,10 +98,12 @@ Thomas Espel\\ Konstantin Kulak\\ Callum MacIver\\Zhentian Qiu\\Vera Zhang }
 
 \newpage
 \setcounter{page}{1}
+
+\part{Basic Task}
 \section{Generate Random Number}
 
 There are two methods we used to generate random numbers.
-The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Randon}}, which can directly generate a variable follows Standard Normal Distribution.
+The first one is to generate a uniform distribution and then transform it into Standard Normal Distribution. The second method we tried is the system build-in function\textbf{\textit{ Random}}, which can directly generate a variable follows Standard Normal Distribution.
 
 To generate a uniform distribution we tried two ways: one can use the system build-in methods \textbf{\textit{rand}}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size we plan to generate. In other words, when we use \textbf{\textit{rand}} to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
 
@@ -129,24 +131,23 @@ The following is the simulation result of Standard Normal distribution and time 
 \begin{tabular}{| c| c| c| c| }
 \hline
 \textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time} \\ \hline
-\textbf{\textit{ rand} generated \& + CLT} & 6.28 e-5 & 0.999916 & 8.751 \\  \hline
+\textbf{\textit{ rand} generated \& CLT} & 6.28 e-5 & 0.999916 & 8.751 \\  \hline
 \textbf{\textit{ rand} generated U \& Box-Muller} & cell8 & cell9&..\\ \hline
 \textbf{\textit{ rand} generated U \& Marsagilia Polar} & -5.93 e-4& 1.000759& 0.530\\ \hline
 \textbf{ linear congruential gen. \& CLT} & 8.87 e-5& 0.999189&23.96\\ \hline
 \textbf{linear congruential gen. \& Box-Muller} & 1.34 e-4 & 1.000405&0.905\\ \hline
 \textbf{ linear congruential gen. \& Marsagilia} & -8.517 e-5 & 1.000525&0.936\\ \hline
-\textbf{\textit{Randon} }& cell8 & cell9&..\\ \hline
+\textbf{\textit{random} }& cell8 & cell9&..\\ \hline
 \end{tabular}
 \caption{We note that the Marsaglia method is faster compared to the other methods. Note that the run time depends on the computer used for the simulation (here a 3.4 GHz Intel Core i7).}
 \end{table}
 
-As shown in the table above, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. **More
-For the tasks in this project, we use the combination of linear congruential generator and Marsagilia methods to simulate random variable.
+As shown in the table above, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. We use the combination of linear congruential generator and Marsagilia methods to simulate random variable.
 
 
 \FloatBarrier
 
-\section{Basic Task}
+\section{European Option}
 
 
 The asset price in a risk neutral probability space $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{0\leq t\leq T}, P)$ follows Geometric Brownian Motion,
@@ -293,7 +294,8 @@ For the following section, PW methods will be infeasible to do for Barrier Optio
 
 \FloatBarrier
 
-\section{Main Task - Barrier Option}
+\part{Main Task}
+\section{Barrier Option}
 
 Let $T$ denote option expiration time and $[0,T]$ lookback period. For $T_0 \leq t\leq T$ denote by
 
@@ -401,9 +403,9 @@ Diogo Monteiro da Costa Soares Justino,
 \end{thebibliography}
 \newpage
 
-
+\part*{Appendix}
+\addcontentsline{toc}{part}{Appendix}
 \appendix
-\section{Appendix: R code of part A}
 \section{Closed-formed formula of Barrier Options}
 
 \begin{equation}
@@ -440,6 +442,16 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
 \nu_{DOC} = S_0\phi(\frac{log({S_0 \over K}) + (r + {\sigma^2 \over 2})T}{\sigma\sqrt{T}})\sqrt{T}-({B \over S_0})^{2\upsilon \over \sigma^2}(\nu_{bs} - {4rC_{bs}({B^2\over S_0}, K)log({B\over S_0}) \over \sigma^3} )
 \end{align*}
 % the \\ insures the section title is centered below the phrase: AppendixA
+
+\newpage
+\section{App User Guide}
+
+
+\newpage
+\section{Package Manual}
+
+
+
 
 
 \lstset{ %
