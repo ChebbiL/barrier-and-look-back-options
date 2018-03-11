@@ -306,7 +306,7 @@ For an up-and-out barrier call option $A_T=(S_T-K)^+1_{max 0\leq t\leq T \  S_t\
 We stimulate the path of $S_t$ by taking the maturity time $T$ into 1,000 steps, and we simulate 5,000 such paths. As standard normal distribution is symmetrically distributed, 5,000 paths can be treated as 10,000 paths by adding negative sign and creating the other 5,000. We have an $M^T_0$ for each path. However, this method is bordensome as we need to generate each step for each path. The simulation process is long.
 
 \subsection{Another Method using Rayleigh Distribution}
-Hense, we tried second method using Rayleigh Distribution to simulate the distribution of $M^t_0$ directly. The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion \cite{barrieropt, glasserman}
+Hense, we tried second method using Rayleigh Distribution to simulate the distribution of $M^t_0$ directly. The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion \cite{barrieropt, glasserman, exooptions}
 
 $$F(x) = 1 - e^{-2x(x-b)}, \ x \geq b.$$
 
@@ -332,12 +332,12 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 \hline
 \multicolumn{2}{|l|}{}             & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation} \\ \hline
 \multicolumn{2}{|c|}{\textbf{Option Price}}      &  & 18.0014          \\ \hline
-\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                &      \\ 
+\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                &      \\
                                 & \textbf{PW}    &                                          & 0.64485               \\ \hline
-\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}                 & 0.00945029       \\ 
+\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}                 & 0.00945029       \\
                                 & \textbf{LR PW} &                                           & 0.00944593       \\
                                 & \textbf{LR LR} &                                          & 0.0095502        \\ \hline
-\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842} & 38.2008          \\ 
+\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842} & 38.2008          \\
                                 & \textbf{PW}    &                                             & 37.8012          \\ \hline
 \end{tabular}\\
 
@@ -415,7 +415,7 @@ Lookback call option with fixed strik price $K$ has payoff $(M^T_{0}-K)^+$. The 
 
 $$c(S_0,K,t) = e^{-r(T-t)}E[(max(M^t_0,M^T_t)-K)^+|\mathcal{F}_t] $$
 
-The closed-form formula for fixed strike lookback call option at time 0 \cite{lectures} is
+The closed-form formula for fixed strike lookback call option at time 0 \cite{lectures, exooptions} is
 
 $$c(S_0,K,0)=C_{bs}(S_0,K) + \frac{S_0\sigma^2}{2r}\{ \Phi[d_2(S_0,K)]-e^{-rT}\frac{S_0}{K}^{-\frac{2r}{\sigma^2}} \Phi[-d_1(K,S_0)]\}$$
 
@@ -432,12 +432,12 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 \hline
 \multicolumn{2}{|l|}{}             & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation} \\ \hline
 \multicolumn{2}{|c|}{\textbf{Option Price}}      &  & 18.0014          \\ \hline
-\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                &      \\ 
+\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                &      \\
                                 & \textbf{PW}    &                                          & 0.64485               \\ \hline
-\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}                 & 0.00945029       \\ 
+\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}                 & 0.00945029       \\
                                 & \textbf{LR PW} &                                           & 0.00944593       \\
                                 & \textbf{LR LR} &                                          & 0.0095502        \\ \hline
-\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842} & 38.2008          \\ 
+\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842} & 38.2008          \\
                                 & \textbf{PW}    &                                             & 37.8012          \\ \hline
 \end{tabular}\\
 
@@ -462,9 +462,14 @@ Diogo Monteiro da Costa Soares Justino,
 \bibitem{glasserman}
 Paul Glasserman (Pr.),
   \textit{Monte Carlo Methods in Financial Engineering},
-  Springer Sciencea, New York,
+  Springer Science, New York,
   2013.
 
+\bibitem{exooptions}
+ Peter G. Zhqng (Pr.),
+   \textit{Exotic Options, A Guide to Second Generation Options},
+   World Scientific Publishing, Hong Kong,
+   1998 (second edition).
 
 \end{thebibliography}
 \newpage
