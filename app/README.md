@@ -41,7 +41,7 @@ You can type your instructions instructions directly in the window.
 The European call option is the default product. However, if you have to switch back to this product, enter the following command.
 
 ```
-europeanOption
+Europe_Call_option
 ```
 
 
@@ -106,7 +106,7 @@ Additional details such as the methods used, the error and the computation time 
 To use the barrier option, enter the following command.
 
 ```
-barrierOption
+Barrier_option
 ```
 
 The parameters are displayed on start-up. Here are the equivalences in plain language.
@@ -172,7 +172,7 @@ Additional details such as the methods used, the error and the computation time 
 To use the look-back option, enter the following command.
 
 ```
-lookbackOption
+Lookback_option
 ```
 
 The parameters of the Look-back option displayed when switching to this product. Here are the equivalences in plain language.
@@ -243,7 +243,7 @@ show
 To switch betxween different products, please type directly the name of the product. As an example, to switch to the barrier option, simply type the following instruction.
 
 ```
-barrierOption
+Barrier_ption
 ```
 
 ### Closing the application
