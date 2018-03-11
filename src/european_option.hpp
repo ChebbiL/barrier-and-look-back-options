@@ -1,6 +1,10 @@
 #ifndef EUROPEAN_OPTION_H   // header guard
 #define EUROPEAN_OPTION_H
 #include <string> // For user instructions in greeks
+#ifndef M_PI
+#define M_PI 3.1415926535898
+#endif
+
 #include "random_normal.hpp" // For random normal functions
 
 /*
@@ -32,10 +36,13 @@ protected:
     double call_payoff_single(double Z);
     // Computes d1 for a Black-Scholes closed-form formula
     double d1_calculate();
+    // Computes d1 for a Black-Scholes closed-form formula (with given parameters)
     double d1_calculate(double St_given, double strike_given);
-    double d1_calculate(double a, double b, double c); //For look-back option
+    // Computes d1 for a Black-Scholes closed-form formula, used for look-back option
+    double d1_calculate(double a, double b, double c);
     // Computes d2 for a Black-Scholes closed-form formula
     double d2_calculate();
+    // Computes d2 for a Black-Scholes closed-form formula (with given parameters)
     double d2_calculate(double St_given, double strike_given);
 
     // MAIN FUNCTIONS
@@ -88,6 +95,7 @@ public:
 
     // Computes the call payoff using a closed-form formula
     double payoff_theoretic();
+    // Computes the call payoff, using the parameters given
     double payoff_theoretic(double initial_value_given, double strike_given);
 
     // Computes the call price by averaging (expectation) several (random) single call payoffs
@@ -96,7 +104,7 @@ public:
     - 'th' for result using closed-form Black-Scholes formula
     - 'pw' for pathwise derivatives estimates method
     - 'lr' for likelihood ratios method
-    'lr' is regarded as most accurate, so built as default
+    'th' is built as default
     */
     double delta(std::string method);
     double delta();
@@ -105,7 +113,7 @@ public:
     - 'lrpw' for likelihood ratios - pathwise derivatives estimates method
     - 'pwlr' for likelihood ratios - pathwise derivatives estimates method
     - 'lrlr' for double likelihood ratios method
-    'pwlr' is regarded as most accurate, so built as default
+    'th' is built as default
     */
     double gamma(std::string method);
     double gamma();
@@ -113,7 +121,7 @@ public:
     - 'th' for result using closed-form Black-Scholes formula
     - 'pw' for pathwise derivatives estimates method
     - 'lr' for likelihood ratios method
-    'lr' is built as default
+    'th' is built as default
     */
     double vega(std::string method);
     double vega();

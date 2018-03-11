@@ -5,6 +5,10 @@
 #include <cmath>    // For pow() function and other math
 #include <random>   //
 #include <ctime>    //
+#ifndef M_PI
+#define M_PI 3.1415926535898
+#endif
+
 #define TIME_USED(f,s) ((double)((s)-(f))/(double)CLOCKS_PER_SEC) // For computing implementation time
 
 using namespace std;

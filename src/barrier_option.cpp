@@ -3,10 +3,11 @@
 double barrier_option::d_calculate(double x, double y){
     return (log(x / y) + (r + sigma * sigma / 2.0) * tau) / (sigma * sqrt(tau));
 }
+
+
 double barrier_option::d_calculate_minus(double x, double y){
     return (log(x / y) + (r - sigma * sigma / 2.0) * tau) / (sigma * sqrt(tau));
 }
-
 
 
 double barrier_option::barrier_down(){
@@ -208,22 +209,29 @@ double barrier_option::price(){
     return barrier_option_price();
 }
 
-double barrier_option::delta(std::string method){
-    if (method=="th") {return delta_theoretic();}
-    return delta_lr();
-}
-double barrier_option::delta(){return delta("lr");}
 
-double barrier_option::gamma(){return gamma("lr");}
+double barrier_option::delta(std::string method){
+    if (method=="lr") {return delta_lr();}
+    return delta_theoretic();
+}
+
+
+double barrier_option::delta(){return delta("th");}
+
+
+double barrier_option::gamma(){return gamma("th");}
+
 
 double barrier_option::gamma(std::string method){
-    if (method=="th") {return gamma_theoretic();}
-    return gamma_lr();
+    if (method=="lr") {return gamma_lr();}
+    return gamma_theoretic();
 }
 
-double barrier_option::vega(){return vega("lr");}
+
+double barrier_option::vega(){return vega("th");}
+
 
 double barrier_option::vega(std::string method){
-    if (method=="th") {return vega_theoretic();}
-    return vega_lr();
+    if (method=="lr") {return vega_lr();}
+    return vega_theoretic();
 }

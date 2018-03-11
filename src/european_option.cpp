@@ -154,25 +154,25 @@ double european_option::price(){
 
 double european_option::delta(std::string method){
     if (method=="pw") {return delta_pw();}
-    if (method=="th") {return delta_theoretic();}
-    return delta_lr();
+    if (method=="lr") {return delta_lr();}
+    return delta_theoretic();
 }
-double european_option::delta(){return delta("lr");}
+double european_option::delta(){return delta("th");}
 
 double european_option::gamma(std::string method){
     if (method=="lrpw") {return gamma_lrpw();}
     if (method=="lrlr") {return gamma_lrlr();}
-    if (method=="th") {return gamma_theoretic();}
-    return gamma_pwlr();
+    if (method=="pwlr") {return gamma_pwlr();}
+    return gamma_theoretic();
 }
-double european_option::gamma(){return gamma("pwlr");}
+double european_option::gamma(){return gamma("th");}
 
 double european_option::vega(std::string method){
     if (method=="pw") {return vega_pw();}
-    if (method=="th") {return vega_theoretic();}
-    return vega_lr();
+    if (method=="lr") {return vega_lr();}
+    return vega_theoretic();
 }
-double european_option::vega(){return vega("lr");}
+double european_option::vega(){return vega("th");}
 
 
 // SERVICE FUNCTIONS

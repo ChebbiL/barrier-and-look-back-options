@@ -63,10 +63,10 @@ double lookback_option::delta_lr()
     for (int i=0; i<number_iterations; i++) {  // loop: summing all values and dividing to get the average
         u = get_Urandom();
         Z = newtonmax(u, drift, stime);
-        if ( exp(Z * sigma) * St >= max(maxmin, K) ) {
+        if ( exp(Z * sigma) * St >= max(St, K) ) {
             u = rho_prime(Z, drift, stime) / rho_M(Z, drift, stime);
             u /= (St * sigma);
-            sum += exp(-r * tau) * u * (max(maxmin, K) - St * exp(Z * sigma));
+            sum += exp(-r * tau) * u * (max(St, K) - St * exp(Z * sigma));
         }
     }
     return sum / number_iterations;
@@ -81,11 +81,12 @@ double lookback_option::delta_pw()
     for (int i=0; i<number_iterations; i++) {   // loop: summing all values and dividing to get the average
         u = get_Urandom();
         Z = newtonmax(u, drift, sqrt(tau));
-        if ( exp(Z * sigma) * St > max(maxmin, K) )
+        if ( exp(Z * sigma) * St > max(St, K) )
             sum += exp(Z * sigma - r * tau);
     }
     return sum/number_iterations;
 }
+
 
 double lookback_option::delta_theoretic() const {
     if (St <= K) {
@@ -134,25 +135,6 @@ double lookback_option::gamma_theoretic() const {
 }
 
 
-double lookback_option::gamma_lrlr()
-{
-    double u, Z, stime = sqrt(tau);
-    long double sum = 0;
-    double drift = (r / sigma - sigma / 2.0);
-    for (int i=0; i<number_iterations; i++) {
-        u = get_Urandom();
-        Z = newtonmax(u, drift, stime);
-        if ( exp(Z * sigma) * St > max(maxmin, K) ) {
-            u = rho_prime(Z, drift, stime) / rho_M(Z, drift, stime);
-            double answer = -u / (St * sigma);
-            answer = answer * exp(Z * sigma);
-            sum += (answer - exp(Z * sigma) / St) * exp(-r * tau);
-        }
-    }
-    return sum / number_iterations;
-}
-
-
 double lookback_option::gamma_pwlr() {
     double res = 0.0, Mt = 0.0;
     double a = (r - pow(sigma, 2) / 2.0) / sigma;
@@ -174,8 +156,6 @@ double lookback_option::gamma_pwlr() {
 
 
 }
-
-
 
 
 double lookback_option::vega_theoretic() const {
@@ -227,13 +207,13 @@ double lookback_option::vega_lr()
     for (int i=0; i<number_iterations; i++) {
         u = get_Urandom();
         Z = newtonmax(u, drift, stime);
-        if (exp(Z * sigma) * St > max(maxmin, K)) {
+        if (exp(Z * sigma) * St > max(St, K)) {
             temp = rho_M(Z, drift, stime);
             u = temp + Z * rho_prime(Z, drift, stime);
             u = u / sigma;
             u += rho_pdrift(Z, drift, stime) * (0.5 + r / (sigma * sigma));
             u = -u / temp;
-            sum += u * (St * exp(Z * sigma) - max(maxmin, K)) * exp(-r * tau);
+            sum += u * (St * exp(Z * sigma) - max(St, K)) * exp(-r * tau);
         }
     }
     return sum / number_iterations;
@@ -255,7 +235,6 @@ double lookback_option::vega_pw() {
     return res / number_iterations;
 }
 
-
 // ACCESS FUNCTIONS
 
 
@@ -268,7 +247,7 @@ double lookback_option::price()
         u = get_Urandom();
         Z = newtonmax(u, drift, sqrt(tau));
         Z *= sigma;
-        sum += exp(-r * tau) * (max(St * exp(Z) - max(maxmin, K), 0.0) + max(maxmin - K, 0.0));
+        sum += exp(-r * tau) * (max(St * exp(Z) - max(St, K), 0.0) + max(St - K, 0.0));
     }
     return sum / number_iterations;
 }
@@ -290,16 +269,19 @@ double lookback_option::delta(std::string method){  // choosing "pw" or "lr" met
     if (method=="th") {return delta_theoretic();}
     return delta_theoretic();
 }
-double lookback_option::delta(){return delta("th");}  // default mathod for delta
+
+
+double lookback_option::delta(){return delta("th");}  // default method for delta
 
 
 double lookback_option::gamma(std::string method){  // choosing "pw" or "lr" method of calculation gamma
-    if (method=="lrlr") {return gamma_lrlr();}
     if (method=="pwlr") {return gamma_pwlr();}
     if (method=="th") {return gamma_theoretic();}
     return gamma_theoretic();
 }
-double lookback_option::gamma(){return gamma("th");}  // default mathod for delta
+
+
+double lookback_option::gamma(){return gamma("th");}  // default method for delta
 
 
 double lookback_option::vega(std::string method){  // choosing "pw" or "lr" method of calculation vega
@@ -308,7 +290,9 @@ double lookback_option::vega(std::string method){  // choosing "pw" or "lr" meth
     if (method=="th") {return vega_theoretic();}
     return vega_theoretic();
 }
-double lookback_option::vega(){return vega("th");}  // default mathod for delta
+
+
+double lookback_option::vega(){return vega("th");}  // default method for delta
 
 
 

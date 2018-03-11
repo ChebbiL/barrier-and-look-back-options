@@ -4,8 +4,12 @@
 #include "random_normal.hpp" // For random normal functions
 #include "european_option.hpp" // Include the european_option class for inheritance
 
+#ifndef M_PI
+#define M_PI 3.1415926535898
+#endif
+
 /*
-This class encapsultaes the Barrier Option. It inherits the european option class.
+This class encapsulates the Barrier Option. It inherits the european option class.
 */
 class barrier_option: public european_option{
     // VARIABLES
@@ -17,14 +21,11 @@ class barrier_option: public european_option{
     double barrier_down();
     double barrier_up();
 
-    //double payoff_theoretic(double initial_stock_price, double strike);
-
     double d_calculate(double x, double y);
     double d_calculate_minus(double x, double y);
 
     double barrier_down_theoric();
     double barrier_up_theoric();
-
 
     double delta_lr_step(double current_value);
     double gamma_lr_step(double current_value);
@@ -53,11 +54,12 @@ public:
 
     // Computes the barrier option price
     double price();
+    // Computes theoretical price of the barrier option
     double price_theoretic();
     /* Computes the delta according to the user input:
     - 'th' for result using closed-form formula
     - 'lr' for likelihood ratios method
-    'lr' is built as default
+    'th' is built as default
     */
     double delta(std::string method);
     double delta();
@@ -65,7 +67,7 @@ public:
     /* Computes the gamma according to the user input:
     - 'th' for result using closed-form formula
     - 'lr' for likelihood ratios method
-    'lr' is built as default
+    'th' is built as default
     */
     double gamma(std::string method);
     double gamma();
@@ -73,7 +75,7 @@ public:
     /* Computes the vega according to the user input:
     - 'th' for result using closed-form formula
     - 'lr' for likelihood ratios method
-    'lr' is built as default
+    'th' is built as default
     */
     double vega(std::string method);
     double vega();
