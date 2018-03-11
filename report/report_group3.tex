@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,fleqn,draft]{article}
+\documentclass[11pt,a4paper,fleqn]{article}
 
 \usepackage{multirow}
 \usepackage[table,xcdraw]{xcolor}
@@ -158,7 +158,7 @@ $$dS_t=rS_tdt+\sigma S_tdW_t, \ 0\leq t \leq T$$
 with initial price $S_0 = S$, where $r$ is riskless interest rate, $\sigma$ volatility, and $W_t$ the standard Brownian motion. A European call option price at time $t$ with maturity time $T$ is given by
 $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
-For the basic task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate 
+For the basic task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate
 
 $$S_T=S_0e^{(r-\frac{1}{2}\sigma ^2)T+\sigma \sqrt{T}Z} $$
 
@@ -329,7 +329,7 @@ $$f_{uo}(x, m, T)={1\over \sqrt{T}}\left(\phi({x-\mu T \over \sqrt{T}})-e^{2m\mu
 where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2})$ and $m = {1\over \sigma}ln {M_T\over S_0}$. Then we can find the greeks accordingly, the detail of the computation is in Appendix \ref{sec:bocomp}.\\
 
 
-\begin{table} 
+\begin{table}
 \centering
 \begin{subtable}{\textwidth}
   \centering
@@ -363,7 +363,7 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 
 
 \vspace*{.5cm}
-\begin{subtable}{\textwidth} 
+\begin{subtable}{\textwidth}
   \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -456,7 +456,7 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
            \caption{Delta with LR method}
        \end{subfigure}
        \begin{subfigure}[b]{0.45\textwidth}
-           \includegraphics[width=\textwidth]{graphs/lookbackolddeltalrtime.png}
+           \includegraphics[width=\textwidth]{graphs/lookbackdeltalrtime.png}
            \caption{Delta with Rayleight method}
        \end{subfigure}
 
@@ -465,11 +465,11 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
            \caption{Gamma with PWLR method}
        \end{subfigure}
        \begin{subfigure}[b]{0.45\textwidth}
-           \includegraphics[width=\textwidth]{graphs/lookbackoldgammapwlrtime.png}
+           \includegraphics[width=\textwidth]{graphs/lookbackgammapwlrtime.png}
           \caption{Gamma with Rayleight method}
       \end{subfigure}
 
-        \caption{\label{fig:lboptiongraphs}A graphical analysis of the error of the greeks depending on the computation time. We notice that the method with Rayleight distribution is between 100 and 1,000 times faster. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10. However, due to the extremely slow computation time for LR methods, we only computed up to 100,000 samples compared to 1,000,000 for the Rayleight method.}
+        \caption{\label{fig:lboptiongraphs}A graphical analysis of the error of the greeks depending on the computation time. We notice that the method with Rayleight distribution is between 10 and 100 times faster. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
  \end{figure}
  \FloatBarrier
 
@@ -542,7 +542,169 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
 \begin{align*}
 \nu_{DOC} = S_0\phi\left(\frac{log({S_0 \over K}) + (r + {\sigma^2 \over 2})T}{\sigma\sqrt{T}}\right)\sqrt{T}-\left({B \over S_0}\right)^{2\upsilon \over \sigma^2}\left(\nu_{bs} - {4rC_{bs}({B^2\over S_0}, K)log({B\over S_0}) \over \sigma^3}\right)
 \end{align*}
-% the \\ insures the section title is centered below the phrase: AppendixA
+
+
+
+\newpage
+\section{Figures}
+
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltalr.png}
+          \caption{Delta with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltapw.png}
+          \caption{Delta with PW method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrlr.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrpw.png}
+          \caption{Gamma with LR-PW method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammapwlr.png}
+          \caption{Gamma with PW-LR method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegalr.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegapw.png}
+          \caption{Vega with PW method}
+      \end{subfigure}
+
+      \caption{\textbf{European Call Option}. A graphical analysis of the error of the greeks depending on the number of simulations. We notice that there is a significant increase above 1000 simulations in all cases. This is very clear on our vega which tends to have a very high error variance below 1000 simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltalrtime.png}
+          \caption{Delta with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurodeltapwtime.png}
+          \caption{Delta with PW method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrlrtime.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammalrpwtime.png}
+          \caption{Gamma with LR-PW method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammapwlrtime.png}
+          \caption{Gamma with PW-LR method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegalrtime.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurovegapwtime.png}
+          \caption{Vega with PW method}
+      \end{subfigure}
+
+      \caption{\textbf{European Call Option - Time}. A graphical analysis of the error of the greeks depending on the number of simulations. We notice that there is a significant increase above 1000 simulations in all cases. This is very clear on our vega which tends to have a very high error variance below 1000 simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrierolddeltalr.png}
+          \caption{Delta with LR}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrierdeltalr.png}
+          \caption{Delta with LR Rayleight}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrieroldgammalrlr.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barriergammalrlr.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammapwlrtime.png}
+          \caption{Gamma with LR-LR Rayleight method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrieroldvegalr.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barriervegalr.png}
+          \caption{Vega with LR Rayleight method}
+      \end{subfigure}
+
+      \caption{\textbf{Barrier Option}. A graphical analysis of the error of the greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrierolddeltalrtime.png}
+          \caption{Delta with LR}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrierdeltalrtime.png}
+          \caption{Delta with LR Rayleight}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrieroldgammalrlrtime.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barriergammalrlrtime.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/eurogammapwlrtimetime.png}
+          \caption{Gamma with LR-LR Rayleight method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrieroldvegalrtime.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barriervegalrtime.png}
+          \caption{Vega with LR Rayleight method}
+      \end{subfigure}
+
+      \caption{\textbf{Barrier Option - Time}. A graphical analysis of the error of the greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
 
 \newpage
 \section{App User Guide}

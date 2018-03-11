@@ -90,7 +90,7 @@ int debug_konstantin(){
 
 int main(){
     cout << "hello" << endl;
-    //debug_konstantin();
-    debug_thomas();
+    debug_konstantin();
+    //debug_thomas();
     return 0;
 }
