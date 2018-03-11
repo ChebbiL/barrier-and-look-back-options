@@ -26,7 +26,7 @@ This package allows you to perform various computations on European call options
   * delta
   * gamma
   * vega
-* Provide statistical informations
+* Provide statistical information
 
 ## Installation
 
@@ -57,33 +57,40 @@ mkdir bin
 
 ### Importing the package
 
+#### Importing with headers - easy way
+
+You can type your functions in the `main.cpp` file in the project. Once you are done, run the following commands.
+
+```
+make clean; make
+./run
+```
+
+#### Importing with headers
+
 You can import directly all our functions by importing the following header.
+
+To do this, place yourself in the same repository as the one where the rest of the source files are.
 
 ```
 #include "barrierlookbackoptions.h"
 ```
 
-#### Importing with headers
+To build your project, which must include a main function, you can use the following commands.
 
-#### Importing via shared libraries
+```
+g++ -o myproject myproject.cpp random_normal.cpp european_option.cpp
+  barrier_option.cpp lookback_option.cpp
+./myproject
+```
+Do not forget to build in the same folder as the one the files are. You must always write `random_normal.cpp european_option.cpp barrier_option.cpp lookback_option.cpp` after the `C++` file of your project.
 
-##### Linux
-
-We recommend using the `libBarrierLookBackOptions.so` for the Linux users.
-
-##### Windows NT
-
-We recommend using the `BarrierLookBackOptions.dll` for the Windows NT users.
-
-##### MacOS
-
-We recommend using the `BarrierLookBackOptions.dylib` for the macOS users.
 
 ## Usage
 
 
 ### Random numbers generation
-In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. **Note that if you use either the [European call option](#european-call-option), the [barrier option](#barrier-option) or the [look-back option](#look-back-option), the generation of random samples is already done automatically.**
+In order to generate a sample of numbers drawn from normal distribution, a separate class 'random_normal' was implemented. **Note that if you use the [European call option](#european-call-option), the [barrier option](#barrier-option) or the [look-back option](#look-back-option), the generation of random samples is already done automatically.**
 
 You can specify parameters of the normal distribution from which numbers are to be drawn. In this declaration 'name' can be arbitrary, 'm' and 'v' correspond to mean and variance respectively. By default, standard normal distribution will be created:
 ```
@@ -100,8 +107,10 @@ double d = name_2[i];
 ```
 You can also generate a single random number from standard normal distribution N(0,1) simply using global function:
 ```
-get_random();    // the result is long double
+get_Nrandom();    // the result is long double
 ```
+Note `get_Urandom();` works the same way for the uniform random variable.
+
 Finally, you can compute the cdf and pdf of the standard normal distribution by using following functions:
 ```
 normal_cdf(d);    // input/output are double types
@@ -116,13 +125,12 @@ normal_pdf(d);    // input/output are double types
 
 #### Initialising the European call option
 
-Before you use any of the functions of the package, you must create a `european_option` object to interact with. This can be done using the following method. You will need the following parameters:
-* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
+Before you use any of the functions of the package, you must create an `european_option` object to interact with. This can be done using the following method. You will need the following parameters:
+* `S_t0 (double)` the value of the underlying stock at initial time t0. Default is `100`.
 * `strike (double)` the value of the strike of the European option. Default is `100`.
 * `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
-* `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
-* `time_maturity_T (double)` the time of maturity of the call. Default value is `1
-.0`.
+* `volatility (double)` the decimal value of the volatility of the underlying stock. For a volatility of 15%, enter `0.15`.  Default is `0.40`.
+* `time_maturity_T (double)` the time of maturity of the call. Default value is `1.0`.
 * `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
 * `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
 ```
@@ -139,7 +147,7 @@ The price is computed using the Monte Carlo method with the number of iterations
 ```
 double call.price();
 ```
-You can however specify any other number of iterations by specifying an `int` number in the parameters as follows.
+However, you can specify any other number of iterations by specifying an `int` number in the parameters as follows.
 ```
 double call.price(100000);
 ```
@@ -151,7 +159,7 @@ In order to compute the call option delta, you can use the following method. By 
 ```
 double call.delta();
 ```
-You can alsospecify the method you want to use.
+You can also specify the method you want to use.
 - To use the _pathwise estimates_ method, enter the argument `"pw"`.
 - To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
 ```
@@ -194,12 +202,11 @@ double call.vega("lr");
 The `barrier_option` object takes the same arguments as the `european_option` plus the value of the barrier.
 You will need the following parameters:
 * `barrier_value (double)` the value of the barrier.
-* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
+* `S_t0 (double)` the value of the underlying stock at initial time t0. Default is `100`.
 * `strike (double)` the value of the strike of the European option. Default is `100`.
 * `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
-* `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
-* `time_maturity_T (double)` the time of maturity of the call. Default value is `1
-.0`.
+* `volatility (double)` the decimal value of the volatility of the underlying stock. For a volatility of 15%, enter `0.15`.  Default is `0.40`.
+* `time_maturity_T (double)` the time of maturity of the call. Default value is `1.0`.
 * `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
 * `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
 ```
@@ -225,7 +232,7 @@ In order to compute the barrier option delta, you can use the following method. 
 ```
 double boption.delta();
 ```
-You can alsospecify the method you want to use.
+You can also specify the method you want to use.
 - To use the _theoretical value_, enter the argument `"th"`.
 - To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
 ```
@@ -239,7 +246,7 @@ In order to compute the barrier option gamma, you can use the following method. 
 ```
 double boption.gamma();
 ```
-You can alsospecify the method you want to use.
+You can also specify the method you want to use.
 - To use the _theoretical value_, enter the argument `"th"`.
 - To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
 ```
@@ -254,7 +261,7 @@ In order to compute the barrier option vega, you can use the following method. B
 ```
 double boption.vega();
 ```
-You can alsospecify the method you want to use.
+You can also specify the method you want to use.
 - To use the _theoretical value_, enter the argument `"th"`.
 - To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
 ```
@@ -268,7 +275,7 @@ In order to compute the barrier option gamma, you can use the following method. 
 ```
 double boption.gamma();
 ```
-You can alsospecify the method you want to use.
+You can also specify the method you want to use.
 - To use the _theoretical value_, enter the argument `"th"`.
 - To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
 ```
@@ -293,19 +300,18 @@ double boption.vega("lr");
 
 ### Look-back option
 
-The `lookback_option` object takes the same arguments as the `european_option` plus the value of the barrier.
+The `lookback_option` object takes the same arguments as the `european_option`.
 You will need the following parameters:
-* `min_or_max_observed (double)` the maximum or minimum observed. Default is `150`.
-* `S_t0 (double)` the value of the underlying stock at time t0. Default is `100`.
+* `S_t0 (double)` the value of the underlying stock at initial time t0. Default is `100`.
 * `strike (double)` the value of the strike of the European option. Default is `100`.
 * `interest_rate (double)` the decimal value of the interest rate. For an interest rate of 15%, enter `0.15`.  Default is `0.05`.
 * `volatility (double)` the decimal value of the volatility of the underlying stock. For an volatility of 15%, enter `0.15`.  Default is `0.40`.
 * `time_maturity_T (double)` the time of maturity of the call. Default value is `1
 .0`.
 * `initial_time_t0 (double)` the initial time at which `S_t0` was recorded. Default value is `0.0`.
-* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are 100,000.
+* `number_iterations_approximation (int)` the number of iterations for the approximation methods. The default value is 10,000. Note than the larger this number is, the slower but more accurate computations are. Industry standards are around 100,000.
 ```
-lookback_option lboption(min_or_max_observed, S_t0, strike,
+lookback_option lboption(S_t0, strike,
    interest_rate, volatility, time_maturity_T,
    time_initial_t, number_iterations_approximation);
 ```
@@ -351,21 +357,6 @@ double boption.gamma("lr");
 
 ##### Vega
 
-
-In order to compute the barrier option vega, you can use the following method.
-```
-double lboption.vega();
-```
-
-#### Gamma
-
-In order to compute the barrier option gamma, you can use the following method.
-```
-double lboption.gamma();
-```
-
-
-#### Vega
 
 In order to compute the barrier option vega, you can use the following method.
 ```
