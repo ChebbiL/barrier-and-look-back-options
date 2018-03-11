@@ -286,6 +286,7 @@ double lookback_option::payoff_theoretic() {
 
 double lookback_option::delta(std::string method){  // choosing "pw" or "lr" method of calculation delta
     if (method=="pw") {return delta_pw();}
+    if (method=="lr") {return delta_lr();}
     if (method=="th") {return delta_theoretic();}
     return delta_theoretic();
 }
@@ -295,6 +296,7 @@ double lookback_option::delta(){return delta("th");}  // default mathod for delt
 double lookback_option::gamma(std::string method){  // choosing "pw" or "lr" method of calculation gamma
     if (method=="lrlr") {return gamma_lrlr();}
     if (method=="pwlr") {return gamma_pwlr();}
+    if (method=="th") {return gamma_theoretic();}
     return gamma_theoretic();
 }
 double lookback_option::gamma(){return gamma("th");}  // default mathod for delta
