@@ -2,6 +2,14 @@
 This is the simulation project `barrier-and-look-back-options` of team 3 at Imperial College London in the MSc in Mathematics and Finance. This project is part of the Simulation Methods in Finance (M5MF4) course and is carried under the supervision of Professor Harry Zheng.
 
 ## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+  - [Building the Project](#building-the-project)
+  - [Importing the Package](#importing-the-package)
+- [Usage](#usage)
+  - [Terminal App](#terminal-app)
+  - [C++ Package](#c++-package)
+- [Team](#team)
 
 ## Features
 
@@ -17,7 +25,7 @@ Our project includes the following features.
 ### C++ Package
 
 
-## Contribute and support
+## Team
 
 The team includes the following members, with the associated GitHub identifiers.
 
