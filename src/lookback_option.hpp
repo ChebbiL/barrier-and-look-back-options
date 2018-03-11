@@ -5,6 +5,9 @@
 #define M_PI 3.1415926535898
 #endif
 
+
+#include <cmath>
+#include <algorithm>
 #include "european_option.hpp" // Include the european_option class for inheritance
 using namespace std;
 

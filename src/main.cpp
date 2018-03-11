@@ -2,9 +2,9 @@
 This is the main project file.
 */
 
-#include "european_option.h"
-#include "barrier_option.h"
-#include "lookback_option.h"
+#include "european_option.hpp"
+#include "barrier_option.hpp"
+#include "lookback_option.hpp"
 
 #include<iostream> // For console output
 #include <cmath> // For math calculations
