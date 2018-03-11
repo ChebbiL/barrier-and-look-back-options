@@ -85,7 +85,7 @@ Here is an example.
 St=120,K=80
 ```
 
-This command will simulatneously change `St`the initial stock value to `120` units and `K` the value of the strike to `80` units.
+This command will simulatneously change `St`the initial stock value to `120` units and `K` the value of the strike to `80` units. The values must be separated by `,`. You should not time fractions. As an example type `0.3333` instead of 1/3.
 
 You can change as many parameters as you want. You can display at any time the current parameters using the following command.
 
