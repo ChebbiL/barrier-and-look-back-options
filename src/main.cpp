@@ -73,17 +73,17 @@ int debug_konstantin(){
 */
 
     lookback_option l(100, 120, 0.05, 0.3, 3.0, 0, 100000, 100);
-    cout << "lookback lR delta: " << l.delta() << endl;
-    cout << "lookback PW delta: " << l.delta("pw") << endl;
-    cout << "lookback TH delta: " << l.delta("th") << endl;
+    cout << "lookback LR delta  : " << l.delta("lr") << endl;
+    cout << "lookback PW delta  : " << l.delta("pw") << endl;
+    cout << "lookback TH delta  : " << l.delta("th") << endl;
     cout << "lookback LRLR gamma: " << l.gamma("lrlr") << endl;
-    cout << "lookback LRPW gamma: " << l.gamma("lrpw") << endl;
-    cout << "lookback TH gamma: " << l.gamma("th") << endl;
-    cout << "lookback LR  vega: " << l.vega("lr") << endl;
-    cout << "lookback PW  vega: " << l.vega("pw") << endl;
-    cout << "lookback TH vega: " << l.vega("th") << endl;
-    cout << "lookback    Price: " << l.price() << endl;
-    cout << "lookback Theoretic   price: " << l.payoff_theoretic() << endl;
+    cout << "lookback PWLR gamma: " << l.gamma("pwlr") << endl;
+    cout << "lookback TH gamma  : " << l.gamma("th") << endl;
+    cout << "lookback LR  vega  : " << l.vega("lr") << endl;
+    cout << "lookback PW  vega  : " << l.vega("pw") << endl;
+    cout << "lookback TH vega   : " << l.vega("th") << endl;
+    cout << "lookback    Price  : " << l.price() << endl;
+    cout << "lookback TH price  : " << l.payoff_theoretic() << endl;
 
     return 0;
 }
