@@ -295,7 +295,7 @@ We can see that the simulation results improve and get closer to the theoretical
 We now have a closer look at 100,000 simulations, which is the industry standard and which is above the 1,000 simulations threshold we have noticed on the graphs.
 For delta, although the fastest methods is LR, it has a significantly lower accuracy. Gamma LRLR is the most accurate but it is the slowest, so gamma PWLR seems to be a good compromise. Vega PW is both faster and more accurate than vega LR.
 
-For the following section, PW methods will be infeasible to do for Barrier Option. Hense, we will use likelihood ratio method when calculating the Greeks.
+For the following section, PW methods will be infeasible to do for Barrier Option. Hence, we will use likelihood ratio method when calculating the Greeks.
 
 \FloatBarrier
 \newpage
@@ -311,14 +311,14 @@ For an up-and-out barrier call option $A_T=(S_T-K)^+\mathds{1}_{max 0\leq t\leq 
 We stimulate the path of $S_t$ by taking the maturity time $T$ into 1,000 steps, and we simulate 5,000 such paths. We have an $M^T_0$ for each path. However, this method is bordensome as we need to generate each step for each path. The simulation process is long.
 
 \subsection{Another Method using Rayleigh Distribution}
-Hense, we tried second method using Rayleigh Distribution to simulate the distribution of $M^t_0$ directly. The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion \cite{barrieropt, glasserman, exooptions}
+Hence, we tried second method using Rayleigh Distribution to simulate the distribution of $M^t_0$ directly. The maximum of a standard Brownian motion starting at the origin to be at b at time 1 over period [0, T] has the Rayleigh distribtuion \cite{barrieropt, glasserman, exooptions}
 
 $$F(x) = 1 - e^{-2x(x-b)}, \ x \geq b.$$
 
 solving the equation $F(x) = u, u\in (0,1)$ has roots
 $$x = {b \over 2} \pm {\sqrt{b^2-2log(1-u)}\over 2}$$
 
-Hense, at time T with $S_T$,
+Hence, at time T with $S_T$,
 $$M^T={S_T+\sqrt{S_T^2-2TlogU}\over 2}$$
 And we simulate $S_T$ by Black-Scholes formula
 $$S_T=S_0e^{(r-{1\over 2}\sigma^2)T+\sigma \sqrt{T}Z}$$
@@ -328,7 +328,7 @@ $$M^T=S_0e^{{1\over2}log({S_T\over S_0})+\sqrt{log({S_T\over S_0})^2-2\sigma^2Tl
 
 With this method, we only need to generate $S_T$ for each path and one random variable for the uniform distribution to get the $M^T$. It reduces the amount of simulation by 500 times (as before, 1,000 $S_t$ need to be generated for each path).
 
-As we mentioned previously, it is impossible to find the partial direvative of the indicator function $\mathds{1}_{M^T_0\leq B}$  with respect to $S_0$. Hense pathwise method is eliminated by us. For the likelihood ratio method, we find the differentiation of joint cumulative density function of $S_T$ and the  $M_T $ to be
+As we mentioned previously, it is impossible to find the partial direvative of the indicator function $\mathds{1}_{M^T_0\leq B}$  with respect to $S_0$. Hence pathwise method is eliminated by us. For the likelihood ratio method, we find the differentiation of joint cumulative density function of $S_T$ and the  $M_T $ to be
 $$f_{uo}(x, m, T)={1\over \sqrt{T}}\left(\phi({x-\mu T \over \sqrt{T}})-e^{2m\mu} \phi({x-2m-\mu T\over \sqrt{T}})\right) $$
 
 where $x = {1\over \sigma}ln {S_T\over S_0}$, $\mu=\frac{1}{\sigma}(r-\frac{\sigma^2}{2})$ and $m = {1\over \sigma}ln {M_T\over S_0}$. Then we can find the Greeks accordingly, the details of the computation are in Appendix \ref{sec:bocomp}.\\
@@ -432,7 +432,7 @@ $$f_{(m)} = \frac{2}{\sqrt{T}}\phi\left(\frac{m-aT}{\sqrt{T}}\right)-2ae^{2am}\P
 and the cumulative density function is
 $$F_{M_T>m} = \Phi\left(\frac{m-aT}{\sqrt{T}}\right)-e^{2am}\Phi\left(\frac{-m-aT}{\sqrt{T}}\right)$$
 
-We used Newton-Raphson method to solve for the above cumulative density function $F=U,$ the uniform distribution. Hense, for each random number we generate from [0,1], we receive one m by solving for F. To get $M^T$ of stock price which follows geometric Browninan motion with starting price $S_0$, we let $M^T=S_0e^{\sigma m }$.\\
+We used Newton-Raphson method to solve for the above cumulative density function $F=U,$ the uniform distribution. Hence, for each random number we generate from [0,1], we receive one m by solving for F. To get $M^T$ of stock price which follows geometric Browninan motion with starting price $S_0$, we let $M^T=S_0e^{\sigma m }$.\\
 
 
 \subsection{Another Method using Rayleigh Distribution}
@@ -530,7 +530,7 @@ Paul Glasserman (Pr.),
   2013.
 
 \bibitem{exooptions}
-Peter G. Zhqng (Pr.),
+Peter G. Zhang (Pr.),
   \textit{Exotic Options, A Guide to Second Generation Options},
   World Scientific Publishing, Hong Kong,
   1998 (second edition).
@@ -618,7 +618,7 @@ All our code is available on our GitHub repository:\\ \url{github.com/tjespel/ba
           \caption{Vega with PW method}
       \end{subfigure}
 
-      \caption{\textbf{European Call Option}. A graphical analysis of the error of the Greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value.}
+      \caption{\textbf{European Call Option}. A graphical analysis of the error of the Greeks depending on the number of simulations. In order to generate these graphs, we have done one thousand simulations for each value.}
 \end{figure}
 
 \begin{figure}[h!]
@@ -654,7 +654,7 @@ All our code is available on our GitHub repository:\\ \url{github.com/tjespel/ba
           \caption{Vega with PW method}
       \end{subfigure}
 
-      \caption{\textbf{European Call Option - Time}. A graphical analysis of the error of the Greeks depending on the number of simulations. We notice that there is a significant increase above 1000 simulations in all cases. This is very clear on our vega which tends to have a very high error variance below 1000 simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+      \caption{\textbf{European Call Option - Time}. A graphical analysis of the error of the Greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simulations for each value.}
 \end{figure}
 
 
@@ -663,18 +663,18 @@ All our code is available on our GitHub repository:\\ \url{github.com/tjespel/ba
   \centering
       \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/barrierolddeltalr.png}
-          \caption{Delta with LR}
+          \caption{Delta with LR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/barrierdeltalr.png}
-          \caption{Delta with LR Rayleigh}
+          \caption{Delta with LR Rayleigh method}
       \end{subfigure}
 
-      \begin{subfigure}[b]{0.3\textwidth}
+      \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/barrieroldgammalrlr.png}
           \caption{Gamma with LR-LR method}
       \end{subfigure}
-      \begin{subfigure}[b]{0.3\textwidth}
+      \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/barriergammalrlr.png}
           \caption{Gamma with LR-LR Rayleigh method}
       \end{subfigure}
@@ -766,7 +766,7 @@ All our code is available on our GitHub repository:\\ \url{github.com/tjespel/ba
   \centering
       \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/lookbackolddeltalr.png}
-          \caption{Delta with LR}
+          \caption{Delta with LR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/lookbackdeltalr.png}
@@ -775,26 +775,64 @@ All our code is available on our GitHub repository:\\ \url{github.com/tjespel/ba
 
       \begin{subfigure}[b]{0.3\textwidth}
           \includegraphics[width=\textwidth]{graphs/lookbackoldgammapwlr.png}
-          \caption{Gamma with LR-LR method}
+          \caption{Gamma with PW-LR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.3\textwidth}
           \includegraphics[width=\textwidth]{graphs/lookbackgammapwlr.png}
-          \caption{Gamma with LR-LR method}
+          \caption{Gamma with PW-LR method}
       \end{subfigure}
       \begin{subfigure}[b]{0.3\textwidth}
-          \includegraphics[width=\textwidth]{graphs/lookbackgammapwlrtime.png}
+          \includegraphics[width=\textwidth]{graphs/lookbackgammalrlr.png}
           \caption{Gamma with LR-LR Rayleigh method}
       \end{subfigure}
 
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackvegapw.png}
+          \caption{Vega with PW Rayleigh method}
+      \end{subfigure}
       \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/lookbackvegalr.png}
           \caption{Vega with LR Rayleigh method}
       \end{subfigure}
 
-      \caption{\textbf{LookBack Option}. A graphical analysis of the error of the Greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+      \caption{\textbf{LookBack Option}. A graphical analysis of the error of the Greeks depending on the number of simulations. In order to generate these graphs, we have done one thousand simlations for each value.}
 \end{figure}
 
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackolddeltalrtime.png}
+          \caption{Delta with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackdeltalrtime.png}
+          \caption{Delta with LR Rayleigh}
+      \end{subfigure}
 
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackoldgammapwlrtime.png}
+          \caption{Gamma with PW-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackgammapwlrtime.png}
+          \caption{Gamma with PW-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackgammalrlrtime.png}
+          \caption{Gamma with LR-LR Rayleigh method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackvegapwtime.png}
+          \caption{Vega with PW Rayleigh method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackvegalrtime.png}
+          \caption{Vega with LR Rayleigh method}
+      \end{subfigure}
+
+      \caption{\textbf{LookBack Option-Time}. A graphical analysis of the error of the Greeks depending on the number of simulations. In order to generate these graphs, we have done one thousand simlations for each value.}
+\end{figure}
 
 
 
