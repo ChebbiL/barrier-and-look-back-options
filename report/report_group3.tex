@@ -331,18 +331,15 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 
 \begin{table}
 \centering
-\begin{subtable}{\textwidth}
-  \centering
 \begin{tabular}{|c|c|c|}
 \hline
-     & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation}\\ \hline
+     & \textbf{Closed Form} & \textbf{Monte Carlo 100,000 Simulation}\\ \hline
 \textbf{Option Price} & 15.18 & 15.11 \\ \hline
 \textbf{Delta LR} & 0.776 & 0.769\\ \hline
 \textbf{Gamma LRLR} & 2.58 e-3 & 2.89 e-3\\ \hline
 \textbf{Vega LR} &15.55 &16.02\\ \hline
 \end{tabular}
 \caption{Theoretical Results compared to Simulation Results}
-\end{subtable}
 \end{table}
 
 \begin{table}
@@ -438,7 +435,7 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-\multicolumn{2}{|l|}{}             & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation} \\ \hline
+\multicolumn{2}{|l|}{}             & \textbf{Closed Form} & \textbf{Monte Carlo 100,000 Simulation} \\ \hline
 \multicolumn{2}{|c|}{\textbf{Option Price}}      & 37.76 &  37.715       \\ \hline
 \multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{1.329}                &1.329      \\
                                 & \textbf{PW}    &                                          & 1.322              \\ \hline
@@ -463,7 +460,7 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 \end{subtable}\\
 
 \vspace*{.5cm}
-\begin{subtable}{\textwidth} 
+\begin{subtable}{\textwidth}
   \centering
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -670,10 +667,6 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
       \end{subfigure}
       \begin{subfigure}[b]{0.3\textwidth}
           \includegraphics[width=\textwidth]{graphs/barriergammalrlr.png}
-          \caption{Gamma with LR-LR method}
-      \end{subfigure}
-      \begin{subfigure}[b]{0.3\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurogammapwlrtime.png}
           \caption{Gamma with LR-LR Rayleight method}
       \end{subfigure}
 
@@ -690,6 +683,50 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
 \end{figure}
 
 
+
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrierolddeltalr.png}
+          \caption{Delta with LR}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrierdeltalr.png}
+          \caption{Delta with LR Rayleight}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrieroldgammapwlr.png}
+          \caption{Gamma with PW-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barriergammapwlr.png}
+          \caption{Gamma with PW-LR Rayleight method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrieroldgammalrlr.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barriergammalrlr.png}
+          \caption{Gamma with LR-LR Rayleight method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barrieroldvegalr.png}
+          \caption{Vega with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/barriervegalr.png}
+          \caption{Vega with LR Rayleight method}
+      \end{subfigure}
+
+      \caption{\textbf{Look-back Option}. A graphical analysis of the error of the greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+\end{figure}
+
+
+
 \begin{figure}[h!]
   \centering
       \begin{subfigure}[b]{0.45\textwidth}
@@ -701,16 +738,12 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
           \caption{Delta with LR Rayleight}
       \end{subfigure}
 
-      \begin{subfigure}[b]{0.3\textwidth}
+      \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/barrieroldgammalrlrtime.png}
           \caption{Gamma with LR-LR method}
       \end{subfigure}
-      \begin{subfigure}[b]{0.3\textwidth}
+      \begin{subfigure}[b]{0.45\textwidth}
           \includegraphics[width=\textwidth]{graphs/barriergammalrlrtime.png}
-          \caption{Gamma with LR-LR method}
-      \end{subfigure}
-      \begin{subfigure}[b]{0.3\textwidth}
-          \includegraphics[width=\textwidth]{graphs/eurogammapwlrtimetime.png}
           \caption{Gamma with LR-LR Rayleight method}
       \end{subfigure}
 
@@ -723,12 +756,43 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
           \caption{Vega with LR Rayleight method}
       \end{subfigure}
 
-      \caption{\textbf{Barrier Option - Time}. A graphical analysis of the error of the greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+
+      \caption{\textbf{Look-back Option - Time}. A graphical analysis of the error of the greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
 \end{figure}
 
 
 
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackolddeltalr.png}
+          \caption{Delta with LR}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackdeltalr.png}
+          \caption{Delta with LR Rayleight}
+      \end{subfigure}
 
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackoldgammapwlr.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackgammapwlr.png}
+          \caption{Gamma with LR-LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.3\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackgammapwlrtime.png}
+          \caption{Gamma with LR-LR Rayleight method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackvegalr.png}
+          \caption{Vega with LR Rayleight method}
+      \end{subfigure}
+
+      \caption{\textbf{LookBack Option}. A graphical analysis of the error of the greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+\end{figure}
 
 
 
