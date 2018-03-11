@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,fleqn]{article}
+\documentclass[11pt,a4paper,fleqn,draft]{article}
 
 \usepackage{multirow}
 \usepackage[table,xcdraw]{xcolor}
@@ -109,11 +109,11 @@ The first one is to generate a uniform distribution and then transform it into S
 \subsection{Generating the uniform distribution}
 To generate a uniform distribution we tried two ways: one can use the system build-in methods \texttt{rand}. The function will return a number between 1 and $2^{15} -1$ randomly. The range is around 30,000, way below 100,000, the sample size we plan to generate. In other words, when we use \texttt{rand} to simulate 100,000 entries, there will be numbers appear more than once, which will create bias. We prefer the second way to generate a uniform distriubtion: linear congruential generator.
 
-$$n_i = (an_{i-1}) \ mod\ m$$for $i=1,2,...,10,000$, and we let $ a = 7^5$, and $m = 2^{31}-1$, which gives about 2 billion points. We run 100,000 times and will only use $0.005\%$ of all points. Theoretically, no pattern should appear.
+$$n_i = (an_{i-1}) \ mod\ m$$for $i=1,2,...,10,000$, and we let $ a = 7^5$, and $m = 2^{31}-1$, which gives about 2 billion points. We run 100,000 times and will only use $0.005\%$ of all points. Theoretically, no pattern should appear. ${n_i \over m}$ will give a uniform distribution from (0,1).
 \subsection{Generating the normal distribution}
 To transform the uniform distribution we got into Standard Normal Distribution, we have tried three methods. By Central Limit theory,
 
-$$ Z_n = \frac{\sum_{i=1}^{n}X_i-n\mu}{\sqrt{n}\sigma}$$where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significant large simulations and speed is slow consequently.
+$$ Z_n = \frac{\sum_{i=1}^{n}X_i-n\mu}{\sqrt{n}\sigma}$$where $X_i$ is from the uniform distribution we generated previously. $Z_n$ converges in distribution to SND, however, it requires n, the number of uniform distribution, to be sufficiently large. Therefore this method requires significantly large simulations and speed is slow consequently.
 
 We also tried Box-Muller methods  \cite{lectures}
 
@@ -124,7 +124,7 @@ $$ let \ V_1 = 2U_1-1,\  V_1 = 2U_2-1.$$
 where $U_1$ and $U_2$ are two independent uniform distribution.
  Let\ $W = V_1^2+V_2^2.$\ If $W>1$, return to the beginning. Otherwise,
 
-$$N_1 = \sqrt{\frac{(-2logW)}{W}}V_1,\ N_2 = \sqrt{\frac{(-2logW)}{W}}V_2$$As the computation does not involve sine and cosine, it is generally faster than Box-Muller.
+$$N_1 = \sqrt{\frac{(-2logW)}{W}}V_1,\ N_2 = \sqrt{\frac{(-2logW)}{W}}V_2$$As the computation does not involve \textit{sine} and \textit{cosine}, it is generally faster than Box-Muller.
 
 
 
@@ -132,19 +132,19 @@ $$N_1 = \sqrt{\frac{(-2logW)}{W}}V_1,\ N_2 = \sqrt{\frac{(-2logW)}{W}}V_2$$As th
 \centering
 \begin{tabular}{| c| c| c| c| }
 \hline
-\textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time} \\ \hline
-\textbf{\textit{ rand}  + CLT} & 1.77 e-5 & 0.999909 & 90.34 \\  \hline
-\textbf{\textit{ rand}  + Box-Muller} & -6.80 e-5 & 1.000703&8.64\\ \hline
-\textbf{\textit{ rand}  + Marsagilia Polar} & 1.70 e-5& 1.000472& 6.40\\ \hline
+\textbf{ Method} &\textbf{ Mean} & \textbf{Variance}&\textbf{ Time (seconds)} \\ \hline
+\textbf{\texttt{ rand}  + CLT} & 1.77 e-5 & 0.999909 & 90.34 \\  \hline
+\textbf{\texttt{ rand}  + Box-Muller} & -6.80 e-5 & 1.000703&8.64\\ \hline
+\textbf{\texttt{ rand}  + Marsagilia Polar} & 1.70 e-5& 1.000472& 6.40\\ \hline
 \textbf{ LCG + CLT} & 1.52 e-5& 0.999973&236.3\\ \hline
 \textbf{LCG + Box-Muller} & -1.27 e-4 & 0.999797&11.59\\ \hline
-\textbf{ LCG + Marsagilia} & 7.36 e-5 & 0.999979&10.52\\ \hline
+\textbf{ LCG + Marsagilia Polar} & 7.36 e-5 & 0.999979&10.52\\ \hline
 \textbf{\texttt{random} }& 3.58 e-4 & 1.000210&1.498\\ \hline
 \end{tabular}
 \caption{We note that the Marsaglia method is faster compared to the other methods. Note that the run time depends on the computer used for the simulation (here a 3.4 GHz Intel Core~i7). We have generated 100,000,000 variables to obtain these results.}
 \end{table}
 
-Table 1  is the simulation result of Standard Normal distribution and time used by different methods from generating 100,000,000 random variables. As shown in the table, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. We use the combination of linear congruential generator and Marsagilia methods to simulate random variables. This was also the opportunity for us to have full control over the generation of random numbers, as it is a critical step towards efficient simulations \cite{lectures}. It also features very good results in terms of statistical parameters and time.
+Table 1  is the simulation result of Standard Normal distribution and time used by different methods from generating 100,000,000 random variables. As shown in the table, when using CLT generating standard normal distribution, the time needed is significantly longer than the rest methods. Marsagilia Polar method gives a variance closer to 1 compared to Box-Muller methods. Linear congruential Generator gives a variance closer to 1 compared to \texttt{rand} method. Hence we use the combination of linear congruential generator and Marsagilia methods to simulate random variables. This was also the opportunity for us to have full control over the generation of random numbers, as it is a critical step towards efficient simulations \cite{lectures}. It also features very good results in terms of statistical parameters and time.
 
 
 \FloatBarrier
@@ -158,7 +158,7 @@ $$dS_t=rS_tdt+\sigma S_tdW_t, \ 0\leq t \leq T$$
 with initial price $S_0 = S$, where $r$ is riskless interest rate, $\sigma$ volatility, and $W_t$ the standard Brownian motion. A European call option price at time $t$ with maturity time $T$ is given by
 $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
-For the basic task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate the path of
+For the basic task, we let $S_0 = 100$, $K=100$, interest rate $r = 0.05$, volatility $\sigma = 0.4$, maturity time $T =1$. We use Monte Carlo method to simulate 
 
 $$S_T=S_0e^{(r-\frac{1}{2}\sigma ^2)T+\sigma \sqrt{T}Z} $$
 
@@ -206,7 +206,7 @@ $$Gamma_{PWLR} = \frac{\partial^2 C}{\partial  S_0^2 }=E[e^{-rT}\mathds{1}_{S_T>
 
 $$Vega_{PW} = \frac{\partial C}{\partial \sigma}=E[e^{-rT}\mathds{1}_{S_T>K}S_T(\sqrt{T}Z-\sigma T)]$$
 
-The results calculated from the closed-form formulae and the simulations are rempresented in Table \ref{tab:euroresults}.
+The results calculated from the closed-form formulae and the simulations are represented in Table \ref{tab:euroresults}.
 
 
 \begin{table}[h!]
@@ -227,7 +227,7 @@ The results calculated from the closed-form formulae and the simulations are rem
 \caption{\label{tab:euroresults}Table with the result of our simulations for different Monte-Carlo iterations. We can clearly see the improvement between 1,000 and 10,000 simulations.}
 \end{table}
 
-We can see from above table that simulation results improve and get closer to the theoretical value as simulation number increase. Hence to compare the results from different methods, we will only analyze the simulation result from the most simulation number - 100,000 in this case. This is even more clear on the graphs (Figure \ref{fig:eurographs}).
+We can see that the simulation results improve and get closer to the theoretical value as simulation number increase. Hence to compare the results from different methods, we will only analyze the simulation result from the most simulation number - 100,000 in this case. This is even more clear on the graphs (Figure \ref{fig:eurographs}).
 
 \begin{figure}
   \centering
@@ -329,33 +329,30 @@ $$f_{uo}(x, m, T)={1\over \sqrt{T}}\left(\phi({x-\mu T \over \sqrt{T}})-e^{2m\mu
 where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2})$ and $m = {1\over \sigma}ln {M_T\over S_0}$. Then we can find the greeks accordingly, the detail of the computation is in Appendix \ref{sec:bocomp}.\\
 
 
-\begin{table} [h!]
+\begin{table} 
 \centering
 \begin{subtable}{\textwidth}
   \centering
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|}
 \hline
-\multicolumn{2}{|l|}{}             & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation} \\ \hline
-\multicolumn{2}{|c|}{\textbf{Option Price}}      &  & 18.0014          \\ \hline
-\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                &      \\
-                                & \textbf{PW}    &                                          & 0.64485               \\ \hline
-\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}                 & 0.00945029       \\
-                                & \textbf{LR PW} &                                           & 0.00944593       \\
-                                & \textbf{LR LR} &                                          & 0.0095502        \\ \hline
-\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842} & 38.2008          \\
-                                & \textbf{PW}    &                                             & 37.8012          \\ \hline
+     & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation}\\ \hline
+\textbf{Option Price} & 15.18 & 15.11 \\ \hline
+\textbf{Delta LR} & 0.776 & 0.769\\ \hline
+\textbf{Gamma LRLR} & 2.58 e-3 & 2.89 e-3\\ \hline
+\textbf{Vega LR} &15.55 &16.02\\ \hline
 \end{tabular}
+\caption{Theoretical Results compared to Simulation Results}
 \end{subtable}
 \end{table}
 
-\begin{table} [h!]
+\begin{table}
 \centering
 \begin{subtable}{\textwidth}
   \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
 100 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
-\textbf{Option Price} & na & na & .. \\ \hline
+\textbf{Option Price} & na & na & na \\ \hline
 \textbf{Delta LR} & 1.508 e-2 & 1.40 e-4 & 2.109\\ \hline
 \textbf{Gamma LRLR} & 6.186 e-4 & 2.131 e-7& 2.118\\ \hline
 \textbf{Vega LR} & 2.405 & 3.435 & 2.113\\ \hline
@@ -366,7 +363,7 @@ where $x = {1\over \sigma}ln {x\over S_0}$, $\mu=\frac{1}{2}(r-\frac{\sigma^2}{2
 
 
 \vspace*{.5cm}
-\begin{subtable}{\textwidth} [h!]
+\begin{subtable}{\textwidth} 
   \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -438,14 +435,14 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 \multicolumn{2}{|l|}{}             & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation} \\ \hline
-\multicolumn{2}{|c|}{\textbf{Option Price}}      &  & 18.0014          \\ \hline
-\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{0.627409}                &      \\
-                                & \textbf{PW}    &                                          & 0.64485               \\ \hline
-\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.0094605}                 & 0.00945029       \\
-                                & \textbf{LR PW} &                                           & 0.00944593       \\
-                                & \textbf{LR LR} &                                          & 0.0095502        \\ \hline
-\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{37.842} & 38.2008          \\
-                                & \textbf{PW}    &                                             & 37.8012          \\ \hline
+\multicolumn{2}{|c|}{\textbf{Option Price}}      & 37.76 &  37.715       \\ \hline
+\multirow{2}{*}{\textbf{Delta}} & \textbf{LR}    & \multirow{2}{*}{1.329}                &1.329      \\
+                                & \textbf{PW}    &                                          & 1.322              \\ \hline
+\multirow{3}{*}{\textbf{Gamma}} & \textbf{PW LR} & \multirow{3}{*}{0.021}                 & 0.021       \\
+                                & \textbf{LR PW} &                                           & -0.0023      \\
+                                & \textbf{LR LR} &                                          & 0.021        \\ \hline
+\multirow{2}{*}{\textbf{Vega}}  & \textbf{LR}    & \multirow{2}{*}{0.098} &          \\
+                                & \textbf{PW}    &                                             &          \\ \hline
 \end{tabular}\\
 
 
@@ -468,7 +465,7 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
            \caption{Gamma with PWLR method}
        \end{subfigure}
        \begin{subfigure}[b]{0.45\textwidth}
-           \includegraphics[width=\textwidth]{graphs/blookbackgammapwlrtime.png}
+           \includegraphics[width=\textwidth]{graphs/lookbackgammapwlrtime.png}
           \caption{Gamma with Rayleight method}
       \end{subfigure}
 
