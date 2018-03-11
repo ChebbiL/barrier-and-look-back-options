@@ -37,9 +37,3 @@ int main(){
     return 0;
 }
 
-int main(){
-    cout << "hello" << endl;
-    //debug_konstantin();
-    debug_thomas();
-    return 0;
-}
