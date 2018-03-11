@@ -28,7 +28,7 @@
 
 
 \section{Random Variable Generation}
-
+\frame{\tableofcontents[currentsection]}
 \begin{frame}
 \frametitle{Random Variable Generation - Methods}
 \begin{table}[]
@@ -80,6 +80,7 @@ Generating 100 million random numbers
 
 
 \section{European Call Option}
+\frame{\tableofcontents[currentsection]}
 \begin{frame}
 \frametitle{European Call Option - Task}
 
@@ -138,6 +139,7 @@ $$C_t = E[e^{-r(T-t)}(S_T-K)^+|\textit{F}_t]$$
 
 
 \section{Barrier Option}
+\frame{\tableofcontents[currentsection]}
 \begin{frame}
 \frametitle{Barrier Option - Task}
 $$m^T_{0} =\underset{0 \leq t \leq T}{min}  S_t, \ \   M^T_{0} = \underset{0 \leq t \leq T}{max} S_t$$\\
@@ -146,7 +148,6 @@ For an up-and-out barrier call option, $B > S_0$ $A_T=(S_T-K)^+1_{M^T_0 < B}$, w
 
 \end{frame}
 
-\section{Barrier Option}
 \begin{frame}
 \frametitle{Barrier Option - Two Methods}
 
@@ -172,8 +173,6 @@ Method 2 is 500 times faster!
 
 \begin{frame}
 \frametitle{Barrier Option - Analysis}
-%\includegraphics[width=.5\textwidth]{graphs/barrierdeltalr.png}
-%\includegraphics[width=.5\textwidth]{graphs/barriergammalr.png}
 Simulate Greeks using Likelihood ratio method as Pathwise method is not feasible for barrier option.
 
 
@@ -198,7 +197,6 @@ Simulate Greeks using Likelihood ratio method as Pathwise method is not feasible
 \begin{tabular}{|l|c|c|c|}
 \hline
     & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (s)} \\ \hline
-\textbf{Price} & na &          na         & .. \\ \hline
 \textbf{Delta LR} & 1.04 e-2 & 3.03 e-5 & 9.28 e-2\\ \hline
 \textbf{Gamma LRLR} & 1.89 e-4 & 1.89 e-8& 1.48 e-1\\ \hline
 \textbf{Vega LR} & 7.51 e-1 & 3.22 e-1 & 1.09 e-1\\ \hline
@@ -210,6 +208,7 @@ Simulate Greeks using Likelihood ratio method as Pathwise method is not feasible
 
 
 \section{Look-back Option}
+\frame{\tableofcontents[currentsection]}
 \begin{frame}
 \frametitle{Look-back Option - Task}
 Lookback call option with fixed strik price $K$ has payoff $(M^T_{0}-K)^+$. The call option price at time $t$ is
@@ -226,23 +225,32 @@ The cdf of the distribution of Maximum $S_t$ for standard Brownian motion for th
 $$F = \Phi(\frac{m-aT}{\sqrt{T}})-e^{2am}\Phi(\frac{-m-aT}{\sqrt{T}})$$
 
 We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each random number we generate from [0,1], we receive one m in by solving for F. And to get $M^T$ of stock price follows geometric Browninan motion with starting price $S_0$, we let $M^T=S_0e^{\sigma m }$.\\
-
-
 \end{frame}
 
 \begin{frame}
 \frametitle{Look-back Option - Analysis}
-%\includegraphics[width=.5\textwidth]{graphs/lookbdeltalr.png}
-%\includegraphics[width=.5\textwidth]{graphs/lookbgammalr.png}
+\includegraphics[width=.5\textwidth]{graphs/lookbackolddeltalrtime.png}
+\includegraphics[width=.5\textwidth]{graphs/lookbackdeltalrtime.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Look-back Option - Analysis}
+\includegraphics[width=.5\textwidth]{graphs/lookbackoldgammapwlrtime.png}
+\includegraphics[width= .5\textwidth]{graphs/lookbackgammapwlrtime.png}
 \end{frame}
 
 \begin{frame}
 \frametitle{Look-back Option - Results}
-
+\begin{itemize}
+  \item Look-back options are generally speaking very slow to compute.
+  \item As an example, calling several times \texttt{normal\_pdf} and \texttt{normal\_cdf} is time consuming.
+  \item Another method, similar to the one used for barrier options, is faster.
+\end{itemize}
 \end{frame}
 
 
 \section{Using our Code}
+\frame{\tableofcontents[currentsection]}
 \begin{frame}
 \frametitle{Using our Code - C++ Package}
 \begin{itemize}
