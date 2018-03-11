@@ -111,3 +111,22 @@ def main():
     print()
 
 main()
+
+
+data = pd.DataFrame.from_csv('pricesummary.csv', sep=',')
+data.head()
+
+data['EU err'] = np.abs(data['EU th'] - data['EU'])
+data[data.index==100000]['EU err'].mean()
+data[data.index==100000]['EU err'].var()
+data[data.index==100000]['EU time'].mean()
+
+data['Barrier err'] = np.abs(data['Barrier th'] - data['Barrier'])
+data[data.index==100000]['Barrier err'].mean()
+data[data.index==100000]['Barrier err'].var()
+data[data.index==100000]['Barrier time'].mean()
+
+data['Lookback err'] = np.abs(data['Lookback th'] - data['Lookback'])
+data[data.index==100000]['Lookback err'].mean()
+data[data.index==100000]['Lookback err'].var()
+data[data.index==100000]['Lookback time'].mean()
