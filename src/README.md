@@ -57,13 +57,33 @@ mkdir bin
 
 ### Importing the package
 
+#### Importing with headers - easy way
+
+You can type your functions in the `main.cpp` file in the project. Once you are done, run the following commands.
+
+```
+make clean; make
+./run
+```
+
+#### Importing with headers
+
 You can import directly all our functions by importing the following header.
+
+To do this, place yourself in the same repository as the one where the rest of the source files are.
 
 ```
 #include "barrierlookbackoptions.h"
 ```
 
-#### Importing with headers
+To build your project, which must include a main function, you can use the following commands.
+
+```
+g++ -o myproject myproject.cpp random_normal.cpp european_option.cpp barrier_option.cpp lookback_option.cpp
+./myproject
+```
+Do not forget to build in the same folder as the one the files are. You must always write `andom_normal.cpp european_option.cpp barrier_option.cpp lookback_option.cpp` after the `C++` file of your project.
+
 
 #### Importing via shared libraries
 

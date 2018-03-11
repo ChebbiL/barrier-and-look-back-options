@@ -21,6 +21,9 @@ This user guide is written for the users of the console interface of our program
     - [Changing Parameters](#changing-parameters-2)
     - [Price](#price-2)
     - [Greeks](#greeks-2)
+  - [Switching Random Generation](#switching-random-generation)
+  - [Troubleshooting](#troubleshooting)
+  - [Closing the Application](#closing-the-application)
 
 ## Features
 
