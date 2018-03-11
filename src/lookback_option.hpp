@@ -49,7 +49,7 @@ public:
     // Computes price of European Lookback Call Option with Fixed Strike
     double price();
     /* Computes the delta according to the user input:
-    - 'pw' for pathwise derivatives estimates method
+    - 'th' for theoretical result
     - 'lr' for likelihood ratios method
     'lr' is built as default
     */
@@ -59,9 +59,9 @@ public:
     double gamma();
     // Computes the vega (likelihood ratios method)
     double vega();
-    
+
     double Call_An();
-    double Put_An();
+    //double Put_An();
 
     // SERVICE FUNCTIONS
 

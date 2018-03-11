@@ -22,8 +22,234 @@ This user guide is written for the users of the console interface of our program
 
 Make sure you have the following files.
 ```
-
+BarrierLookBackOptions.exe
 
 ```
 
 ## Usage
+
+### Main Principles
+
+To open the app, double-click on the `BarrierLookBackOptions.exe` file. A black window should appear.
+
+You can type your instructions instructions directly in the window.
+
+![WindowZero](window0.png)
+
+### Working with the European option
+
+The European call option is the default product. However, if you have to switch back to this product, enter the following command.
+
+```
+europeanOption
+```
+
+
+The parameters are displayed on start-up. Here are the equivalences in plain language.
+
+| Abbreviation | Plain language | Description |
+| --- | --- | --- |
+| `St` | Initial stock value | The value of the stock at the initial time of the simulation. |
+| `K` | Strike | The value above which the call will allow one to make profits. |
+| `r` | Interest rate | The rate the bank will pay one for leaving money in the bank account. |
+| `sigma` | Volatility | Volatility is one of the main measures for the simulation of the evolution of the stock price in the Black-Scholes model. It is usually givent in percentage. In this porgram, type `0.04` for 4%. |
+| `T`| Final simulation time / Maturity | The time at which the simulation stop. It is also the time at which the owner of the option will choose either to take or reject the contract. |
+| `t`| Initial simulation time | The time at which `St` is recorded. |
+| `M`| Number of Monte-Carlo simulations | The number of iterations in the Monte-Carlo method. |
+
+#### Changing parameters
+To change the parameters, just type the abbreviation equated to the new value. If you want to change multiple parameters, you can simply type a coma between them.
+
+Here is an example.
+
+```
+St=120,K=80
+```
+
+This command will simulatneously change `St`the initial stock value to `120` units and `K` the value of the strike to `80` units.
+
+You can change as many parameters as you want. You can display at any time the current parameters using the following command.
+
+```
+show
+```
+
+#### Price
+
+In order to get the price, please type the following command.
+
+```
+price
+```
+Additional details such as the methods used, the error and the computation time are provided.
+
+#### Greeks
+
+You can ask for the following Greeks : delta, gamma, vega.
+
+```
+delta
+```
+```
+gamma
+```
+```
+vega
+```
+
+Additional details such as the methods used, the error and the computation time are provided.
+
+
+
+### Working with the Barrier option
+
+To use the barrier option, enter the following command.
+
+```
+barrierOption
+```
+
+The parameters are displayed on start-up. Here are the equivalences in plain language.
+
+| Abbreviation | Plain language | Description |
+| --- | --- | --- |
+| `St` | Initial stock value | The value of the stock at the initial time of the simulation. |
+| `K` | Strike | The value above which the call will allow one to make profits. |
+| `r` | Interest rate | The rate the bank will pay one for leaving money in the bank account. |
+| `sigma` | Volatility | Volatility is one of the main measures for the simulation of the evolution of the stock price in the Black-Scholes model. It is usually givent in percentage. In this porgram, type `0.04` for 4%. |
+| `T`| Final simulation time / Maturity | The time at which the simulation stop. It is also the time at which the owner of the option will choose either to take or reject the contract. |
+| `t`| Initial simulation time | The time at which `St` is recorded. |
+| `L`| Lower barrier | The value iof the lower barrier. |
+| `U`| Upper barrier *beta* | The value of the upper barrier. *Beta:* Note that theses values are yet experimental, as the development was not focused on upper barriers. |
+| `M`| Number of Monte-Carlo simulations | The number of iterations in the Monte-Carlo method. |
+| `N`| Number of Monte-Carlo simulations 2 | Another parameter for the simulation. |
+
+#### Changing parameters
+To change the parameters, just type the abbreviation equated to the new value. If you want to change multiple parameters, you can simply type a coma between them.
+
+Here is an example.
+
+```
+St=120,K=80
+```
+
+This command will simulatneously change `St`the initial stock value to `120` units and `K` the value of the strike to `80` units.
+
+You can change as many parameters as you want. You can display at any time the current parameters using the following command.
+
+```
+show
+```
+
+#### Price
+
+In order to get the price, please type the following command.
+
+```
+price
+```
+Additional details such as the methods used, the error and the computation time are provided.
+
+#### Greeks
+
+You can ask for the following Greeks : delta, gamma, vega.
+
+```
+delta
+```
+```
+gamma
+```
+```
+vega
+```
+
+Additional details such as the methods used, the error and the computation time are provided.
+
+
+### Working with the Look-back option
+
+To use the look-back option, enter the following command.
+
+```
+lookbackOption
+```
+
+The parameters of the Look-back option displayed when switching to this product. Here are the equivalences in plain language.
+
+| Abbreviation | Plain language | Description |
+| --- | --- | --- |
+| `St` | Initial stock value | The value of the stock at the initial time of the simulation. |
+| `K` | Strike | The value above which the call will allow one to make profits. |
+| `r` | Interest rate | The rate the bank will pay one for leaving money in the bank account. |
+| `sigma` | Volatility | Volatility is one of the main measures for the simulation of the evolution of the stock price in the Black-Scholes model. It is usually givent in percentage. In this porgram, type `0.04` for 4%. |
+| `T`| Final simulation time / Maturity | The time at which the simulation stop. It is also the time at which the owner of the option will choose either to take or reject the contract. |
+| `t`| Initial simulation time | The time at which `St` is recorded. |
+| `M`| Number of Monte-Carlo simulations | The number of iterations in the Monte-Carlo method. |
+
+#### Changing parameters
+To change the parameters, just type the abbreviation equated to the new value. If you want to change multiple parameters, you can simply type a coma between them.
+
+Here is an example.
+
+```
+St=120,K=80
+```
+
+This command will simulatneously change `St`the initial stock value to `120` units and `K` the value of the strike to `80` units.
+
+You can change as many parameters as you want. You can display at any time the current parameters using the following command.
+
+```
+show
+```
+
+#### Price
+
+In order to get the price, please type the following command.
+
+```
+price
+```
+Additional details such as the methods used, the error and the computation time are provided.
+
+#### Greeks
+
+You can ask for the look-back option delta.
+
+```
+delta
+```
+
+Additional details such as the methods used, the error and the computation time are provided.
+
+
+### Troubleshooting
+
+At any time, you can type the following command in the terminal. A list of the instructions available will appear.
+
+```
+help
+```
+![WindowZero](windowhelp.png)
+
+
+You can display at any time the current parameters using the following command.
+
+```
+show
+```
+
+To switch betxween different products, please type directly the name of the product. As an example, to switch to the barrier option, simply type the following instruction.
+
+```
+barrierOption
+```
+
+### Closing the application
+
+You can either type the following command,
+```
+quit
+```
+or simply close the window.
