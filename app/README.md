@@ -138,7 +138,7 @@ The parameters are displayed on start-up. Here are the equivalences in plain lan
 | `L`| Lower barrier | The value iof the lower barrier. |
 | `U`| Upper barrier *beta* | The value of the upper barrier. *Beta:* Note that theses values are yet experimental, as the development was not focused on upper barriers. |
 | `M`| Number of Monte-Carlo simulations | The number of iterations in the Monte-Carlo method. |
-| `N`| Number of Monte-Carlo simulations 2 | Another parameter for the simulation. |
+
 
 #### Changing parameters
 To change the parameters, just type the abbreviation equated to the new value. If you want to change multiple parameters, you can simply type a coma between them.
@@ -202,7 +202,7 @@ The parameters of the Look-back option displayed when switching to this product.
 | `T`| Final simulation time / Maturity | The time at which the simulation stop. It is also the time at which the owner of the option will choose either to take or reject the contract. |
 | `t`| Initial simulation time | The time at which `St` is recorded. |
 | `M`| Number of Monte-Carlo simulations | The number of iterations in the Monte-Carlo method. |
-| `N`| Number of Monte-Carlo simulations 2 | Another parameter for the simulation. |
+
 
 #### Changing parameters
 To change the parameters, just type the abbreviation equated to the new value. If you want to change multiple parameters, you can simply type a coma between them.
@@ -245,6 +245,20 @@ vega
 ```
 
 Additional details such as the methods used, the error and the computation time are provided.
+
+
+### Switching Random Generation
+
+The generation method of the random variables is a key challenge, and the performance can vary depending on the computer used. The use has the oppotunity to choose between two (uniform) random number generation methods.
+
+To select the linear congruential method, type the following command. This one is used by default.
+```
+linear_congruential
+```
+Some computers are more efficient using one of the system built-in functions, such as `mt19937`. To switch to this method, type the following command.
+```
+mt19937
+```
 
 
 ### Troubleshooting
