@@ -3,8 +3,24 @@
 This user guide is written for the users of the console interface of our program.
 
 ## Table of Contents
-
-
+- [Features](#features)
+- [Installation](#installation)
+  - [Building the Project](#building-the-project)
+  - [Importing the Package](#importing-the-package)
+- [Usage](#usage)
+  - [Main Principles](#main-principles)
+  - [Working with the European option](#working-with-the-european-option)
+    - [Changing Parameters](#changing-parameters)
+    - [Price](#price)
+    - [Greeks](#greeks)
+  - [Working with the Barrier Option](#working-with-the-barrier-option)
+    - [Changing Parameters](#changing-parameters-1)
+    - [Price](#price-1)
+    - [Greeks](#greeks-1)
+  - [Working with the Look-back Option](#working-with-the-look-back-option)
+    - [Changing Parameters](#changing-parameters-2)
+    - [Price](#price-2)
+    - [Greeks](#greeks-2)
 
 ## Features
 
@@ -186,6 +202,7 @@ The parameters of the Look-back option displayed when switching to this product.
 | `T`| Final simulation time / Maturity | The time at which the simulation stop. It is also the time at which the owner of the option will choose either to take or reject the contract. |
 | `t`| Initial simulation time | The time at which `St` is recorded. |
 | `M`| Number of Monte-Carlo simulations | The number of iterations in the Monte-Carlo method. |
+| `N`| Number of Monte-Carlo simulations 2 | Another parameter for the simulation. |
 
 #### Changing parameters
 To change the parameters, just type the abbreviation equated to the new value. If you want to change multiple parameters, you can simply type a coma between them.
@@ -215,10 +232,16 @@ Additional details such as the methods used, the error and the computation time 
 
 #### Greeks
 
-You can ask for the look-back option delta.
+You can ask for the look-back option delta, gamma, vega.
 
 ```
 delta
+```
+```
+gamma
+```
+```
+vega
 ```
 
 Additional details such as the methods used, the error and the computation time are provided.
