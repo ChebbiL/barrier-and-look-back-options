@@ -23,6 +23,7 @@
 \usepackage{placeins}
 
 \usepackage{pdfpages}
+\usepackage{hyperref}
 
 \usepackage[top=1in, left=1in, right=1in, bottom=1in]{geometry}  % This line determines the page layout.
 % Consult the documentation of the geometry package if you want to change it.
@@ -579,7 +580,7 @@ where $\upsilon = r - {\sigma^2 \over 2}$.
 
 \newpage
 \section{Code}
-All our code is available on our GitHub repository: \url{github.com/tjespel/barrier-and-look-back-options}.
+All our code is available on our GitHub repository:\\ \url{github.com/tjespel/barrier-and-look-back-options}.
 
 \newpage
 \section{Figures}
@@ -617,7 +618,7 @@ All our code is available on our GitHub repository: \url{github.com/tjespel/barr
           \caption{Vega with PW method}
       \end{subfigure}
 
-      \caption{\textbf{European Call Option}. A graphical analysis of the error of the Greeks depending on the number of simulations. We notice that there is a significant increase above 1000 simulations in all cases. This is very clear on our vega which tends to have a very high error variance below 1000 simulations. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10.}
+      \caption{\textbf{European Call Option}. A graphical analysis of the error of the Greeks depending on the number of simulations. In order to generate these graphs, we have donne one thousand simlations for each value.}
 \end{figure}
 
 \begin{figure}[h!]

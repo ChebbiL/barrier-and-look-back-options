@@ -79,10 +79,11 @@ To do this, place yourself in the same repository as the one where the rest of t
 To build your project, which must include a main function, you can use the following commands.
 
 ```
-g++ -o myproject myproject.cpp random_normal.cpp european_option.cpp barrier_option.cpp lookback_option.cpp
+g++ -o myproject myproject.cpp random_normal.cpp european_option.cpp
+  barrier_option.cpp lookback_option.cpp
 ./myproject
 ```
-Do not forget to build in the same folder as the one the files are. You must always write `andom_normal.cpp european_option.cpp barrier_option.cpp lookback_option.cpp` after the `C++` file of your project.
+Do not forget to build in the same folder as the one the files are. You must always write `random_normal.cpp european_option.cpp barrier_option.cpp lookback_option.cpp` after the `C++` file of your project.
 
 
 ## Usage
