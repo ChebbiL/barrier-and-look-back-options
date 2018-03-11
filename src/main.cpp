@@ -6,15 +6,28 @@ This is the main project file.
 #include<iostream> // For console output
 using namespace std;
 
+#include <ctime>
 
 
 
 
 int debug_thomas(){
-    lookback_option call(10, 100, 100, 0.05, 0.4, 1, 0, 1000);
+    barrier_option call1(80, 100, 100, 0.05, 0.4, 1, 0, 10000);
+    lookback_option call2(80, 100, 100, 0.05, 0.4, 1, 0, 10000);
     //cout<<"Theoretic price: "<<call.payoff_theoretic()<<endl;
-    cout<<"Theoretic delta: "<<call.delta()<<endl;
-    cout<<"Theoretic gamma: "<<call.gamma()<<endl;
+    //cout<<"Theoretic delta: "<<call.delta()<<endl;
+    //cout<<"Theoretic gamma: "<<call.gamma()<<endl;
+
+
+    clock_t begin = clock();
+    call1.price();
+    clock_t end = clock();
+    cout << "BarrierOption Time: " << double(end - begin) / CLOCKS_PER_SEC << endl;
+
+    begin = clock();
+    call2.price();
+    end = clock();
+    cout << "LookBackOption Time: " << double(end - begin) / CLOCKS_PER_SEC << endl;
     /*
     cout << "Simulation:"<<endl;
     cout << "Price: " << call.price() << endl;

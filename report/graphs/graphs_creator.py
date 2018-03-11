@@ -93,4 +93,13 @@ def main():
     print('Done for ' + mytype + ".")
     print()
 
-main()
+#main()
+
+data = pd.DataFrame.from_csv('lookbackold.csv', sep=';')
+data['gamma th'] = 0.0208112
+mytype = "lookbackold"
+greeks = [('delta',['lr']),('gamma', ['pwlr'])]
+print('Data loaded for ' + mytype + ".")
+builder(data, mytype, greeks)
+print('Done for ' + mytype + ".")
+print()
