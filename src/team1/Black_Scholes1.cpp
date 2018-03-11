@@ -3,25 +3,32 @@
 #include<thread>
 #include<fstream>
 #include<cmath>
+#include<random>
 #include<mutex> 
 #include"Black_Scholes1.h"
 #define Pi 3.141592653
 #define RAN_MAX 2147483647
 #define luck_number 16807
 using namespace std;
-
-mutex mtx;
+random_device rd;
+mt19937 mt(rd());
+uniform_real_distribution<double> ud(0, 1.0);
 
 unsigned long int Black_Scholes::ran()const{
 	static unsigned long long int n = rand();
-	unsigned long int m = RAN_MAX;
-	n = (n*luck_number) % m;
+	//unsigned long int m = RAN_MAX;
+	n = (n*luck_number) % RAN_MAX;
 	return n;
 }
 long double Black_Scholes::rann()const{
+	if (method == 0){
 	unsigned long int z = ran(), m = RAN_MAX ;
 	long double x = (long double)(z ) / (long double)(m-1);
 	return x;
+	}
+	else if (method == 1){
+		return ud(mt);
+	}
 }
 double Black_Scholes::BSC(double S0, double k)const{
 	double d = (log(S0 / k) + (r + sigma*sigma / 2)*(T - t)) / (sigma*sqrt(T - t));
@@ -41,6 +48,12 @@ double Black_Scholes::BSCvega(double S0, double k)const{
 }
 double Black_Scholes::STT(double S0, double T1, double t1)const{
 	return S0*exp((r - 0.5*pow(sigma, 2))*(T1 - t1) + sigma*sqrt(T1 - t1)*fun());
+}
+double Black_Scholes::getmax(double S0, double SE, double T, double t)const{
+	return S0*exp((log(SE / S0) + sqrt(pow(log(SE / S0),2) - 2.0*sigma*sigma*(T - t)*log(rann()))) / 2.0);
+}
+double Black_Scholes::getmin(double S0, double SE, double T, double t)const{
+	return S0*exp((log(SE / S0) - sqrt(pow(log(SE / S0), 2) - 2.0*sigma*sigma*(T - t)*log(rann()))) / 2.0);
 }
 
 Black_Scholes::~Black_Scholes(){
@@ -219,7 +232,7 @@ double Black_Scholes::sndb_1()const{
 }
 double Black_Scholes::normalCDF(double x)const
 {
-	return erfc(-x / std::sqrt(2.0)) / 2.0;
+	return erfc(-x / sqrt(2.0)) / 2.0;
 }
 double Black_Scholes::normalpdf(double x)const{
 	return exp(-x*x / 2.0) / sqrt(2.0 * Pi);
@@ -236,24 +249,32 @@ double Black_Scholes::dbs(double x, double y)const{
 
 double Barrier_option::Barrier_option_down()const{
 	double ST = St,mt=St;
-	double b = (T - t) / N;
-	for (int i = 0; i < N ; i++){
-		ST = STT(ST, t + (i + 1)*b, t + i*b);
-		if (mt > ST)mt = ST;
-		if (mt < B)return 0;
-	}
-	if (ST > K)return ST;
-	else return 0;
+	//double b = (T - t) / N;
+	//for (int i = 0; i < N ; i++){
+	//	ST = STT(ST, t + (i + 1)*b, t + i*b);
+	//	if (mt > ST)mt = ST;
+	//	if (mt < B)return 0;
+	//}
+	//if (ST > K)return ST;
+	//else return 0;
+	ST = STT(St, T, t);
+	mt = getmin(St, ST, T, t);
+	if (mt>B && ST>K)return ST;
+	else return 0.0;
 }
 double Barrier_option::Barrier_option_up()const{
 	double ST = St, Mt = St;
-	double b = (T - t) / N;
+	/*double b = (T - t) / N;
 	for (int i = 0; i < N; i++){
 		ST = STT(ST, t + (i + 1)*b, t + i*b);
 		if (Mt < ST)Mt = ST;
 		if (Mt > B)return 0.0;
 	}
 	if (ST > K)return ST;	
+	else return 0.0;*/
+	ST = STT(St, T, t);
+	Mt = getmax(St, ST, T, t);
+	if (Mt<B && ST>K)return ST;
 	else return 0.0;
 }
 double Barrier_option::OP()const{
@@ -293,10 +314,18 @@ double Barrier_option::deltaLR()const{
 	}
 	return res / M;
 }
-
 double Barrier_option::BOCF_down()const{
 	double mu = r - sigma*sigma / 2.0;
-	return BSC(St, K) - pow(St / B, -2.0 * mu / (sigma*sigma))*BSC(B*B / St, K);
+	
+	double res;
+	if (B <= K){
+		res = BSC(St, K) - pow(St / B, -2.0 * mu / (sigma*sigma))*BSC(B*B / St, K);
+	}
+	else{
+		res = BSC(St, B) - pow(St / B, -2.0 * mu / (sigma*sigma))*BSC(B*B / St, B);
+		res += (B - K)*exp(-r*(T - t))*(normalCDF(dbs(St, B)) - pow(B / St, 2 * mu / pow(sigma, 2))*normalCDF(dbs(B*B / St, B)));
+	}
+	return res;
 }
 double Barrier_option::BOCF_up()const{
 	if (B < K)return 0;
@@ -431,11 +460,13 @@ void Black_Scholes::input(string x){
 	while (i < tem.size()){
 		
 		tem2 = "";
-		for (; i < tem.size() && tem[i] != '='&&tem[i] != 32; i++){
-			tem2 += tem[i];
-		}
 		for (; i < tem.size() && tem[i] == 32; i++);
-		i++;
+		for (; i < tem.size() && tem[i] != '='; i++){
+			if (tem[i] != 32){
+				tem2 += tem[i];
+			}
+		}
+		for (; i < tem.size() && (tem[i]<48 || tem[i]>57); i++);
 		if (i<x.size()){
 			num = stod(tem.substr(i));
 			for (; i < tem.size() && tem[i] != ','; i++);
@@ -457,11 +488,12 @@ void Barrier_option::input(string x){
 	int i = 0;
 	while (i < tem.size()){
 		tem2 = "";
-		for (; i < tem.size() && tem[i] != '='&&tem[i] != 32; i++){
-			tem2 += tem[i];
+		for (; i < tem.size() && tem[i] != '='; i++){
+			if (tem[i] != 32){
+				tem2 += tem[i];
+			}
 		}
-		for (; i < tem.size() && tem[i] == 32; i++);
-		i++;
+		for (; i < tem.size() && (tem[i]<48 || tem[i]>57); i++);
 		if (i<x.size()){
 			num = stod(tem.substr(i));
 			for (; i < tem.size() && tem[i] != ','; i++);
@@ -479,40 +511,281 @@ void Barrier_option::input(string x){
 
 	}
 }
+void Lookback_option::input(string x){
+	string tem = x, tem2;
+	double num;
+	int i = 0;
+	while (i < tem.size()){
+		tem2 = "";
+		for (; i < tem.size() && tem[i] != '='; i++){
+			if (tem[i] != 32){
+				tem2 += tem[i];
+			}
+		}
+		for (; i < tem.size() && (tem[i]<48 || tem[i]>57); i++);
+		if (i<x.size()){
+			num = stod(tem.substr(i));
+			for (; i < tem.size() && tem[i] != ','; i++);
+			if (tem2 == "St"){ St = num; }
+			else if (tem2 == "K"){ K = num; }
+			else if (tem2 == "r"){ r = num; }
+			else if (tem2 == "sigma"){ sigma = num; }
+			else if (tem2 == "T"){ T = num; }
+			else if (tem2 == "t"){ t = num; }
+			else if (tem2 == "M"){ M = num; }
+			else if (tem2 == "N"){ N = num; }
+			i++;
+		}
 
+	}
+}
 
-double Lookback_option::lookback_option(){
+double Lookback_option::lookback_option()const{
 	double ST = St, Mt = St;
 	double b = (T - t) / N;
-	for (int i = 0; i < N; i++){
+	/*for (int i = 0; i < N; i++){
 		ST = STT(ST, t + (i + 1)*b, t + i*b);
 		if (Mt < ST)Mt = ST;
 	}
-	if (Mt > K)return exp(-r*(T - t))*(Mt - K);
-	else return 0;
+	if (Mt > K)return Mt;*/
+	ST = STT(St, T, t);
+	Mt = getmax(St, ST, T, t);
+	if (Mt > K)return Mt;
+	else return 0.0;
 }
-double Lookback_option::ELB(){
-	double res = 0.0;
+double Lookback_option::OP()const{
+	double res = 0.0, tem = 0.0;
 	for (int i = 0; i < M; i++){
-		res += lookback_option();
+		tem = lookback_option();
+		if (tem > K)res += exp(-r*(T - t))*(tem - K);
 	}
 	return res / M;
 }
-double Lookback_option::LBCF(){
-	return BSC(St, K) + (St*sigma*sigma / (2.0*r))*(normalCDF(dbs(St, K) + sigma*sqrt(T - t)) - exp(-r*(T - t))*pow(St / K, -2.0*r / pow(sigma, 2))*normalCDF(-dbs(K, St)));
+double Lookback_option::CF()const{
+	if (St <= K){
+		return BSC(St, K) + (St*sigma*sigma / (2 * r))*(normalCDF(dbs(St, K) + sigma*sqrt(T - t)) - exp(-r*(T - t))*pow(St / K, -2 * r / pow(sigma, 2))*normalCDF(-dbs(K, St)));
+	}
+	else{
+		return exp(-r*(T - t))*(St - K) + BSC(St, St) + (St*sigma*sigma / 2 / r)*(normalCDF(dbs(St, St) + sigma*sqrt(T - t)) - exp(-r*(T - t))*normalCDF(-dbs(St, St)));
+	}
+	
 }
-//double Black_Scholes::LBdLR(double M){
-//	if (M<K)return 0.0;
-//	double mu = r - sigma*sigma / 2;
-//	double f = normalpdf((log(M / St) - mu*(T - t)) / (sigma*sqrt(T - t))) / (sigma*M*sqrt(T - t)) - 2.0*mu / pow()
-//}
-//double Black_Scholes::LBdeltaLR(){
-//	return 0.0;
-//}
-//double Black_Scholes::LBpdf(double x){
-//	double mu = r - sigma*sigma / (2.0*sigma);
-//	return normalpdf(x - mu*T / sqrt(T)) / sqrt(T) - 2 * mu*exp(2 * x*mu)*normalCDF((x + mu*T) / sqrt(T)) - exp(2 * x*mu)*normalpdf((x + mu*T) / sqrt(T)) / sqrt(T);
-//}
+double Lookback_option::deltaCF()const{
+	if (St <= K) {
+		double d1 = (log(St / K) + (r + sigma * sigma / 2) * T) / (sigma * sqrt(T));
+		double d2 = d1 - sigma * sqrt(T);
+		double d3 = d1 - 2 * r * sqrt(T) / sigma;
+		double u = 1 / (sigma * sqrt(T));
+		double u1 = exp(-r * T) * K / St;
+		double u2 = sigma * sigma * 0.5 / r;
+		double u3 = exp(-r * T) * pow(St / K, -2 * r / (sigma * sigma));
+		return normalCDF(d1) + u * normalpdf(d1) - u1 * u * normalpdf(d2) + u2 * (normalCDF(d1) + u * normalpdf(d1))
+			- u3 * normalCDF(d3) * (u2 - 1) - u3 * u2 * u * normalpdf(d3);
+	}
+	else {
+		double d1 = (r + sigma * sigma / 2) * T / (sigma * sqrt(T));
+		double d2 = d1 - sigma * sqrt(T);
+		double d3 = d1 - 2 * r * sqrt(T) / sigma;
+		double u = 1 / (sigma * sqrt(T));
+		double u1 = exp(-r * T);
+		double u2 = sigma * sigma * 0.5 / r;
+		return normalCDF(d1) + u * normalpdf(d1) - u1 * u * normalpdf(d2) + u2 * (normalCDF(d1) + u * normalpdf(d1))
+			- u1 * normalCDF(d3) * (u2 - 1) - u1 * u2 * u * normalpdf(d3);
+	}
+}
+double Lookback_option::gammaCF()const{
+	if (St <= K) {
+		double d1 = (log(St / K) + (r + sigma * sigma / 2) * T) / (sigma * sqrt(T));
+		double d2 = d1 - sigma * sqrt(T);
+		double d3 = d1 - 2 * r * sqrt(T) / sigma;
+		double u = 1 / (sigma * sqrt(T));
+		double u1 = exp(-r * T) * K / St;
+		double u2 = sigma * sigma * 0.5 / r;
+		double u3 = exp(-r * T) * pow(St / K, -2 * r / (sigma * sigma));
+		double res1 = (normalpdf(d1)*u / St)*(1 + u2);
+		double res2 = -res1*d1*u;
+		//double res3 = (normalPDF(d3)*u/S)*u3*(2-2*u2+u2*d3*u); 
+		//double res4 = (normalCDF(d3)*u3/S)*(1-(1/u2)); 
+		double res3 = (normalpdf(d3)*u / St)*u3*(2 - u2 + d3*u*u2);
+		double res4 = (normalCDF(d3)*u3 / St)*(1 - (1 / u2));
+		double res5 = (u1*u / St)*normalpdf(d2)*(1 + d2*u);
+		return res1 + res2 + res3 + res4 + res5;
+	}
+	else {
+		return 0;
+	}
+}
+double Lookback_option::vegaCF()const{
+	if (St <= K) {
+		double d1 = (log(St / K) + (r + sigma * sigma / 2) * T) / (sigma * sqrt(T));
+		double d2 = d1 - sigma * sqrt(T);
+		double d3 = d1 - 2 * r * sqrt(T) / sigma;
+		double d1prime = (T*(sigma*sigma - 2 * r) - 2 * log(St / K)) / (2 * sqrt(T)*sigma*sigma);
+		double d2prime = d1prime - sqrt(T);
+		double d3prime = d1prime + 2 * r*sqrt(T) / (sigma*sigma);
+		double p = pow(St / K, -2 * r / (sigma * sigma));
+		double pprime = p*log(St / K) * 4 * r / (sigma*sigma*sigma);
+		double u = sigma / r;
+		double u1 = sigma * sigma * 0.5 / r;
+		double u2 = exp(-r * T);
+		double c1 = normalpdf(d1)*St*d1prime*(1 + u1);
+		double c2 = normalCDF(d1)*St*u;
+		double c3 = -normalpdf(d2)*d2prime*K*u2;
+		double c4 = -normalpdf(d3)*d3prime*p*St*u1*u2;
+		double c5 = -normalCDF(d3)*St*u2*(p*u + pprime*u1);
+		return (c1 + c2 + c3 + c4 + c5) / 100;
+	}
+	else {
+		double d1 = (r + sigma * sigma / 2) * T / (sigma * sqrt(T));
+		double d2 = d1 - sigma * sqrt(T);
+		double d3 = d1 - 2 * r * sqrt(T) / sigma;
+		double d1prime = (T*(sigma*sigma - 2 * r)) / (2 * sqrt(T)*sigma*sigma);
+		double d2prime = d1prime - sqrt(T);
+		double d3prime = d1prime + 2 * r*sqrt(T) / (sigma*sigma);
+		double u = sigma / r;
+		double u1 = sigma * sigma * 0.5 / r;
+		double u2 = exp(-r * T);
+		double c1 = normalpdf(d1)*St*d1prime*(1 + u1);
+		double c2 = normalCDF(d1)*St*u;
+		double c3 = -normalpdf(d2)*d2prime*St*u2;
+		double c4 = -normalpdf(d3)*d3prime*St*u1*u2;
+		double c5 = -normalCDF(d3)*St*u2*u;
+		return (c1 + c2 + c3 + c4 + c5) / 100;
+	}
+}
+double Lookback_option::deltaPW()const{
+	double res = 0.0, tem = 0.0;
+	for (int i = 0; i < M; i++){
+		tem = lookback_option();
+		if (tem > K)res += exp(-r*(T - t))*(tem / St);
+	}
+	return res / M;
+}
+double min(double x, double y){ if (x > y)return y; return x; }
+double Lookback_option::deltaLR()const{
+	double res = 0.0,Mt;
+	double a = (r - pow(sigma, 2) / 2.0) / sigma;
+	double mu = r - pow(sigma, 2) / 2.0;
+	for (int i = 0; i < M; i++){
+		Mt = lookback_option();
+		if (Mt >K){
+			if (St > K)Mt = Mt / St*K;
+			
+			double f = +(2 / (sigma*Mt*sqrt(T - t)))*normalpdf(dbs(Mt, min(St,K)) - 2.0 * a*sqrt(T - t));
+			f -= 2.0 * a*pow(Mt / min(St, K), 2 * a / sigma)*normalCDF(-dbs(Mt, min(St, K))) / sigma / Mt;
+			double df = +2.0*normalpdf(dbs(Mt, min(St, K)) - 2.0*a*sqrt(T - t))*(dbs(Mt, min(St, K)) - /*2.0*a*(T - t) -*/ 3.0*a*sqrt(T - t)) / (sigma*sigma*min(St, K)*Mt*(T - t));
+			df += (4.0*a*a / (sigma*sigma*Mt*min(St, K)))*pow(Mt / min(St, K), 2.0*a / sigma)*normalCDF(-dbs(Mt, min(St, K)));
+			res += exp(-r*(T - t))*(Mt -K)*df / f;
+			/*double d1 = (log(Mt / St) - mu*(T - t)) / (sigma*(T - t));
+			double d2 = (-log(Mt / St) - mu*(T - t)) / (sigma*(T - t));
+			double f = (2.0 / (sigma*Mt*sqrt(T - t)))*normalpdf(d1) - (2.0*mu / (Mt*sigma*sigma))*pow(Mt / St, 2.0*mu / pow(sigma, 2))*normalCDF(d2);
+			double df = (2.0 / (Mt*sigma*sigma*sqrt(T - t)*St))*normalpdf(d1)*(d1 - mu*sqrt(T - t) / sigma) + (4.0*mu*mu / (Mt*pow(sigma, 4)*St))*pow(Mt / St, 2.0*mu / pow(sigma, 2))*normalCDF(d2);
+			res += exp(-r*(T - t))*(Mt - K)*df / f;*/
+		}
+	}
+	return res / M;
+}
+double Lookback_option::gammaLRPW()const{
+	double res = 0.0, Mt = 0.0;
+	double a = (r - pow(sigma, 2) / 2.0) / sigma;
+	for (int i = 0; i < M; i++){
+		Mt = lookback_option();
+		if (Mt > K){
+			double d2 = dbs(Mt, St) - 2.0*a*sqrt(T - t), xxx = pow(Mt / St, 2.0*a / sigma);
+			double f = +(2 / (sigma*Mt*sqrt(T - t)))*normalpdf(dbs(Mt, St) - 2.0 * a*sqrt(T - t));
+			f -= 2.0 * a*pow(Mt / St, 2 * a / sigma)*normalCDF(-dbs(Mt, St)) / sigma / Mt;
+			double df = +2.0*normalpdf(dbs(Mt, St) - 2.0*a*sqrt(T - t))*(dbs(Mt, St) - /*2.0*a*(T - t) -*/ 3.0*a*sqrt(T - t)) / (sigma*sigma*St*Mt*(T - t));
+			df += (4.0*a*a / (sigma*sigma*Mt*St))*pow(Mt / St, 2.0*a / sigma)*normalCDF(-dbs(Mt, St));
+			double ddf = (-2.0 / (St*St*pow(sigma, 2)*Mt*(T - t)))*normalpdf(d2)*(d2 - a*sqrt(T - t));
+			ddf += (2.0 / (St*St*pow(sigma, 3)*Mt*pow(T - t, 1.5)))*normalpdf(d2)*(d2*(d2 - a*sqrt(T - t)) - 1);
+			ddf -= (1 + 2.0*a / sigma - 1 / (sigma*sqrt(T - t)))*(4.0*pow(a, 2) / (pow(sigma*St, 2)*Mt))*pow(Mt / St, 2.0*a / sigma)*normalCDF(-dbs(Mt, St));
+			if (Mt > K){
+				res += exp(-r*(T - t))*Mt / St*df / f;
+				res += exp(-r*(T - t))*(Mt - K)*(ddf / f - df*df / f / f);
+			}
+		}
+	}
+	return res / M;
+}
+double Lookback_option::gammaPWLR()const{
+	double res = 0.0, Mt = 0.0;
+	double a = (r - pow(sigma, 2) / 2.0) / sigma;
+	if (St > K)return 0;
+	for (int i = 0; i < M; i++){
+		Mt = lookback_option();
+		if (Mt > K){
+			double f = +(2 / (sigma*Mt*sqrt(T - t)))*normalpdf(dbs(Mt, St) - 2.0 * a*sqrt(T - t));
+			f -= 2.0 * a*pow(Mt / St, 2 * a / sigma)*normalCDF(-dbs(Mt, St)) / sigma / Mt;
+			double df = +2.0*normalpdf(dbs(Mt, St) - 2.0*a*sqrt(T - t))*(dbs(Mt, St) - 2.0*a*(T - t) - a*sqrt(T - t)) / (sigma*sigma*St*Mt*(T - t));
+			df += (4.0*a*a / (sigma*sigma*Mt*St))*pow(Mt / St, 2.0*a / sigma)*normalCDF(-dbs(Mt, St));
+
+			res += exp(-r*(T - t))*(Mt/ St)*(df/f-1/St);
+		}
+	}
+	return res / M;
+}
+double Lookback_option::gammaLR()const{
+	double res = 0.0, Mt;
+	double a = (r - pow(sigma, 2) / 2.0) / sigma;
+	double mu = r - pow(sigma, 2) / 2.0;
+	if (St <= K){
+
+
+		for (int i = 0; i < M; i++){
+			Mt = lookback_option();
+			if (Mt >=K){
+				double f = +(2 / (sigma*Mt*sqrt(T - t)))*normalpdf(dbs(Mt, St) - 2.0 * a*sqrt(T - t));
+				f -= 2.0 * a*pow(Mt / St, 2 * a / sigma)*normalCDF(-dbs(Mt, St)) / sigma / Mt;
+				double d2 = dbs(Mt, St) - 2.0*a*sqrt(T - t), xxx = pow(Mt / St, 2.0*a / sigma);
+				double df = (-2.0 / (St*St*pow(sigma, 2)*Mt*(T - t)))*normalpdf(d2)*(d2 - a*sqrt(T - t));
+				df += (2.0 / (St*St*pow(sigma, 3)*Mt*pow(T -  t, 1.5)))*normalpdf(d2)*(d2*(d2 - a*sqrt(T - t)) - 1);
+				df -= (1 + 2.0*a / sigma - 1 / (sigma*sqrt(T - t)))*(4.0*pow(a, 2) / (pow(sigma*St, 2)*Mt))*pow(Mt / St, 2.0*a / sigma)*normalCDF(-dbs(Mt, St));
+				res += exp(-r*(T - t))*(Mt - K)*df / f;
+			}
+		}
+	}
+	else return 0.0;
+	return res / M;
+}
+double Lookback_option::vegaLR()const{
+	double a = r - sigma*sigma / 2.0;
+	double res = 0.0;
+	for (int i = 0; i < M; i++){
+		double Mt = lookback_option();
+		/*double d1 = dbs(Mt, St) - 2.0 * a*sqrt(T - t) / sigma;
+		double d2 = -dbs(Mt, St);*/
+		/*res += -(2.0 / (sigma*sigma*sqrt(T - t)*Mt))*normalpdf(d1);
+		res += (2.0 / (sigma*sqrt(T - t)*Mt))*normalpdf(d1)*(-d1)*(-log(Mt / St) + (r + 0.5*pow(sigma, 2))*(T - t)) / (pow(sigma, 2)*sqrt(T - t));
+		res += (4.0*a / (Mt*pow(sigma, 3)))*pow(Mt / St, 2.0*a / pow(sigma, 2))*normalCDF(d2);
+		res += (2.0 / (Mt*sigma))*pow(Mt / St, 2.0*a / pow(sigma, 2))*normalCDF(d2);
+		res += (2.0*a / (Mt*sigma*sigma))*(4.0*r / pow(sigma, 3) + 1)*pow(Mt / St, 2.0*a / pow(sigma, 2))*normalCDF(d2);
+		res -= (2.0*a / (Mt*sigma*sigma))*pow(Mt / St, 2.0*a / pow(sigma, 2))*normalpdf(d2)*(dbs(Mt, St) + sigma*sqrt(T - t));*/
+		double d1 = dbs(Mt, St) - 2.0 * a*sqrt(T - t) / sigma;
+		double d2 = -dbs(Mt, St);
+		double dd1 = ((T - t)*(sigma*sigma + 2.0*r) - 2.0*log(Mt / St)) / (2.0*sqrt(T - t)*sigma*sigma);
+		double dd2 = ((T - t)*(sigma*sigma + 2.0*r) + 2.0*log(Mt / St)) / (2.0*sqrt(T - t)*sigma*sigma);
+		double res = -2.0*normalpdf(d1)*((1 / (sigma*sigma*sqrt(T - t)*Mt)) + d1*dd1 / (sigma*sqrt(T - t)*Mt));
+		res += 4 * r / (Mt*pow(sigma, 3))*normalCDF(d2)*(pow(Mt / St, 2.0*a / sigma / sigma) + 2.0*a / pow(sigma, 2)*log(Mt / St)*pow(Mt / St, 2.0*r / pow(sigma, 2) - 1));
+		res -= 2.0*a / (Mt*sigma*sigma)*pow(Mt / St, 2.0*a / pow(sigma, 2))*dd2*normalpdf(d2);
+	}
+	return res / M;
+	//return 0.0;
+}
+double Lookback_option::vegaPW()const{
+	double ST, Mt,U,res=0.0,Z;
+	for (int i = 1; i < M; i++){
+		ST = STT(St, T, t);
+		U = rann();
+		Z = (log(St / St) - (r - 0.5*pow(sigma, 2))*(T - t)) / (sigma*sqrt(T - t));
+		Mt = St*exp((log(ST / St) + sqrt(pow(log(ST / St), 2) - 2.0*sigma*sigma*(T - t)*log(U))) / 2.0);
+		if (Mt > K){
+			double A = 2.0*((r - 0.5*pow(sigma, 2))*(T - t) + sigma*sqrt(T - t)*Z)*(-sigma*(T - t) + sqrt(T - t)*Z) - 4.0*sigma*(T - t)*log(U);
+			res += Mt*(-sigma*(T - t) + sqrt(T - t)*Z + 0.5*pow(pow(log(ST / St), 2) - 2.0*sigma*sigma*(T - t)*log(U), -0.5)*A);
+		}
+	}
+	return res / M;
+	
+}
 double Black_Scholes::choose(int j){
 	switch (j/4)
 	{
@@ -768,4 +1041,59 @@ void Barrier_option::ETvega(){
 	cout << "vega by Likelihood method: " << vegaLR() << endl;
 	cout << "Error mean: " << res1.first << endl << "variance: " << res1.second << endl;
 	cout << "Time: " << (double)(end - start) / CLOCKS_PER_SEC << endl << endl;
+}
+
+
+double Double_Barrier::Barrier_option()const{
+	double ST = St, mt = St, Mt = St;
+	double b = (T - t) / N;
+	for (int i = 0; i < N; i++){
+		ST = STT(ST, t + (i + 1)*b, t + i*b);
+		if (mt > ST)mt = ST;
+		if (Mt < ST)Mt = ST;
+		if (mt < L)return 0;
+		if (Mt > U)return 0;
+	}
+	if (ST > K)return ST;
+	else return 0;
+}
+double Double_Barrier::OP()const{
+	double res = 0.0;
+	double tem;
+	for (int i = 0; i < M; i++){
+		tem = Barrier_option();
+		if (tem != 0)res += exp(-r*(T - t))*(tem - K);
+	}
+	return res / M;
+}
+void Double_Barrier::input(string x){
+	string tem = x, tem2;
+	double num;
+	int i = 0;
+	while (i < tem.size()){
+
+		tem2 = "";
+		for (; i < tem.size() && tem[i] != '='; i++){
+			if (tem[i] != 32){
+				tem2 += tem[i];
+			}
+		}
+		for (; i < tem.size() && (tem[i]<48 || tem[i]>57); i++);
+		if (i<x.size()){
+			num = stod(tem.substr(i));
+			for (; i < tem.size() && tem[i] != ','; i++);
+			if (tem2 == "St"){ St = num; }
+			else if (tem2 == "K"){ K = num; }
+			else if (tem2 == "r"){ r = num; }
+			else if (tem2 == "sigma"){ sigma = num; }
+			else if (tem2 == "T"){ T = num; }
+			else if (tem2 == "t"){ t = num; }
+			else if (tem2 == "N"){ N = num; }
+			else if (tem2 == "U"){ U = num; }
+			else if (tem2 == "L"){ L = num; }
+			else if (tem2 == "M"){ M = num; }
+			i++;
+		}
+
+	}
 }
