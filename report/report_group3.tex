@@ -411,6 +411,8 @@ To analyze further the accuracy of our simulation, we plot the simulated option 
 
 \section{Look-back Option}
 
+\subsection{Presentation}
+
 Lookback call option with fixed strik price $K$ has payoff $(M^T_{0}-K)^+$. The call option price at time $t$ is
 
 $$c(S_0,K,t) = e^{-r(T-t)}E[(max(M^t_0,M^T_t)-K)^+|\mathcal{F}_t] $$
@@ -442,7 +444,33 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
 \end{tabular}\\
 
 
+\subsection{Another Method using Rayleigh Distribution}
+In a similar way as for the barrier option, we have also implemented a faster and more efficient method. The results can be compared on the Figure \cite{fig:lboptiongraphs}.
 
+\begin{figure}[h!]
+  \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackolddeltalrtime.png}
+          \caption{Delta with LR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackolddeltalrtime.png}
+          \caption{Delta with Rayleight method}
+      \end{subfigure}
+
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/lookbackoldgammapwlrtime.png}
+          \caption{Gamma with PWLR method}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{graphs/blookbackgammapwlrtime.png}
+          \caption{Gamma with Rayleight method}
+      \end{subfigure}
+
+
+      \caption{\label{fig:lboptiongraphs}A graphical analysis of the error of the greeks depending on the computation time. We notice that the method with Rayleight distribution is between 100 and 1,000 times faster. In order to generate these graphs, we have donne one thousand simlations for each value, at every power of 10. However, due to the extremely slow computation time for LR methods, we only computed up to 100,000 samples compared to 1,000,000 for the Rayleight method.}
+\end{figure}
+\FloatBarrier
 
 
 \begin{thebibliography}{9}
