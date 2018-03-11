@@ -31,16 +31,30 @@ protected:
 
     // MAIN FUNCTIONS
 
+    // Computes delta using closed-form formula
+    double delta_theoretic() const;
     // Computes delta using likelihood ratio method
     double delta_lr();
     // Computes delta using pathwise derivatives estimates method
     double delta_pw();
+    // Computes gamma using closed-form formula
+    double gamma_theoretic() const;
+    // Computes the gamma using double likelihood ratio method
+    double gamma_lrlr();
+    // Computes the gamma using pathwise derivatives - likelihood ratio method
+    double gamma_pwlr();
+    // Computes vega using closed-form formula
+    double vega_theoretic() const;
+    // Computes the vega using likelihood ratios method
+    double vega_lr();
+    // Computes the vega using pathwise derivatives estimates method
+    double vega_pw();
 
 public:
     // Constructor
-    lookback_option(double min_or_max_observed = 150, double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05,
+    lookback_option( double initial_stock_price = 100.0, double strike = 100.0, double interest_rate = 0.05,
                      double volatility = 0.4,double time_final_T = 1, double time_initial_t = 0,
-                     int number_iterations_approximation = 10000): european_option(initial_stock_price, strike, interest_rate, volatility, time_final_T, time_initial_t, number_iterations_approximation){
+                     int number_iterations_approximation = 10000, double min_or_max_observed = 150): european_option(initial_stock_price, strike, interest_rate, volatility, time_final_T, time_initial_t, number_iterations_approximation){
         maxmin = min_or_max_observed; }
 
 
@@ -48,20 +62,29 @@ public:
 
     // Computes price of European Lookback Call Option with Fixed Strike
     double price();
+    double payoff_theoretic();
     /* Computes the delta according to the user input:
-    - 'th' for theoretical result
+    - 'pw' for pathwise derivatives estimates method
     - 'lr' for likelihood ratios method
     'lr' is built as default
     */
     double delta(std::string method);
     double delta();
-    // Computes the gamma (likelihood ratios method)
+    /* Computes the gamma according to the user input:
+    - 'pw' for pathwise derivatives estimates method
+    - 'lr' for likelihood ratios method
+    'lr' is built as default
+    */
+    double gamma(std::string method);
     double gamma();
-    // Computes the vega (likelihood ratios method)
+    /* Computes the vega according to the user input:
+    - 'pw' for pathwise derivatives estimates method
+    - 'lr' for likelihood ratios method
+    'lr' is built as default
+    */
+    double vega(std::string method);
     double vega();
 
-    double Call_An();
-    //double Put_An();
 
     // SERVICE FUNCTIONS
 
