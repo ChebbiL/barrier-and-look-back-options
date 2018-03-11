@@ -9,7 +9,7 @@ This user guide is written for the users of the console interface of our program
   - [Importing the Package](#importing-the-package)
 - [Usage](#usage)
   - [Main Principles](#main-principles)
-  - [Working with the European option](#working-with-the-european-option)
+  - [Working with the European call option](#working-with-the-european-call-option)
     - [Changing Parameters](#changing-parameters)
     - [Price](#price)
     - [Greeks](#greeks)
@@ -55,7 +55,7 @@ You can type your instructions instructions directly in the window.
 
 ![WindowZero](window0.png)
 
-### Working with the European option
+### Working with the European Call option
 
 The European call option is the default product. However, if you have to switch back to this product, enter the following command.
 
@@ -138,8 +138,7 @@ The parameters are displayed on start-up. Here are the equivalences in plain lan
 | `sigma` | Volatility | Volatility is one of the main measures for the simulation of the evolution of the stock price in the Black-Scholes model. It is usually givent in percentage. In this porgram, type `0.04` for 4%. |
 | `T`| Final simulation time / Maturity | The time at which the simulation stop. It is also the time at which the owner of the option will choose either to take or reject the contract. |
 | `t`| Initial simulation time | The time at which `St` is recorded. |
-| `L`| Lower barrier | The value iof the lower barrier. |
-| `U`| Upper barrier *beta* | The value of the upper barrier. *Beta:* Note that theses values are yet experimental, as the development was not focused on upper barriers. |
+| `B`| Barrier | The value of the barrier. It will automatically be recognised as a down-and-out call option or an upper-and-out call option. |
 | `M`| Number of Monte-Carlo simulations | The number of iterations in the Monte-Carlo method. |
 
 
@@ -280,7 +279,7 @@ You can display at any time the current parameters using the following command.
 show
 ```
 
-To switch betxween different products, please type directly the name of the product. As an example, to switch to the barrier option, simply type the following instruction.
+To switch between different products, please type directly the name of the product. As an example, to switch to the barrier option, simply type the following instruction.
 
 ```
 Barrier_ption
