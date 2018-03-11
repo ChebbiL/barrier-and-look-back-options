@@ -30,13 +30,14 @@ This package allows you to perform various computations on European call options
 
 ## Installation
 
+Make sure you have downloaded all the files in the `/libs` folder if you plan to use the library, or that you have downloaded the `/src` folder if you plan to compile with the headers.
 
 ### Building the project
 
 The current repository comes with precompiled libraries in the `/lib` folder. However, if you edit the functions in the code, or simply prefer to import the header, we have also included a `Makefile` for your convenience.
 **Most users will skip this part to go directly to [importing the package](#importing-the-package).**
 
-In order to compile and run the project, you can use the following command in the `src` folder.
+In order to compile and run the project, you can use the following command in the `/src` folder.
 
 ```
 make
@@ -56,16 +57,27 @@ mkdir bin
 
 ### Importing the package
 
+You can import directly all our functions by importing the following header.
+
+```
+#include "barrierlookbackoptions.h"
+```
+
 #### Importing with headers
 
-#### Importing via shared libraries (recommended)
+#### Importing via shared libraries
 
 ##### Linux
 
+We recommend using the `libBarrierLookBackOptions.so` for the Linux users.
+
 ##### Windows NT
+
+We recommend using the `BarrierLookBackOptions.dll` for the Windows NT users.
 
 ##### MacOS
 
+We recommend using the `BarrierLookBackOptions.dylib` for the macOS users.
 
 ## Usage
 

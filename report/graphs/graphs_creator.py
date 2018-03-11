@@ -2,65 +2,112 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-data = pd.DataFrame.from_csv('barrier.csv', sep=',')
-#data.tail()
-print('Data loaded.')
+def builder(data, mytype, greeks):
+    greeks_files_temp = [[greek[0]+'_'+greek[1][j] for j in range(len(greek[1]))] for greek in greeks]
+    greeks_files = []
+    for element in greeks_files_temp:
+        greeks_files += element
+
+    greeks_names_temp = [[greek[0]+' '+greek[1][j] for j in range(len(greek[1]))] for greek in greeks]
+    greeks_names = []
+    for element in greeks_names_temp:
+        greeks_names += element
 
 
-#mytype = "euro"
-mytype = "barrier"
-#greeks = [('delta',['lr', 'pw']), ('gamma',['pwlr', 'lrpw', 'lrlr']), ('vega',['lr', 'pw'])]
-greeks = [('delta',['lr']), ('gamma',['lrlr']), ('vega',['lr'])]
+    for element in greeks_names:
+        data[str(element + " err")] = np.abs(data[element] - data[str(element.rsplit(' ', 1)[0] + " th")])
+        my_dpi = 72
+        plt.figure(figsize=(1000/my_dpi, 600/my_dpi), dpi=my_dpi)
+        fig, ax = plt.subplots()
+        variances = [data[data.index==i][element + " err"].var() for i in data.index.values]
+        means = [data[data.index==i][element + " err"].mean() for i in data.index.values]
+        ax.semilogx(data.index, [data[data.index==i][element + " err"].var() * 1.96 for i in data.index.values], label='95% confidence', ls="dashed", color="k")
+        ax.semilogx(data.index, [data[data.index==i][element + " err"].var() * 2.58 for i in data.index.values], label='99% confidence', ls="dashdot", color="k")
+        ax.semilogx(data.index, means, label='Error mean')
+        ax.semilogx(data.index, variances, label='Error variance')
+        ax.set_ylim([0, 1.5*min(max(variances), max(means))])
+        ax.set_xlim([0, 1000000])
+        ax.grid()
+        plt.title('Analysis of ' + element + " error for the " + mytype + ' option')
+        plt.xlabel('Monte-Carlo Iterations')
+        plt.ylabel('Value')
+        plt.legend()
+        plt.savefig(mytype + element.replace(' ', '') + '.png', dpi=my_dpi)
+        print('Created: ' + mytype + element.replace(' ', '') + '.png')
+        plt.close()
 
-greeks_files_temp = [[greek[0]+'_'+greek[1][j] for j in range(len(greek[1]))] for greek in greeks]
-greeks_files = []
-for element in greeks_files_temp:
-    greeks_files += element
+    for element in greeks_names:
+        data[str(element + " err")] = np.abs(data[element] - data[str(element.rsplit(' ', 1)[0] + " th")])
+        my_dpi = 72
+        plt.figure(figsize=(1000/my_dpi, 600/my_dpi), dpi=my_dpi)
+        fig, ax = plt.subplots()
+        runtime = [data[data.index==i][element + " time"].mean() for i in data.index.values]
+        variances = [data[data.index==i][element + " err"].var() for i in data.index.values]
+        means = [data[data.index==i][element + " err"].mean() for i in data.index.values]
+        ax.semilogx(runtime, [data[data.index==i][element + " err"].var() * 1.96 for i in data.index.values], label='95% confidence', ls="dashed", color="k")
+        ax.semilogx(runtime, [data[data.index==i][element + " err"].var() * 2.58 for i in data.index.values], label='99% confidence', ls="dashdot", color="k")
+        ax.semilogx(runtime, means, label='Error mean')
+        ax.semilogx(runtime, variances, label='Error variance')
+        ax.set_ylim([0, 1.5*min(max(variances), max(means))])
+        #ax.set_xlim([0, 1000000])
+        ax.grid()
+        plt.title('Analysis of ' + element + " error for the " + mytype + ' option')
+        plt.xlabel('Computing time')
+        plt.ylabel('Value')
+        plt.legend()
+        plt.savefig(mytype + element.replace(' ', '') + 'time.png', dpi=my_dpi)
+        print('Created: ' + mytype + element.replace(' ', '') + 'time.png')
+        plt.close()
 
-greeks_names_temp = [[greek[0]+' '+greek[1][j] for j in range(len(greek[1]))] for greek in greeks]
-greeks_names = []
-for element in greeks_names_temp:
-    greeks_names += element
+    for element in greeks_names:
+        print(element + ' error mean: ' + str(data[data.index==100000][element + " err"].mean()))
 
+    for element in greeks_names:
+        print(element + ' error var: ' + str(data[data.index==100000][element + " err"].var()))
 
-for element in greeks_names:
-    data[str(element + " err")] = np.abs(data[element] - data[str(element.rsplit(' ', 1)[0] + " th")])
-    my_dpi = 72
-    plt.figure(figsize=(1000/my_dpi, 600/my_dpi), dpi=my_dpi)
-    fig, ax = plt.subplots()
-    ax.semilogx(data.index, [data[data.index==i][element + " err"].mean() for i in data.index.values], label='Error mean')
-    ax.semilogx(data.index,[data[data.index==i][element + " err"].var() for i in data.index.values], label='Error variance')
-    ax.grid()
-    plt.title('Analysis of ' + element + " error for the " + mytype + ' option')
-    plt.xlabel('Monte-Carlo Iterations')
-    plt.ylabel('Value')
-    plt.legend()
-    plt.savefig(mytype + element.replace(' ', '') + '.png', dpi=my_dpi)
-    print('Created: ' + mytype + element.replace(' ', '') + '.png')
-    plt.close()
+    for element in greeks_names:
+        print(element + ' time: ' + str(data[data.index==100000][element + " time"].mean()))
 
-for element in greeks_names:
-    data[str(element + " err")] = np.abs(data[element] - data[str(element.rsplit(' ', 1)[0] + " th")])
-    my_dpi = 72
-    plt.figure(figsize=(1000/my_dpi, 600/my_dpi), dpi=my_dpi)
-    fig, ax = plt.subplots()
-    runtime = [data[data.index==i][element + " time"].mean() for i in data.index.values]
-    ax.semilogx(runtime, [data[data.index==i][element + " err"].mean() for i in data.index.values], label='Error mean')
-    ax.semilogx(runtime,[data[data.index==i][element + " err"].var() for i in data.index.values], label='Error variance')
-    ax.grid()
-    plt.title('Analysis of ' + element + " error for the " + mytype + ' option')
-    plt.xlabel('Computing time')
-    plt.ylabel('Value')
-    plt.legend()
-    plt.savefig(mytype + element.replace(' ', '') + 'time.png', dpi=my_dpi)
-    print('Created: ' + mytype + element.replace(' ', '') + 'time.png')
-    plt.close()
+def main():
+    data = pd.DataFrame.from_csv('core_task.csv', sep=';')
+    mytype = "euro"
+    greeks = [('delta',['lr', 'pw']), ('gamma',['pwlr', 'lrpw', 'lrlr']), ('vega',['lr', 'pw'])]
+    print('Data loaded for ' + mytype + ".")
+    builder(data, mytype, greeks)
+    print('Done for ' + mytype + ".")
+    print()
 
-for element in greeks_names:
-    print(element + ' error mean: ' + str(data[data.index==100000][element + " err"].mean()))
+    data = pd.DataFrame.from_csv('barrier.csv', sep=',')
+    mytype = "barrier"
+    greeks = [('delta',['lr']), ('gamma',['lrlr']), ('vega',['lr'])]
+    print('Data loaded for ' + mytype + ".")
+    builder(data, mytype, greeks)
+    print('Done for ' + mytype + ".")
+    print()
 
-for element in greeks_names:
-    print(element + ' error var: ' + str(data[data.index==100000][element + " err"].var()))
+    data = pd.DataFrame.from_csv('barrierold.csv', sep=',')
+    mytype = "barrierold"
+    greeks = [('delta',['lr']), ('gamma',['lrlr']), ('vega',['lr'])]
+    print('Data loaded for ' + mytype + ".")
+    builder(data, mytype, greeks)
+    print('Done for ' + mytype + ".")
+    print()
 
-for element in greeks_names:
-    print(element + ' time: ' + str(data[data.index==100000][element + " time"].mean()))
+    data = pd.DataFrame.from_csv('lookbackold.csv', sep=';')
+    data['gamma th'] = 0.0208112
+    mytype = "lookbackold"
+    greeks = [('delta',['lr']),('gamma', ['pwlr'])]
+    print('Data loaded for ' + mytype + ".")
+    builder(data, mytype, greeks)
+    print('Done for ' + mytype + ".")
+    print()
+
+    data = pd.DataFrame.from_csv('lookback.csv', sep=',')
+    mytype = "lookback"
+    greeks = [('delta',['lr','pw']),('gamma', ['pwlr','lrlr']),('vega',['lr','pw'])]
+    print('Data loaded for ' + mytype + ".")
+    builder(data, mytype, greeks)
+    print('Done for ' + mytype + ".")
+    print()
+
+main()

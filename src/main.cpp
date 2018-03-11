@@ -1,28 +1,34 @@
 /*
 This is the main project file.
 */
-
-#include "BarrierLookBackOptions.h"
-
-/*
-#include <cmath> // For math calculations
-#include <string> // For user instructions in greeks
-#include <random> // For random numbers generation
-*/
+#include "barrierlookbackoptions.h"
 
 #include<iostream> // For console output
 using namespace std;
 
+#include <ctime>
 
 
 
 
 int debug_thomas(){
-    european_option call(100, 100, 0.05, 0.4, 1, 0, 1000);
-    cout<<"Theoretic price: "<<call.payoff_theoretic()<<endl;
-    cout<<"Theoretic delta: "<<call.delta("th")<<endl;
-    cout<<"Theoretic gamma: "<<call.gamma("th")<<endl;
+    barrier_option call1(80, 100, 100, 0.05, 0.4, 1, 0, 10000);
+    lookback_option call2(80, 100, 100, 0.05, 0.4, 1, 0, 10000);
+    //cout<<"Theoretic price: "<<call.payoff_theoretic()<<endl;
+    //cout<<"Theoretic delta: "<<call.delta()<<endl;
+    //cout<<"Theoretic gamma: "<<call.gamma()<<endl;
 
+
+    clock_t begin = clock();
+    call1.price();
+    clock_t end = clock();
+    cout << "BarrierOption Time: " << double(end - begin) / CLOCKS_PER_SEC << endl;
+
+    begin = clock();
+    call2.price();
+    end = clock();
+    cout << "LookBackOption Time: " << double(end - begin) / CLOCKS_PER_SEC << endl;
+    /*
     cout << "Simulation:"<<endl;
     cout << "Price: " << call.price() << endl;
     cout << "Delta: " << call.delta() << " (LR)" << endl;
@@ -30,7 +36,7 @@ int debug_thomas(){
     cout << "Gamma: " << call.gamma() << " (PWLR)" << endl;
     cout << "Gamma: " << call.gamma("lrpw") << " (LRPW)" << endl;
     cout << "Gamma: " << call.gamma("lrlr") << " (LRLR)" << endl;
-
+    */
     return 0;
 }
 
