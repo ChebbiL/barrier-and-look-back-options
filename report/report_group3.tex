@@ -432,6 +432,10 @@ $$F = \Phi\left(\frac{m-aT}{\sqrt{T}}\right)-e^{2am}\Phi\left(\frac{-m-aT}{\sqrt
 
 We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each random number we generate from [0,1], we receive one m in by solving for F. And to get $M^T$ of stock price follows geometric Browninan motion with starting price $S_0$, we let $M^T=S_0e^{\sigma m }$.\\
 
+
+\subsection{Another Method using Rayleigh Distribution}
+ In a similar way as for the barrier option, we have also implemented a faster and more efficient method. The results can be compared on the Figure \cite{fig:lboptiongraphs}.\\
+
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 \multicolumn{2}{|l|}{}             & \textbf{Black Scholes} & \textbf{Monte Carlo 100,000 Simulation} \\ \hline
@@ -445,9 +449,36 @@ We used Newton-Raphson method to solve for the above cdf F = U. Hense, for each 
                                 & \textbf{PW}    &                                             &          \\ \hline
 \end{tabular}\\
 
+\begin{table}
+\centering
+\begin{subtable}{\textwidth}
+  \centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+100 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
+\textbf{Delta LR} & 5.568 e-3 & 1.768 e-5 & 0.269\\ \hline
+\textbf{Gamma PWLR} & 8.383 e-5& 3.638 e-9& 0.261\\ \hline
+\end{tabular}
+\caption{Error statistics and computation time for the "classical" method. We computed the absolute error and since the option price is computed using the closed form formula no error is represented.}
+\end{subtable}\\
 
-\subsection{Another Method using Rayleigh Distribution}
- In a similar way as for the barrier option, we have also implemented a faster and more efficient method. The results can be compared on the Figure \cite{fig:lboptiongraphs}.
+\vspace*{.5cm}
+\begin{subtable}{\textwidth} 
+  \centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+1 000 000 MC simulations      & \textbf{Error Mean} & \textbf{Error Variance} & \textbf{Time (seconds)} \\ \hline
+\textbf{Delta LR} & 5.44 e-3 & 1.67 e-5 & 0.145\\ \hline
+\textbf{Delta PW} & 9.34 e-4 & 5.05 e-7 & 0.068\\ \hline
+\textbf{Gamma LRLR} & 2.80 e-4 & 4.39 e-8& 0.153\\ \hline
+\textbf{Gamma PWLR} & 2.91 e-4 & 4.93 e-8& 0.153\\ \hline
+\textbf{Vega LR} & 1.189 & 0.779 & 0.157\\ \hline
+\textbf{Vega PW} &7.503 & 0.050 & 0.061\\ \hline
+\end{tabular}
+\caption{Error statistics and computation time for the Rayleight method. We computed the absolute error and since the option price is computed using the closed form formula no error is represented.}
+\end{subtable}
+\caption{Sample from our simulation dataset with the new fast method for barrier option simulation. It is clear that the results have significantly improved compared with the previous method. note that the run time depends on the computer used (here a 3.4 GHz Intel Core i7).}
+\end{table}
 
  \begin{figure}[h!]
    \centering
