@@ -160,7 +160,7 @@ In order to compute the call option delta, you can use the following method. By 
 double call.delta();
 ```
 You can also specify the method you want to use.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` 
+- To use the _likelihood ratios_ method, enter the argument `"lr"`
 - To use the _pathwise estimates_ method, enter the argument `"pw"`.
 - To use the _theoretical value_ method, enter the argument `"th"` or alternatively do not enter any argument.
 ```
@@ -315,9 +315,9 @@ You can also specify the method you want to use.
 - To use the _likelihood ratios_ method, enter the argument `"lr"`.
 - To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
-double boption.delta("th");
-double boption.delta("lr");
-double boption.delta("pw");
+double lboption.delta("th");
+double lboption.delta("lr");
+double lboption.delta("pw");
 ```
 
 ##### Gamma
@@ -330,22 +330,22 @@ You can also specify the method you want to use.
 - To use the _pathwise estimates - likelihood ratios_ method, enter the argument `"pwlr"`.
 - To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
-double boption.gamma("pwlr");
-double boption.gamma("th");
+double lboption.gamma("pwlr");
+double lboption.gamma("th");
 ```
 
 ##### Vega
 
 In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
-double boption.vega();
+double lboption.vega();
 ```
 You can also specify the method you want to use.
 - To use the _pathwise estimates_ method, enter the argument `"pw"`.
 - To use the _likelihood ratios_ method, enter the argument `"lr"`.
 - To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
-double boption.vega("th");
-double boption.vega("lr");
-double boption.vega("pw");
+double lboption.vega("th");
+double lboption.vega("lr");
+double lboption.vega("pw");
 ```
