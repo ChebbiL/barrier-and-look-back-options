@@ -4,9 +4,17 @@ compiler:
 - g++
 os:
 - linux
+  addons:
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - g++-6
 
 branches:
   only:
   - master
 
-script: cd src; make
+script:
+  - cd src
+  - make
