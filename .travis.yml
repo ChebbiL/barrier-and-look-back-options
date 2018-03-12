@@ -16,6 +16,4 @@ branches:
   only:
   - master
 
-script:
-  - cd src
-  - make
+script: cd src; make
