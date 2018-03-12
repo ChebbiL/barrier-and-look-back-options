@@ -4,7 +4,7 @@ run: bin/main.o bin/random_normal.o bin/european_option.o bin/barrier_option.o b
 	g++ bin/main.o bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o -o run -std=c++11
 	#g++ -dynamiclib -fPIC -o ../libs/BarrierLookBackOptions.dylib bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o -std=c++11
 	#g++ -shared -o ../libs/libBarrierLookBackOptions.so bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o
-	ar rvs ../libs/BarrierLookBackOptions.a  bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o -std=c++11
+	#ar rvs ../libs/BarrierLookBackOptions.a  bin/random_normal.o bin/european_option.o bin/barrier_option.o bin/lookback_option.o -std=c++11
 
 bin/main.o: main.cpp
 	g++ -c main.cpp -o bin/main.o -std=c++11
