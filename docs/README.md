@@ -31,13 +31,7 @@ You can either use the Windows application, or use our c++ package.
 
 ## Usage
 
-### Terminal app
-
-Please see the specific documentation in the `/app` directory.
-
-### C++ Package
-
-Please see the specific documentation in the `/src` directory.
+[button url="/package"][button url="/application"]
 
 ## Team
 
