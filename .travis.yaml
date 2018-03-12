@@ -17,4 +17,4 @@ branches:
   only:
   - master
 
-script: cd src; make
+script: ./test_script.sh
