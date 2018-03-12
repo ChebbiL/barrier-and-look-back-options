@@ -155,44 +155,50 @@ double call.price(100000);
 #### Greeks
 
 ##### Delta
-In order to compute the call option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the call option delta, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double call.delta();
 ```
 You can also specify the method you want to use.
+- To use the _likelihood ratios_ method, enter the argument `"lr"` 
 - To use the _pathwise estimates_ method, enter the argument `"pw"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+- To use the _theoretical value_ method, enter the argument `"th"` or alternatively do not enter any argument.
 ```
+double call.delta("th");
 double call.delta("pw");
 double call.delta("lr");
 ```
 
 ##### Gamma
-In order to compute the call option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _pathwise estimates - likelihood ratios_.
+In order to compute the call option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double call.gamma();
 ```
 You can also specify the method you want to use.
 - To use the _likelihood ratios - pathwise estimates_ method, enter the argument `"lrpw"`.
 - To use the _likelihood ratios - likelihood ratios_ method, enter the argument `"lrlr"`.
-- To use the _pathwise estimates - likelihood ratios_ method, enter the argument `"pwlr"` or alternatively do not enter any argument.
+- To use the _pathwise estimates - likelihood ratios_ method, enter the argument `"pwlr"`.
+- To use the _theoretical value_ method, enter the argument `"th"` or alternatively do not enter any argument.
 ```
 double call.gamma("lrpw");
 double call.gamma("lrlr");
 double call.gamma("pwlr");
+double call.gamma("th");
 ```
 
 ##### Vega
-In order to compute the call option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the call option vega, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double call.vega();
 ```
-You can alsospecify the method you want to use.
+You can also specify the method you want to use.
 - To use the _pathwise estimates_ method, enter the argument `"pw"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+- To use the _likelihood ratios_ method, enter the argument `"lr"`.
+- To use the _theoretical value_ method, enter the argument `"th"` or alternatively do not enter any argument.
 ```
 double call.vega("pw");
 double call.vega("lr");
+double call.vega("th");
 ```
 
 ### Barrier option
@@ -228,13 +234,13 @@ double boption.price();
 
 ##### Delta
 
-In order to compute the barrier option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the barrier option delta, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double boption.delta();
 ```
 You can also specify the method you want to use.
-- To use the _theoretical value_, enter the argument `"th"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+- To use the _likelihood ratios_ method, enter the argument `"lr"`.
+- To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
 double boption.delta("th");
 double boption.delta("lr");
@@ -242,13 +248,13 @@ double boption.delta("lr");
 
 ##### Gamma
 
-In order to compute the barrier option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the barrier option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double boption.gamma();
 ```
 You can also specify the method you want to use.
-- To use the _theoretical value_, enter the argument `"th"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+- To use the _likelihood ratios_ method, enter the argument `"lr"`.
+- To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
 double boption.gamma("th");
 double boption.gamma("lr");
@@ -257,46 +263,17 @@ double boption.gamma("lr");
 ##### Vega
 
 
-In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double boption.vega();
 ```
 You can also specify the method you want to use.
-- To use the _theoretical value_, enter the argument `"th"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+- To use the _likelihood ratios_ method, enter the argument `"lr"`.
+- To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
 double boption.vega("th");
 double boption.vega("lr");
 ```
-
-#### Gamma
-
-In order to compute the barrier option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
-```
-double boption.gamma();
-```
-You can also specify the method you want to use.
-- To use the _theoretical value_, enter the argument `"th"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
-```
-double boption.gamma("th");
-double boption.gamma("lr");
-```
-
-#### Vega
-
-In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
-```
-double boption.vega();
-```
-You can alsospecify the method you want to use.
-- To use the _theoretical value_, enter the argument `"th"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
-```
-double boption.vega("th");
-double boption.vega("lr");
-```
-
 
 ### Look-back option
 
@@ -329,36 +306,46 @@ double lboption.price();
 
 ##### Delta
 
-In order to compute the barrier option delta, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the barrier option delta, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double boption.delta();
 ```
-You can alsospecify the method you want to use.
-- To use the _theoretical value_, enter the argument `"th"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+You can also specify the method you want to use.
+- To use the _pathwise estimates_ method, enter the argument `"pw"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"`.
+- To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
 double boption.delta("th");
 double boption.delta("lr");
+double boption.delta("pw");
 ```
 
 ##### Gamma
 
-In order to compute the barrier option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _likelihood ratios_.
+In order to compute the barrier option gamma, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
 double boption.gamma();
 ```
-You can alsospecify the method you want to use.
-- To use the _pathwise derivatives_ method, enter the argument `"pw"`.
-- To use the _likelihood ratios_ method, enter the argument `"lr"` or alternatively do not enter any argument.
+You can also specify the method you want to use.
+- To use the _pathwise estimates - likelihood ratios_ method, enter the argument `"pwlr"`.
+- To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
 ```
-double boption.gamma("pw");
-double boption.gamma("lr");
+double boption.gamma("pwlr");
+double boption.gamma("th");
 ```
 
 ##### Vega
 
-
-In order to compute the barrier option vega, you can use the following method.
+In order to compute the barrier option vega, you can use the following method. By default (with any string input or no input at all), the method used is _theoretical value_.
 ```
-double lboption.vega();
+double boption.vega();
+```
+You can also specify the method you want to use.
+- To use the _pathwise estimates_ method, enter the argument `"pw"`.
+- To use the _likelihood ratios_ method, enter the argument `"lr"`.
+- To use the _theoretical value_, enter the argument `"th"` or alternatively do not enter any argument.
+```
+double boption.vega("th");
+double boption.vega("lr");
+double boption.vega("pw");
 ```
