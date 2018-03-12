@@ -44,6 +44,7 @@
 *.snm
 *.gz
 *.toc
+*.tex
 
 # Visual Studio
 *.vscode

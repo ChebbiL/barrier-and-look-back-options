@@ -53,7 +53,7 @@ To open the app, double-click on the `BarrierLookBackOptions.exe` file. A black 
 
 You can type your instructions instructions directly in the window.
 
-![WindowZero](window0.png)
+![WindowZero](READMESources/window0.png)
 
 ### Working with the European Call option
 
@@ -270,7 +270,7 @@ At any time, you can type the following command in the terminal. A list of the i
 ```
 help
 ```
-![WindowZero](windowhelp.png)
+![WindowZero](READMESources/windowhelp.png)
 
 
 You can display at any time the current parameters using the following command.
