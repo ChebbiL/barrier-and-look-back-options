@@ -31,7 +31,6 @@ You can either use the Windows application, or use our c++ package.
 
 ## Usage
 
-[button url="/package"][button url="/application"]
 
 ## Team
 
