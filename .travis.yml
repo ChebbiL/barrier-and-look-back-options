@@ -16,4 +16,4 @@ branches:
   only:
   - master
 
-script: cd src; make
+script: mkdir libs; cd src; mkdir bin; make
