@@ -38,7 +38,7 @@ Please see the specific documentation in the `/app` directory.
 
 Please see the specific documentation in the `/src` directory.
 
-## Contributing
+## Credits
 
 The team includes the following members, with the associated GitHub identifiers.
 
