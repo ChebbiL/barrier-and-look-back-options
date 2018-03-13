@@ -12,7 +12,8 @@ This is the simulation project `barrier-and-look-back-options` of team 3 at Impe
 - [Usage](#usage)
   - [Terminal App](#terminal-app)
   - [C++ Package](#c++-package)
-- [Team](#team)
+- [Credits](#credits)
+- [License](#license)
 
 ## Features
 
